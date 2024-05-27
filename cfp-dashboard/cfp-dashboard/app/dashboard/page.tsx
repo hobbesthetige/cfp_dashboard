@@ -17,7 +17,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import PacePlanBanner from "@/components/pacePlanBanner";
 import { SocketProvider } from "@/contexts/socketContext";
-import EventList from "@/components/eventsList";
+import EventList from "@/components/events/eventsList";
 import { Socket } from "socket.io-client";
 import { EventsSocketProvider } from "@/contexts/eventsSocketContext";
 

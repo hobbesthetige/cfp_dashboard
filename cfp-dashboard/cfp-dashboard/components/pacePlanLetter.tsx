@@ -76,7 +76,6 @@ const PacePlanLetter: React.FC<PacePlanLetterProps> = (props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={() => {
               props.handleChange(isActive, newEquipment);
@@ -84,6 +83,9 @@ const PacePlanLetter: React.FC<PacePlanLetterProps> = (props) => {
             }}
           >
             Save
+          </Button>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

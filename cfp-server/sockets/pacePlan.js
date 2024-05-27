@@ -33,10 +33,31 @@ module.exports = (io) => {
     console.log("New client connected to Event Logs namespace");
 
     socket.emit("eventItems", eventLogModel.eventLogs);
+
     socket.on("newEventItem", (data) => {
       console.log("Event Item received:", data);
       eventLogModel.eventLogs.unshift(data);
       eventItemsNamespace.emit("newEventItem", data);
+    });
+
+    socket.on("updateEventItem", (data) => {
+      console.log("Event Item update received:", data);
+      const index = eventLogModel.eventLogs.findIndex(
+        (item) => item.id === data.id
+      );
+      eventLogModel.eventLogs[index] = data;
+      eventItemsNamespace.emit("updateEventItem", data);
+    });
+
+    socket.on("deleteEventItem", (data) => {
+      console.log("Event Item delete received:", data);
+      const index = eventLogModel.eventLogs.findIndex(
+        (item) => item.id === data.id
+      );
+      if (index !== -1) {
+        eventLogModel.eventLogs.splice(index, 1);
+        eventItemsNamespace.emit("deleteEventItem", data);
+      }
     });
 
     socket.on("disconnect", () => {

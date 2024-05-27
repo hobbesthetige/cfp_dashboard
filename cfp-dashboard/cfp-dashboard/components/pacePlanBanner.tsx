@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import io from "socket.io-client";
 import { InlineLoading } from "./loading";
 import { Stack } from "@mui/material";
 import PacePlanLetter from "./pacePlanLetter";
 import { green, orange, red, yellow } from "@mui/material/colors";
 import { useSocket } from "@/contexts/socketContext";
 import { useEventsSocket } from "@/contexts/eventsSocketContext";
-import { emit } from "process";
 
 type PacePlanLetter = "P" | "A" | "C" | "E";
 
@@ -109,9 +107,12 @@ const PacePlanBanner = () => {
   }
   function emitEventItem(category: string, message: string) {
     eventsSocket?.emit("newEventItem", {
+      id: new Date().toISOString(),
       category,
       message,
-      isUserGenerated: true,
+      author: "System",
+      isUserGenerated: false,
+      timestamp: new Date().toISOString(),
     });
   }
 
