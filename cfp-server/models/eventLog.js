@@ -14,6 +14,7 @@ let eventLogs = [
     message: "System started",
     isUserGenerated: false,
     author: "System",
+    level: "Info",
     timestamp: new Date().toISOString(),
   },
 ];

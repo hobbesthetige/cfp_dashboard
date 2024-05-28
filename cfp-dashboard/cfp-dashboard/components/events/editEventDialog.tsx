@@ -7,8 +7,10 @@ import {
   TextField,
   Button,
   Typography,
+  MenuItem,
 } from "@mui/material";
-import { EventLog } from "./eventsList";
+import { EventLog, EventLogLevel } from "./eventsList";
+import { getEnumValues } from "@/app/utilities/getEnumValues";
 import moment from "moment-timezone";
 
 interface EditEventDialogProps {
@@ -28,6 +30,7 @@ const EditEventDialog: React.FC<EditEventDialogProps> = ({
   onDelete,
   onCancel,
 }) => {
+  const [level, setLevel] = useState(event.level);
   const [category, setCategory] = useState(event.category);
   const [message, setMessage] = useState(event.message);
   const [timestamp, setTimestamp] = useState(formatTimestamp(event.timestamp));
@@ -46,6 +49,7 @@ const EditEventDialog: React.FC<EditEventDialogProps> = ({
       category,
       message,
       timestamp,
+      level,
     };
     onSave(updatedEvent);
   };
@@ -70,6 +74,21 @@ const EditEventDialog: React.FC<EditEventDialogProps> = ({
     >
       <DialogTitle>Edit Event</DialogTitle>
       <DialogContent sx={{ paddingTop: 2 }}>
+        <TextField
+          select
+          label="Log Level"
+          value={level}
+          onChange={(e) => setLevel(e.target.value as EventLogLevel)}
+          fullWidth
+          variant="outlined"
+          margin="normal"
+        >
+          {getEnumValues(EventLogLevel).map((level) => (
+            <MenuItem key={level} value={level}>
+              {level}
+            </MenuItem>
+          ))}
+        </TextField>
         <TextField
           label="Category"
           value={category}

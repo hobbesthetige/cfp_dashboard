@@ -5,6 +5,7 @@ import PacePlanLetter from "./pacePlanLetter";
 import { green, orange, red, yellow } from "@mui/material/colors";
 import { useSocket } from "@/contexts/socketContext";
 import { useEventsSocket } from "@/contexts/eventsSocketContext";
+import { EventLogLevel } from "./events/eventsList";
 
 type PacePlanLetter = "P" | "A" | "C" | "E";
 
@@ -87,6 +88,7 @@ const PacePlanBanner = () => {
     if (oldEquipment !== equipment) {
       console.log("Equipment changed:", oldEquipment, "->", equipment);
       emitEventItem(
+        EventLogLevel.Info,
         "Pace Plan",
         `Updated ${pacePlan[pacePlanLetter].title} equipment to ${equipment}`
       );
@@ -96,6 +98,7 @@ const PacePlanBanner = () => {
     if (oldIsActive !== isActive) {
       console.log("Activity status changed:", oldIsActive, "->", isActive);
       emitEventItem(
+        isActive ? EventLogLevel.Info : EventLogLevel.Warning,
         "Pace Plan",
         `${isActive ? "Activated" : "Deactivated"} ${
           pacePlan[pacePlanLetter].title
@@ -105,9 +108,14 @@ const PacePlanBanner = () => {
       console.log("No change in activity status:", oldIsActive, isActive);
     }
   }
-  function emitEventItem(category: string, message: string) {
+  function emitEventItem(
+    level: EventLogLevel,
+    category: string,
+    message: string
+  ) {
     eventsSocket?.emit("newEventItem", {
       id: new Date().toISOString(),
+      level,
       category,
       message,
       author: "System",

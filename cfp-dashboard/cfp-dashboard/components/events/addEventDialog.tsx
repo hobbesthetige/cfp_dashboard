@@ -9,9 +9,11 @@ import {
   Typography,
   Grid,
   Box,
+  MenuItem,
 } from "@mui/material";
-import { EventLog } from "./eventsList";
+import { EventLog, EventLogLevel } from "./eventsList";
 import moment from "moment-timezone";
+import { getEnumValues } from "@/app/utilities/getEnumValues";
 
 interface AddEventDialogProps {
   open: boolean;
@@ -33,16 +35,20 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
   const [timestamp, setTimestamp] = useState(
     formatTimestamp(new Date().toISOString())
   );
+  const [level, setLevel] = useState(EventLogLevel.Info);
   const [errors, setErrors] = useState({ category: false });
 
   const presets = [
-    { name: "Begin Exercise", category: "CFP" },
-    { name: "Pause Exercise", category: "CFP" },
-    { name: "End Exercise", category: "CFP" },
-    { name: "Personnel Onstation", category: "CFP" },
-    { name: "Safety Brief", category: "CFP" },
-    { name: "Power Online", category: "CFP" },
-    { name: "Power Offline", category: "CFP" },
+    { name: "Begin Exercise", category: "CFP", level: EventLogLevel.Info },
+    { name: "Pause Exercise", category: "CFP", level: EventLogLevel.Info },
+    { name: "End Exercise", category: "CFP", level: EventLogLevel.Info },
+    {
+      name: "Personnel Onstation",
+      category: "CFP",
+      level: EventLogLevel.Info,
+    },
+    { name: "Safety Brief", category: "CFP", level: EventLogLevel.Info },
+    { name: "Power Online", category: "CFP", level: EventLogLevel.Info },
   ];
 
   const clearForm = () => {
@@ -66,6 +72,7 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
       isUserGenerated: true,
       author: "User",
       timestamp,
+      level,
     };
     onSave(newEvent);
   };
@@ -119,19 +126,24 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
               </Button>
             </Grid>
           ))}
-          <Grid item xs="auto" sx={{ width: "100%" }}>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                handlePreset("Power Online", "CFP");
-              }}
-            >
-              Power Online
-            </Button>
-          </Grid>
         </Grid>
       </Box>
       <DialogContent sx={{ paddingTop: 2 }}>
+        <TextField
+          select
+          label="Log Level"
+          value={level}
+          onChange={(e) => setLevel(e.target.value as EventLogLevel)}
+          fullWidth
+          variant="outlined"
+          margin="normal"
+        >
+          {getEnumValues(EventLogLevel).map((level) => (
+            <MenuItem key={level} value={level}>
+              {level}
+            </MenuItem>
+          ))}
+        </TextField>
         <TextField
           label="Category"
           value={category}

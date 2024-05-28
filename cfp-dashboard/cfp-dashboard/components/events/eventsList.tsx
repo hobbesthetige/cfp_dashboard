@@ -3,10 +3,6 @@ import {
   Box,
   Typography,
   List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
   Stack,
   Divider,
   IconButton,
@@ -16,6 +12,13 @@ import EditEventDialog from "./editEventDialog";
 import { Add } from "@mui/icons-material";
 import AddEventDialog from "./addEventDialog";
 import EventsFilterSelect from "./filterEvents";
+import EventListItem from "./eventListItem";
+
+export enum EventLogLevel {
+  Info = "Info",
+  Warning = "Warning",
+  Error = "Error",
+}
 
 export interface EventLog {
   id: string;
@@ -24,13 +27,13 @@ export interface EventLog {
   isUserGenerated: boolean;
   timestamp: string;
   author: string;
+  level: EventLogLevel;
 }
 
 export default function EventList() {
   const { eventsSocket, isEventsSocketConnected } = useEventsSocket();
   const [events, setEvents] = useState<EventLog[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventLog | null>(null);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -45,7 +48,6 @@ export default function EventList() {
 
   const handleOpenEditDialog = (event: EventLog) => {
     setSelectedEvent(event);
-    setIsEditDialogOpen(true);
   };
 
   const handleOpenAddDialog = () => {
@@ -54,7 +56,6 @@ export default function EventList() {
 
   const handleCloseEditDialog = () => {
     setSelectedEvent(null);
-    setIsEditDialogOpen(false);
   };
 
   const handleCloseAddDialog = () => {
@@ -176,29 +177,10 @@ export default function EventList() {
       <List>
         {filteredEvents.map((event, index) => (
           <React.Fragment key={index}>
-            <ListItem
-              sx={{ alignItems: "flex-start" }}
+            <EventListItem
+              event={event}
               onClick={() => handleOpenEditDialog(event)}
-              disableGutters
-            >
-              <ListItemAvatar>
-                <Avatar>{event.isUserGenerated ? "U" : "S"}</Avatar>
-              </ListItemAvatar>
-              <Stack direction="column">
-                <ListItemText primary={`${event.category}: ${event.message}`} />
-                <ListItemText
-                  secondary={new Date(event.timestamp).toLocaleString()}
-                />
-                <ListItemText
-                  secondary={
-                    new Date(event.timestamp)
-                      .toISOString()
-                      .slice(0, 19)
-                      .replace("T", " ") + " Zulu"
-                  }
-                />
-              </Stack>
-            </ListItem>
+            />
             {index !== events.length - 1 && <Divider />}
           </React.Fragment>
         ))}
