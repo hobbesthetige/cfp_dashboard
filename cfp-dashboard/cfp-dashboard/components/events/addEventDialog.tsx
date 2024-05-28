@@ -73,6 +73,7 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
       author: "User",
       timestamp,
       level,
+      lastUpdated: new Date().toISOString(),
     };
     onSave(newEvent);
   };

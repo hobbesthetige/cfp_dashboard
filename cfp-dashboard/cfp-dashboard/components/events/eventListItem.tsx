@@ -1,4 +1,4 @@
-import React, { use, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ListItem,
   ListItemAvatar,
@@ -7,7 +7,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { EventLog } from "./eventsList";
-import { orange, red } from "@mui/material/colors";
+import { grey, orange, red } from "@mui/material/colors";
 
 interface EventListItemProps {
   event: EventLog;
@@ -15,20 +15,41 @@ interface EventListItemProps {
 }
 
 const EventListItem: React.FC<EventListItemProps> = ({ event, onClick }) => {
-  const backgroundColor = {
-    Info: "primary",
+  const avatarBackgroundColor = {
+    Info: grey[400],
     Warning: orange[500],
     Error: red[500],
   };
 
+  const listBackgroundColor = {
+    Info: grey[100],
+    Warning: orange[100],
+    Error: red[100],
+  };
+
+  const [isRefresh, setIsRefresh] = useState(false);
+
+  useEffect(() => {
+    setIsRefresh(true);
+    const timeout = setTimeout(() => {
+      setIsRefresh(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [event.lastUpdated]);
+
+  const listItemStyle = {
+    alignItems: "flex-start",
+    bgcolor: isRefresh ? listBackgroundColor[event.level] : null,
+    transition: "background-color 0.5s ease",
+  };
+
   return (
-    <ListItem
-      sx={{ alignItems: "flex-start" }}
-      onClick={onClick}
-      disableGutters
-    >
+    <ListItem sx={listItemStyle} onClick={onClick} disableGutters>
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: backgroundColor[event.level] }}>
+        <Avatar sx={{ bgcolor: avatarBackgroundColor[event.level] }}>
           {event.level.charAt(0)}
         </Avatar>
       </ListItemAvatar>
@@ -48,4 +69,7 @@ const EventListItem: React.FC<EventListItemProps> = ({ event, onClick }) => {
   );
 };
 
-export default EventListItem;
+// Use React.memo to memoize the component
+export default React.memo(EventListItem, (prevProps, nextProps) => {
+  return prevProps.event.lastUpdated === nextProps.event.lastUpdated;
+});

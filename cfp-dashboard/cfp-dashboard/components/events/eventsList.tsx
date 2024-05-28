@@ -28,6 +28,7 @@ export interface EventLog {
   timestamp: string;
   author: string;
   level: EventLogLevel;
+  lastUpdated: string;
 }
 
 export default function EventList() {
@@ -63,12 +64,16 @@ export default function EventList() {
   };
 
   const handleSaveEvent = (updatedEvent: EventLog) => {
+    const eventWithTimestamp = {
+      ...updatedEvent,
+      lastUpdated: new Date().toISOString(),
+    };
     setEvents((prevEvents) =>
       prevEvents.map((event) =>
-        event.id === updatedEvent.id ? updatedEvent : event
+        event.id === eventWithTimestamp.id ? eventWithTimestamp : event
       )
     );
-    eventsSocket?.emit("updateEventItem", updatedEvent);
+    eventsSocket?.emit("updateEventItem", eventWithTimestamp);
     handleCloseEditDialog();
   };
 
@@ -176,7 +181,7 @@ export default function EventList() {
 
       <List>
         {filteredEvents.map((event, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={event.id}>
             <EventListItem
               event={event}
               onClick={() => handleOpenEditDialog(event)}
