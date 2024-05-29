@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { InlineLoading } from "./loading";
-import { Stack } from "@mui/material";
+import { InlineLoading } from "../loading";
+import { Box, Stack } from "@mui/material";
 import PacePlanLetter from "./pacePlanLetter";
 import { green, orange, red, yellow } from "@mui/material/colors";
 import { useSocket } from "@/contexts/socketContext";
 import { useEventsSocket } from "@/contexts/eventsSocketContext";
-import { EventLogLevel } from "./events/eventsList";
+import { EventLogLevel } from "../events/eventsList";
 
 type PacePlanLetter = "P" | "A" | "C" | "E";
 
@@ -125,14 +125,13 @@ const PacePlanBanner = () => {
   }
 
   return (
-    <div>
+    <Box sx={{ maxWidth: "100%", flexGrow: 1 }}>
       {isConnected ? (
         <Stack
           direction="row"
           spacing={2}
           alignItems="center"
           justifyContent="center" // center the items horizontally
-          sx={{ width: "100%" }}
         >
           <PacePlanLetter
             letter="P"
@@ -175,7 +174,7 @@ const PacePlanBanner = () => {
         <InlineLoading />
       )}
       {error && <p>Error: {error}</p>}
-    </div>
+    </Box>
   );
 };
 

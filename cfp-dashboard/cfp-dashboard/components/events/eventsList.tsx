@@ -156,7 +156,7 @@ export default function EventList() {
       sx={{
         width: "100%",
         maxWidth: 450,
-        minWidth: 350,
+        minWidth: 450,
         bgcolor: "background.paper",
       }}
     >

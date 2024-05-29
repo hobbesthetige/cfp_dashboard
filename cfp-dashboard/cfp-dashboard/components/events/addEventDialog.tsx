@@ -14,6 +14,7 @@ import {
 import { EventLog, EventLogLevel } from "./eventsList";
 import moment from "moment-timezone";
 import { getEnumValues } from "@/app/utilities/getEnumValues";
+import { formatDateInZuluTime } from "@/app/utilities/dateFormats";
 
 interface AddEventDialogProps {
   open: boolean;
@@ -174,8 +175,7 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
           margin="normal"
         />
         <Typography variant="caption" color="textSecondary">
-          {new Date(timestamp).toISOString().slice(0, 19).replace("T", " ") +
-            " Zulu"}
+          {formatDateInZuluTime(new Date(timestamp))}
         </Typography>
       </DialogContent>
       <DialogActions>

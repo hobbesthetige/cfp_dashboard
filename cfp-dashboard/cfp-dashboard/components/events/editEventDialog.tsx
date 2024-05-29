@@ -12,6 +12,7 @@ import {
 import { EventLog, EventLogLevel } from "./eventsList";
 import { getEnumValues } from "@/app/utilities/getEnumValues";
 import moment from "moment-timezone";
+import { formatDateInZuluTime } from "@/app/utilities/dateFormats";
 
 interface EditEventDialogProps {
   event: EventLog;
@@ -118,8 +119,7 @@ const EditEventDialog: React.FC<EditEventDialogProps> = ({
           margin="normal"
         />
         <Typography variant="caption" color="textSecondary">
-          {new Date(timestamp).toISOString().slice(0, 19).replace("T", " ") +
-            " Zulu"}
+          {formatDateInZuluTime(new Date(timestamp))}
         </Typography>
       </DialogContent>
       <DialogActions>

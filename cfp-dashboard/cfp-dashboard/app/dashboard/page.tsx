@@ -8,6 +8,7 @@ import {
   Box,
   CssBaseline,
   Divider,
+  Stack,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import withAuth from "@/components/withAuth";
@@ -15,11 +16,12 @@ import DashboardMenu from "@/components/dashboardMenu";
 import { decl } from "postcss";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import PacePlanBanner from "@/components/pacePlanBanner";
+import PacePlanBanner from "@/components/pacePlan/pacePlanBanner";
 import { SocketProvider } from "@/contexts/socketContext";
 import EventList from "@/components/events/eventsList";
 import { Socket } from "socket.io-client";
 import { EventsSocketProvider } from "@/contexts/eventsSocketContext";
+import TimeBanner from "@/components/time/timeBanner";
 
 const theme = createTheme({
   palette: {
@@ -82,9 +84,12 @@ const MyComponent: React.FC = () => {
       <EventsSocketProvider>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
-          <SocketProvider namespace="pacePlan">
-            <PacePlanBanner />
-          </SocketProvider>
+          <Stack direction="row" spacing={2}>
+            <TimeBanner />
+            <SocketProvider namespace="pacePlan">
+              <PacePlanBanner />
+            </SocketProvider>
+          </Stack>
           <Box sx={{ display: "flex", alignItems: "flex-start" }}>
             <Box sx={{ flexShrink: 0, mr: 3 }}>
               <EventList />
