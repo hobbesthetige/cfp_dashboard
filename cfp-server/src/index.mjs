@@ -1,19 +1,20 @@
-require("dotenv").config();
-const express = require("express");
-const socketIo = require("socket.io");
-const bodyParser = require("body-parser");
-const http = require("http");
-const cors = require("cors");
-const authRoutes = require("./routes/auth");
-const pacePlanRoutes = require("./routes/pacePlan");
-const { addUser } = require("./utils/userHelpers");
-const { verifyToken } = require("./utils/authHelpers"); // Ensure you import verifyToken
-const pacePlanSocket = require("./sockets/pacePlan");
+// import dotenv from "dotenv";
+import express from "express";
+import { Server } from "socket.io";
+import pkg from "body-parser";
+const { json } = pkg;
+import { createServer } from "http";
+import cors from "cors";
+import authRoutes from "./routes/auth.mjs";
+import pacePlanRoutes from "./routes/pacePlan.mjs";
+import { addUser } from "./utils/userHelpers.mjs";
+import { verifyToken } from "./utils/authHelpers.mjs"; // Ensure you import verifyToken
+import pacePlanSocket from "./sockets/pacePlan.mjs";
 
 const app = express();
 const port = process.env.PORT || 3001;
-const server = http.createServer(app);
-const io = socketIo(server, {
+const server = createServer(app);
+const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000", // Client origin
     methods: ["GET", "POST"],
@@ -23,7 +24,7 @@ const io = socketIo(server, {
 });
 
 // Middleware
-app.use(bodyParser.json());
+app.use(json());
 app.use(cors());
 
 // Socket.IO integration with JWT authentication

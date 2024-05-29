@@ -1,0 +1,22 @@
+{
+  "P": {
+    "equipment": "CFK",
+    "title": "Primary"
+  },
+  "A": {
+    "equipment": "",
+    "title": "Primary"
+  },
+  "C": {
+    "equipment": "",
+    "title": "Primary"
+  },
+  "E": {
+    "equipment": "",
+    "title": "Primary"
+  },
+  "activePlans": [
+    "P"
+  ],
+  "lastUpdated": "2024-05-28T21:04:25.958Z"
+}

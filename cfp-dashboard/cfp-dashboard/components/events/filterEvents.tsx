@@ -1,12 +1,7 @@
 import * as React from "react";
 import { Theme, useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Button, IconButton, ListItemIcon, Menu } from "@mui/material";
-import { Check, Filter, Filter1, FilterList } from "@mui/icons-material";
+import { MenuItem, IconButton, ListItemIcon, Menu } from "@mui/material";
+import { Check, FilterList } from "@mui/icons-material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,7 +29,7 @@ export interface EventsFilterSelectProps {
 }
 
 export default function EventsFilterSelect(props: EventsFilterSelectProps) {
-  const { categories } = props;
+  const { categories, handleCategoriesChange } = props;
   const theme = useTheme();
   const [personName, setPersonName] = React.useState<string[]>([]);
 
@@ -53,8 +48,8 @@ export default function EventsFilterSelect(props: EventsFilterSelectProps) {
   };
 
   React.useEffect(() => {
-    props.handleCategoriesChange(personName);
-  }, [props, personName]);
+    handleCategoriesChange(personName);
+  }, [handleCategoriesChange, personName]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -100,8 +95,8 @@ export default function EventsFilterSelect(props: EventsFilterSelectProps) {
             {name}
           </MenuItem>
         ))}
-        <MenuItem key={"none"} value={"None"} onClick={() => handleClear()}>
-          {personName.length == 0 && (
+        <MenuItem key={"none"} value={"None"} onClick={handleClear}>
+          {personName.length === 0 && (
             <ListItemIcon>
               <Check />
             </ListItemIcon>

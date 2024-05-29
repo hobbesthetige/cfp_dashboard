@@ -124,10 +124,10 @@ export default function EventList() {
     );
   }, []);
 
-  const handleSetCategories = (categories: string[]) => {
-    console.log("Setting selected categories:", categories);
-    setSelectedCategories(categories);
-  };
+  const handleCategoriesChange = useCallback((newCategories: string[]) => {
+    console.log("Selected categories:", newCategories);
+    setSelectedCategories(newCategories);
+  }, []);
 
   useEffect(() => {
     if (eventsSocket) {
@@ -171,7 +171,7 @@ export default function EventList() {
         <Stack direction="row" alignItems="center">
           <EventsFilterSelect
             categories={uniqueCategories}
-            handleCategoriesChange={handleSetCategories}
+            handleCategoriesChange={handleCategoriesChange}
           />
           <IconButton onClick={handleOpenAddDialog}>
             <Add />

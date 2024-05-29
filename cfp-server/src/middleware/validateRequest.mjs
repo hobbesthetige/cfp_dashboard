@@ -1,9 +1,9 @@
-const { extractToken, verifyToken } = require('../utils/authHelpers');
+import { extractToken, verifyToken } from "../utils/authHelpers.mjs";
 
 async function validateRequest(req, res) {
   const token = extractToken(req);
   if (!token) {
-    res.status(401).json({ message: 'No token provided' });
+    res.status(401).json({ message: "No token provided" });
     return null;
   }
   try {
@@ -15,4 +15,4 @@ async function validateRequest(req, res) {
   }
 }
 
-module.exports = { validateRequest };
+export { validateRequest };

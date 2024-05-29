@@ -1,7 +1,7 @@
-const pacePlanModel = require("../models/pacePlan");
-const eventLogModel = require("../models/eventLog");
+import placePlanDB from "../models/pacePlan.mjs";
+import eventLogDB from "../models/eventLog.mjs";
 
-module.exports = (io) => {
+export default (io) => {
   const pacePlanNamespace = io.of("/pacePlan");
   const eventItemsNamespace = io.of("/events");
 
@@ -16,11 +16,12 @@ module.exports = (io) => {
   // Pace Plan Namespace
   pacePlanNamespace.on("connect", (socket) => {
     console.log("New client connected to Pace Plan namespace");
-    socket.emit("pacePlan", pacePlanModel.pacePlan);
-    socket.on("pacePlan", (data) => {
+    socket.emit("pacePlan", placePlanDB.data);
+    socket.on("pacePlan", async (data) => {
       console.log("Pace Plan update received:", data);
-      pacePlanModel.pacePlan = data;
+      placePlanDB.data = data;
       pacePlanNamespace.emit("pacePlanUpdated", data);
+      await placePlanDB.write();
     });
 
     socket.on("disconnect", () => {
@@ -32,32 +33,41 @@ module.exports = (io) => {
   eventItemsNamespace.on("connect", (socket) => {
     console.log("New client connected to Event Logs namespace");
 
-    socket.emit("eventItems", eventLogModel.eventLogs);
+    socket.emit("eventItems", eventLogDB.data);
 
-    socket.on("newEventItem", (data) => {
+    socket.on("newEventItem", async (data) => {
       console.log("Event Item received:", data);
-      eventLogModel.eventLogs.unshift(data);
+      eventLogDB.data.unshift(data);
       eventItemsNamespace.emit("newEventItem", data);
+      await eventLogDB.write();
     });
 
-    socket.on("updateEventItem", (data) => {
+    socket.on("updateEventItem", async (data) => {
+      const { id } = data;
       console.log("Event Item update received:", data);
-      const index = eventLogModel.eventLogs.findIndex(
-        (item) => item.id === data.id
-      );
-      eventLogModel.eventLogs[index] = data;
+      const eventIndex = eventLogDB.data.findIndex((event) => event.id === id);
+
+      if (eventIndex === -1) {
+        console.error("Event not found by id: ", id);
+        return;
+      }
+      eventLogDB.data[index] = data;
       eventItemsNamespace.emit("updateEventItem", data);
+      await eventLogDB.write();
     });
 
-    socket.on("deleteEventItem", (data) => {
+    socket.on("deleteEventItem", async (data) => {
       console.log("Event Item delete received:", data);
-      const index = eventLogModel.eventLogs.findIndex(
-        (item) => item.id === data.id
-      );
-      if (index !== -1) {
-        eventLogModel.eventLogs.splice(index, 1);
-        eventItemsNamespace.emit("deleteEventItem", data);
+      const { id } = data;
+      const eventIndex = eventLogDB.data.findIndex((event) => event.id === id);
+
+      if (eventIndex === -1) {
+        console.error("Event not found by id: ", id);
+        return;
       }
+      eventLogDB.data.splice(eventIndex, 1);
+      eventItemsNamespace.emit("deleteEventItem", data);
+      await eventLogDB.write();
     });
 
     socket.on("disconnect", () => {

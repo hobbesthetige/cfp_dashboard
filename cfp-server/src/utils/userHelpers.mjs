@@ -1,4 +1,4 @@
-const { bcrypt } = require('./authHelpers');
+import bcrypt from "bcrypt";
 
 const users = [];
 
@@ -11,4 +11,4 @@ async function addUser(username, password) {
   users.push({ username, hashedPassword });
 }
 
-module.exports = { addUser, hashPassword, users };
+export { addUser, hashPassword, users };

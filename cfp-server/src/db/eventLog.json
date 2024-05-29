@@ -1,0 +1,41 @@
+[
+  {
+    "id": "2024-05-29T18:21:45.217Z",
+    "level": "Info",
+    "category": "Pace Plan",
+    "message": "Updated Primary equipment to CFK",
+    "author": "System",
+    "isUserGenerated": false,
+    "timestamp": "2024-05-29T18:21:45.217Z"
+  },
+  {
+    "id": "2024-05-29T18:21:35.267Z",
+    "category": "CFP",
+    "message": "Power Online",
+    "isUserGenerated": true,
+    "author": "User",
+    "timestamp": "2024-05-29T14:21",
+    "level": "Info",
+    "lastUpdated": "2024-05-29T18:21:35.267Z"
+  },
+  {
+    "id": "2024-05-29T18:21:28.017Z",
+    "category": "CFP",
+    "message": "Pause Exercise",
+    "isUserGenerated": true,
+    "author": "User",
+    "timestamp": "2024-05-29T14:21",
+    "level": "Info",
+    "lastUpdated": "2024-05-29T18:21:28.017Z"
+  },
+  {
+    "id": "1",
+    "category": "CFP",
+    "message": "System started",
+    "isUserGenerated": false,
+    "author": "System",
+    "level": "Info",
+    "timestamp": "2024-05-28T21:04:25.958Z",
+    "lastUpdated": "2024-05-28T21:04:25.958Z"
+  }
+]
