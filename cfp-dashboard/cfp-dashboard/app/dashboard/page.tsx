@@ -52,71 +52,41 @@ declare module "@mui/material/AppBar" {
 }
 
 const MyComponent: React.FC = () => {
-  const [open, setOpen] = useState(false);
-
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <ThemeProvider theme={theme}>
-        <AppBar
-          position="fixed"
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          color="custom"
-          elevation={0}
-        >
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="primary"
-              aria-label="open drawer"
-              onClick={() => setOpen(!open)}
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h4" noWrap component="div">
-              CFP Dashboard
+    <EventsSocketProvider>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Toolbar />
+        <Stack direction="row" spacing={2}>
+          <TimeBanner />
+          <SocketProvider namespace="pacePlan">
+            <PacePlanBanner />
+          </SocketProvider>
+        </Stack>
+        <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+          <Box sx={{ flexShrink: 0, mr: 3 }}>
+            <EventList />
+          </Box>
+          <Box sx={{ flexGrow: 1 }}>
+            <EquipmentList />
+            <Typography paragraph>
+              Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
+              ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
+              elementum integer enim neque volutpat ac tincidunt. Ornare
+              suspendisse sed nisi lacus sed viverra tellus. Purus sit amet
+              volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
+              Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt
+              ornare massa eget egestas purus viverra accumsan in. In hendrerit
+              gravida rutrum quisque non tellus orci ac. Pellentesque nec nam
+              aliquam sem et tortor. Habitant morbi tristique senectus et.
+              Adipiscing elit duis tristique sollicitudin nibh sit. Ornare
+              aenean euismod elementum nisi quis eleifend. Commodo viverra
+              maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
+              aliquam ultrices sagittis orci a.
             </Typography>
-          </Toolbar>
-        </AppBar>
-      </ThemeProvider>
-      <DashboardMenu open={open} setOpen={setOpen} />
-      <EventsSocketProvider>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          <Stack direction="row" spacing={2}>
-            <TimeBanner />
-            <SocketProvider namespace="pacePlan">
-              <PacePlanBanner />
-            </SocketProvider>
-          </Stack>
-          <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-            <Box sx={{ flexShrink: 0, mr: 3 }}>
-              <EventList />
-            </Box>
-            <Box sx={{ flexGrow: 1 }}>
-              <EquipmentList />
-              <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-                ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-                elementum integer enim neque volutpat ac tincidunt. Ornare
-                suspendisse sed nisi lacus sed viverra tellus. Purus sit amet
-                volutpat consequat mauris. Elementum eu facilisis sed odio
-                morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-                tincidunt ornare massa eget egestas purus viverra accumsan in.
-                In hendrerit gravida rutrum quisque non tellus orci ac.
-                Pellentesque nec nam aliquam sem et tortor. Habitant morbi
-                tristique senectus et. Adipiscing elit duis tristique
-                sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-                eleifend. Commodo viverra maecenas accumsan lacus vel facilisis.
-                Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-              </Typography>
-            </Box>
           </Box>
         </Box>
-      </EventsSocketProvider>
-    </Box>
+      </Box>
+    </EventsSocketProvider>
   );
 };
 

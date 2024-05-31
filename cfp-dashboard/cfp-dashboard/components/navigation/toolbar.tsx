@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
+import { useState } from "react";
+import DashboardMenu from "../dashboardMenu";
 
 const theme = createTheme({
   palette: {
@@ -42,6 +44,7 @@ declare module "@mui/material/AppBar" {
 const NavigationToolbar: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [open, setOpen] = useState(false);
   return (
     <Box>
       <Box sx={{ display: "flex" }}>
@@ -59,7 +62,7 @@ const NavigationToolbar: React.FC<{ children: React.ReactNode }> = ({
                 edge="start"
                 color="primary"
                 aria-label="open drawer"
-                // onClick={() => setOpen(!open)}
+                onClick={() => setOpen(!open)}
                 sx={{ mr: 2 }}
               >
                 <Menu />
@@ -70,7 +73,7 @@ const NavigationToolbar: React.FC<{ children: React.ReactNode }> = ({
             </Toolbar>
           </AppBar>
         </ThemeProvider>
-        {/* <DashboardMenu open={open} setOpen={setOpen} /> */}
+        <DashboardMenu open={open} setOpen={setOpen} />
         <main>{children}</main>
       </Box>
     </Box>
