@@ -7,11 +7,15 @@ import {
   ListItemButton,
   ListItemText,
   Divider,
-  Button, // Import the Button component
+  Button,
+  ListItemIcon, // Import the Button component
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/contexts/authContext";
+import { Dashboard, Inventory } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
+import path from "path";
 
 const DashboardMenu: React.FC<{
   open: boolean;
@@ -19,6 +23,13 @@ const DashboardMenu: React.FC<{
 }> = ({ open, setOpen }) => {
   const drawerWidth = 240;
   const { logout } = useAuth();
+  const router = useRouter();
+
+  const handlePath = (path: string) => {
+    router.push(path);
+    setOpen(false);
+  };
+
   return (
     <Drawer
       // variant="permanent"
@@ -47,13 +58,19 @@ const DashboardMenu: React.FC<{
           <nav aria-label="main mailbox folders">
             <List>
               <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Inbox" />
+                <ListItemButton onClick={() => handlePath("/dashboard")}>
+                  <ListItemIcon>
+                    <Dashboard />
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Drafts" />
+                <ListItemButton onClick={() => handlePath("/equipment")}>
+                  <ListItemIcon>
+                    <Inventory />
+                  </ListItemIcon>
+                  <ListItemText primary="Equipment" />
                 </ListItemButton>
               </ListItem>
             </List>

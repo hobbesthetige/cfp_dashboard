@@ -46,35 +46,36 @@ const NavigationToolbar: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [open, setOpen] = useState(false);
   return (
-    <Box>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <ThemeProvider theme={theme}>
-          <AppBar
-            position="fixed"
-            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            color="custom"
-            elevation={0}
-          >
-            <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="primary"
-                aria-label="open drawer"
-                onClick={() => setOpen(!open)}
-                sx={{ mr: 2 }}
-              >
-                <Menu />
-              </IconButton>
-              <Typography variant="h4" noWrap component="div">
-                CFP Dashboard
-              </Typography>
-            </Toolbar>
-          </AppBar>
-        </ThemeProvider>
-        <DashboardMenu open={open} setOpen={setOpen} />
-        <main>{children}</main>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <AppBar
+          position="fixed"
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          color="custom"
+          elevation={0}
+        >
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="primary"
+              aria-label="open drawer"
+              onClick={() => setOpen(!open)}
+              sx={{ mr: 2 }}
+            >
+              <Menu />
+            </IconButton>
+            <Typography variant="h4" noWrap component="div">
+              CFP Dashboard
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </ThemeProvider>
+      <DashboardMenu open={open} setOpen={setOpen} />
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Toolbar />
+        {children}
       </Box>
     </Box>
   );

@@ -100,7 +100,7 @@ const EquipmentList: React.FC = () => {
         alignItems="trailing"
         justifyContent="space-between"
       >
-        <Typography variant="h6" component="div">
+        <Typography variant="h4" component="div">
           Equipment
         </Typography>
         <Stack direction="row" alignItems="center">
