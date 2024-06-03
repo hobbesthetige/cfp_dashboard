@@ -1,0 +1,40 @@
+{
+  "equipmentHistory": [],
+  "equipmentGroups": [
+    {
+      "id": "2024-06-03T15:01:24.542Z",
+      "name": "Meachum",
+      "utc": "Infrastructure",
+      "equipment": [
+        {
+          "id": "2024-06-03T17:52:46.904Z",
+          "name": "Test",
+          "category": "Networking Equipment",
+          "department": "Infrastructure",
+          "quantity": 1,
+          "notes": "",
+          "serialNumber": "1234",
+          "lastUpdated": "2024-06-03T17:53:21.824Z"
+        },
+        {
+          "id": "2024-06-03T17:53:32.889Z",
+          "name": "NIPR Stack",
+          "category": "SATCOM Equipment",
+          "department": "CFP",
+          "quantity": 1,
+          "notes": "",
+          "serialNumber": "",
+          "lastUpdated": "2024-06-03T17:53:32.889Z"
+        }
+      ],
+      "jobControlNumbers": [
+        {
+          "number": "1344",
+          "type": "Installation",
+          "timestamp": "2024-06-03T15:01:19.247Z"
+        }
+      ],
+      "created": "2024-06-03T15:01:24.597Z"
+    }
+  ]
+}

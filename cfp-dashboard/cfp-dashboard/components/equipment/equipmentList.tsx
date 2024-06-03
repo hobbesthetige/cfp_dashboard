@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TableContainer,
   Table,
@@ -7,20 +7,18 @@ import {
   IconButton,
   Typography,
   Stack,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import AddEquipmentGroupDialog from "./equipmentGroup/addEquipmentGroupDialog";
 import { EquipmentGroup, Equipment } from "@/app/types/equipment";
 import EquipmentGroupRow from "./equipmentGroupRow";
+import useAxios from "@/contexts/useAxios";
 
 const EquipmentList: React.FC = () => {
   const [equipmentGroups, setEquipmentGroups] = useState<EquipmentGroup[]>([]);
   const [openRows, setOpenRows] = useState<{ [key: string]: boolean }>({});
   const [addOpen, setAddOpen] = useState(false);
+  const axios = useAxios();
 
   const handleToggleRow = (id: string) => {
     setOpenRows((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -28,6 +26,7 @@ const EquipmentList: React.FC = () => {
 
   const handleAddEquipmentGroup = (equipmentGroup: EquipmentGroup) => {
     setEquipmentGroups([...equipmentGroups, equipmentGroup]);
+    axios.post("equipmentGroups", equipmentGroup);
   };
 
   const handleEditEquipmentGroup = (equipmentGroup: EquipmentGroup) => {
@@ -35,6 +34,7 @@ const EquipmentList: React.FC = () => {
       const updatedGroups = prevGroups.map((group) =>
         group.id === equipmentGroup.id ? equipmentGroup : group
       );
+      axios.put(`equipmentGroups/${equipmentGroup.id}`, equipmentGroup);
       return updatedGroups;
     });
   };
@@ -43,6 +43,7 @@ const EquipmentList: React.FC = () => {
     setEquipmentGroups((prevGroups) =>
       prevGroups.filter((group) => group.id !== equipmentGroup.id)
     );
+    axios.delete(`equipmentGroups/${equipmentGroup.id}`);
   };
 
   const handleAddEquipmentItem = (
@@ -55,6 +56,7 @@ const EquipmentList: React.FC = () => {
       );
       return updatedGroups;
     });
+    axios.post(`equipmentGroups/${group.id}/equipment`, equipment);
   };
 
   const handleEditEquipmentItem = (
@@ -74,6 +76,10 @@ const EquipmentList: React.FC = () => {
       );
       return updatedGroups;
     });
+    axios.patch(
+      `equipmentGroups/${group.id}/equipment/${equipment.id}`,
+      equipment
+    );
   };
 
   const handleDeleteEquipmentItem = (
@@ -91,7 +97,15 @@ const EquipmentList: React.FC = () => {
       );
       return updatedGroups;
     });
+    axios.delete(`equipmentGroups/${group.id}/equipment/${equipment.id}`);
   };
+
+  useEffect(() => {
+    let endpoint = "equipmentGroups";
+    axios.get(endpoint).then((response) => {
+      setEquipmentGroups(response.data);
+    });
+  });
 
   return (
     <Box>

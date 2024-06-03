@@ -8,11 +8,7 @@ import {
   TextField,
   Autocomplete,
 } from "@mui/material";
-import {
-  Equipment,
-  EquipmentHistoryEntry,
-  EquipmentGroup,
-} from "@/app/types/equipment";
+import { Equipment, EquipmentGroup } from "@/app/types/equipment";
 
 interface AddEquipmentItemDialogProps {
   group: EquipmentGroup;
@@ -118,7 +114,7 @@ const AddEquipmentItemDialog: React.FC<AddEquipmentItemDialogProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add Equipment</DialogTitle>
+      <DialogTitle>Add Equipment to {group.name}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus

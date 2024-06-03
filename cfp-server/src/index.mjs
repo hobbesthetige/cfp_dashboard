@@ -10,6 +10,8 @@ import pacePlanRoutes from "./routes/pacePlan.mjs";
 import { addUser } from "./utils/userHelpers.mjs";
 import { verifyToken } from "./utils/authHelpers.mjs"; // Ensure you import verifyToken
 import pacePlanSocket from "./sockets/pacePlan.mjs";
+import equipmentGroupRoutes from "./routes/equipmentGroups.mjs";
+import equipmentRoutes from "./routes/equipment.mjs";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -44,6 +46,8 @@ pacePlanSocket(io);
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api", pacePlanRoutes);
+app.use("/api", equipmentRoutes);
+app.use("/api", equipmentGroupRoutes);
 
 // Global Error Handler (if you have one)
 app.use((err, req, res, next) => {
