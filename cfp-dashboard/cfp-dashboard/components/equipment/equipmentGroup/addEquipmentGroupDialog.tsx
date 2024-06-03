@@ -1,4 +1,8 @@
-import { EquipmentGroup, JobControlNumber } from "@/app/types/equipment";
+import {
+  EquipmentGroup,
+  EquipmentService,
+  JobControlNumber,
+} from "@/app/types/equipment";
 
 import React, { useState } from "react";
 import {
@@ -10,7 +14,15 @@ import {
   TextField,
   Autocomplete,
   Stack,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
 } from "@mui/material";
+import { Add, Delete } from "@mui/icons-material";
 
 interface AddEquipmentGroupDialogProps {
   open: boolean;
@@ -31,6 +43,11 @@ const AddEquipmentGroupDialog: React.FC<AddEquipmentGroupDialogProps> = ({
     number: "",
     type: "Installation",
     timestamp: created,
+  });
+  const [services, setServices] = useState<EquipmentService[]>([]);
+  const [newService, setNewService] = useState<EquipmentService>({
+    enclave: "",
+    service: "",
   });
 
   const handleSave = () => {
@@ -53,6 +70,7 @@ const AddEquipmentGroupDialog: React.FC<AddEquipmentGroupDialogProps> = ({
       jobControlNumbers,
       created,
       equipment: [],
+      services,
     };
 
     onSave(newGroup);
@@ -68,7 +86,26 @@ const AddEquipmentGroupDialog: React.FC<AddEquipmentGroupDialogProps> = ({
       timestamp: new Date().toISOString(),
     });
     setErrors({ groupName: false });
+    setServices([]);
   }, [open]);
+
+  const handleAddService = () => {
+    if (newService.enclave && newService.service) {
+      setServices(
+        [...services, newService].sort((a, b) => {
+          if (a.enclave === b.enclave) {
+            return a.service.localeCompare(b.service);
+          }
+          return a.enclave.localeCompare(b.enclave);
+        })
+      );
+      setNewService({ enclave: "", service: "" });
+    }
+  };
+
+  const handleDeleteService = (index: number) => {
+    setServices(services.filter((_, i) => i !== index));
+  };
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -124,8 +161,74 @@ const AddEquipmentGroupDialog: React.FC<AddEquipmentGroupDialogProps> = ({
             component="span"
           />
         </Stack>
+        <Divider sx={{ mt: 2, mb: 2 }} />
+        <Typography variant="h6" component="div">
+          Services Provided
+        </Typography>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Autocomplete
+            disablePortal
+            sx={{ width: "100%" }}
+            options={["NIPR", "SIPR", "JWICS", "NSANET", "COALITION", "Other"]}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Enclave"
+                variant="outlined"
+                margin="normal"
+              />
+            )}
+            value={newService.enclave}
+            onChange={(event, value) =>
+              setNewService({ ...newService, enclave: value || "" })
+            }
+          />
+          <Autocomplete
+            disablePortal
+            sx={{ width: "100%" }}
+            options={[
+              "Data",
+              "Voice",
+              "Firewall",
+              "Call Server",
+              "Email Server",
+            ]}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Service"
+                variant="outlined"
+                margin="normal"
+              />
+            )}
+            value={newService.service}
+            onChange={(event, value) =>
+              setNewService({ ...newService, service: value || "" })
+            }
+          />
+          <IconButton color="primary" onClick={handleAddService}>
+            <Add />
+          </IconButton>
+        </Stack>
+        <List>
+          {services.map((service, index) => (
+            <ListItem key={index}>
+              <ListItemText
+                primary={`${service.enclave} - ${service.service}`}
+              />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => handleDeleteService(index)}
+                >
+                  <Delete />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
       </DialogContent>
-
       <DialogActions>
         <Button onClick={handleSave} color="primary">
           Save

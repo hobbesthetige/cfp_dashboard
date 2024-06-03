@@ -209,14 +209,12 @@ const AddEquipmentItemDialog: React.FC<AddEquipmentItemDialogProps> = ({
         />
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={handleAddEquipment}
-          variant="contained"
-          color="primary"
-        >
+        <Button onClick={handleAddEquipment} color="primary">
           Save
         </Button>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose} color="secondary">
+          Cancel
+        </Button>
       </DialogActions>
     </Dialog>
   );

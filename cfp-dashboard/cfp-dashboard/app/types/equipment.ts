@@ -20,6 +20,11 @@ export interface Equipment {
   lastUpdated: string;
 }
 
+export interface EquipmentService {
+  enclave: string;
+  service: string;
+}
+
 export interface JobControlNumber {
   number: string;
   type: string;
@@ -32,5 +37,6 @@ export interface EquipmentGroup {
   utc: string;
   equipment: Equipment[];
   jobControlNumbers: JobControlNumber[];
+  services: EquipmentService[];
   created: string;
 }

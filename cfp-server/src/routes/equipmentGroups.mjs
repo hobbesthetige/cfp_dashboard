@@ -15,7 +15,7 @@ router.get("/equipmentGroups", async (req, res) => {
 // Patch endpoint
 router.patch("/equipmentGroups/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, utc, jobControlNumbers } = req.body;
+  const { newEquipmentGroup } = req.body;
   const equipmentGroup = equipmentDB.data.equipmentGroups.find(
     (group) => group.id === id
   );
@@ -23,54 +23,33 @@ router.patch("/equipmentGroups/:id", async (req, res) => {
     res.status(404).json({ message: "Equipment group not found" });
     return;
   }
-  equipmentGroup.name = name;
-  equipmentGroup.utc = utc;
-  equipmentGroup.jobControlNumbers = jobControlNumbers;
-
+  Object.assign(equipmentGroup, newEquipmentGroup);
   await equipmentDB.write();
   res.status(200).json(equipmentGroup);
 });
 
 // Post endpoint
 router.post("/equipmentGroups", async (req, res) => {
-  const { id, name, utc, jobControlNumbers } = req.body;
-  const equipmentGroup = {
-    id: id,
-    name,
-    utc,
-    equipment: [],
-    jobControlNumbers: jobControlNumbers,
-    created: new Date().toISOString(),
-  };
-  equipmentDB.data.equipmentGroups.push(equipmentGroup);
+  const newEquipmentGroup = req.body;
+  equipmentDB.data.equipmentGroups.push(newEquipmentGroup);
   await equipmentDB.write();
-  res.status(200).json(equipmentGroup);
+  res.status(200).json(newEquipmentGroup);
 });
 
 // Put endpoint
 router.put("/equipmentGroups/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, utc, jobControlNumbers } = req.body;
-  const equipmentGroup = equipmentDB.data.equipmentGroups.find(
+  const newEquipmentGroup = req.body;
+  const index = equipmentDB.data.equipmentGroups.findIndex(
     (group) => group.id === id
   );
-  if (!equipmentGroup) {
-    equipmentGroup = {
-      id,
-      name,
-      utc,
-      equipment: [],
-      jobControlNumbers: jobControlNumbers,
-      created: new Date().toISOString(),
-    };
+  if (index === -1) {
+    equipmentDB.data.equipmentGroups.push(newEquipmentGroup);
   } else {
-    equipmentGroup.name = name;
-    equipmentGroup.utc = utc;
-    equipmentGroup.jobControlNumbers = jobControlNumbers;
+    equipmentDB.data.equipmentGroups[index] = newEquipmentGroup;
   }
-
   await equipmentDB.write();
-  res.status(200).json(equipmentGroup);
+  res.status(200).json(newEquipmentGroup);
 });
 
 // Delete endpoint

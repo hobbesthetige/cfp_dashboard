@@ -34,9 +34,9 @@ const EquipmentList: React.FC = () => {
       const updatedGroups = prevGroups.map((group) =>
         group.id === equipmentGroup.id ? equipmentGroup : group
       );
-      axios.put(`equipmentGroups/${equipmentGroup.id}`, equipmentGroup);
       return updatedGroups;
     });
+    axios.put(`equipmentGroups/${equipmentGroup.id}`, equipmentGroup);
   };
 
   const handleDeleteEquipmentGroup = (equipmentGroup: EquipmentGroup) => {

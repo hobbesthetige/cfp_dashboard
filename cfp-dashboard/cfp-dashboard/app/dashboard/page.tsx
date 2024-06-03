@@ -65,7 +65,6 @@ const MyComponent: React.FC = () => {
           <EventList />
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          <EquipmentList />
           <Typography paragraph>
             Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
             ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar

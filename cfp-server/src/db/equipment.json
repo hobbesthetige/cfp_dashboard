@@ -2,39 +2,74 @@
   "equipmentHistory": [],
   "equipmentGroups": [
     {
-      "id": "2024-06-03T15:01:24.542Z",
-      "name": "Meachum",
-      "utc": "Infrastructure",
+      "id": "2024-06-03T20:07:54.353Z",
+      "name": "CFK",
+      "utc": "6KTGS",
       "equipment": [
         {
-          "id": "2024-06-03T17:52:46.904Z",
-          "name": "Test",
+          "id": "2024-06-03T20:12:48.754Z",
+          "name": "NIPR Stack",
           "category": "Networking Equipment",
           "department": "Infrastructure",
           "quantity": 1,
           "notes": "",
-          "serialNumber": "1234",
-          "lastUpdated": "2024-06-03T17:53:21.824Z"
+          "serialNumber": "",
+          "lastUpdated": "2024-06-03T20:13:01.263Z"
         },
         {
-          "id": "2024-06-03T17:53:32.889Z",
-          "name": "NIPR Stack",
-          "category": "SATCOM Equipment",
-          "department": "CFP",
+          "id": "2024-06-03T20:12:56.440Z",
+          "name": "SIPR Stack",
+          "category": "Networking Equipment",
+          "department": "Infrastructure",
           "quantity": 1,
           "notes": "",
           "serialNumber": "",
-          "lastUpdated": "2024-06-03T17:53:32.889Z"
+          "lastUpdated": "2024-06-03T20:12:56.440Z"
         }
       ],
+      "jobControlNumbers": [],
+      "created": "2024-06-03T20:07:54.417Z",
+      "services": [
+        {
+          "enclave": "NIPR",
+          "service": "Call Server"
+        },
+        {
+          "enclave": "NIPR",
+          "service": "Data"
+        },
+        {
+          "enclave": "NIPR",
+          "service": "Firewall"
+        },
+        {
+          "enclave": "NIPR",
+          "service": "Voice"
+        },
+        {
+          "enclave": "SIPR",
+          "service": "Data"
+        },
+        {
+          "enclave": "SIPR",
+          "service": "Voice"
+        }
+      ]
+    },
+    {
+      "id": "2024-06-03T20:11:41.218Z",
+      "name": "SCP",
+      "utc": "6KTFS",
       "jobControlNumbers": [
         {
-          "number": "1344",
+          "number": "1234565",
           "type": "Installation",
-          "timestamp": "2024-06-03T15:01:19.247Z"
+          "timestamp": "2024-06-03T20:11:23.578Z"
         }
       ],
-      "created": "2024-06-03T15:01:24.597Z"
+      "created": "2024-06-03T20:11:41.207Z",
+      "equipment": [],
+      "services": []
     }
   ]
 }

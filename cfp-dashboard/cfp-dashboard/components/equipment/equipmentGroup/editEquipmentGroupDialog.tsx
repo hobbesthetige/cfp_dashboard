@@ -1,4 +1,8 @@
-import { EquipmentGroup, JobControlNumber } from "@/app/types/equipment";
+import {
+  EquipmentGroup,
+  EquipmentService,
+  JobControlNumber,
+} from "@/app/types/equipment";
 
 import React, { useState } from "react";
 import {
@@ -24,7 +28,7 @@ import {
   formatDateInZuluTime,
   formatTimestamp,
 } from "@/app/utilities/dateFormats";
-import { Delete, DeleteOutlined } from "@mui/icons-material";
+import { Add, Delete, DeleteOutlined } from "@mui/icons-material";
 import AddJobControlNumberDialog from "./addJobControlNumberDialog";
 
 interface EditEquipmentGroupDialogProps {
@@ -49,6 +53,13 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
     group.jobControlNumbers
   );
   const [openJCNDialog, setOpenJCNDialog] = useState(false);
+  const [services, setServices] = useState<EquipmentService[]>(
+    group.services || []
+  );
+  const [newService, setNewService] = useState<EquipmentService>({
+    enclave: "",
+    service: "",
+  });
 
   const handleAddJCN = (jobControlNumber: JobControlNumber) => {
     setJobControlNumbers((prev) =>
@@ -72,6 +83,7 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
       name: groupName,
       utc: utc,
       jobControlNumbers: jobControlNumbers,
+      services: services,
     };
 
     onSave(newGroup);
@@ -81,6 +93,24 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
   const handleDelete = () => {
     onDelete(group);
     onClose();
+  };
+
+  const handleAddService = () => {
+    if (newService.enclave && newService.service) {
+      setServices(
+        [...services, newService].sort((a, b) => {
+          if (a.enclave === b.enclave) {
+            return a.service.localeCompare(b.service);
+          }
+          return a.enclave.localeCompare(b.enclave);
+        })
+      );
+      setNewService({ enclave: "", service: "" });
+    }
+  };
+
+  const handleDeleteService = (index: number) => {
+    setServices(services.filter((_, i) => i !== index));
   };
 
   function EmptyJCN() {
@@ -147,6 +177,9 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
           margin="normal"
         />
         <Divider sx={{ mt: 2, mb: 2 }} />
+        <Typography variant="h6" component="div">
+          JCNs
+        </Typography>
         {jobControlNumbers.length > 0 ? <JCNList /> : <EmptyJCN />}
         <Button
           sx={{ mt: 2 }}
@@ -155,6 +188,82 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
         >
           Add JCN
         </Button>
+        <Box>
+          <Divider sx={{ mt: 2, mb: 2 }} />
+          <Typography variant="h6" component="div">
+            Services Provided
+          </Typography>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Autocomplete
+              disablePortal
+              sx={{ width: "100%" }}
+              options={[
+                "NIPR",
+                "SIPR",
+                "JWICS",
+                "NSANET",
+                "COALITION",
+                "Other",
+              ]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Enclave"
+                  variant="outlined"
+                  margin="normal"
+                />
+              )}
+              value={newService.enclave}
+              onChange={(event, value) =>
+                setNewService({ ...newService, enclave: value || "" })
+              }
+            />
+            <Autocomplete
+              disablePortal
+              sx={{ width: "100%" }}
+              options={[
+                "Data",
+                "Voice",
+                "Firewall",
+                "Call Server",
+                "Email Server",
+              ]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Service"
+                  variant="outlined"
+                  margin="normal"
+                />
+              )}
+              value={newService.service}
+              onChange={(event, value) =>
+                setNewService({ ...newService, service: value || "" })
+              }
+            />
+            <IconButton color="primary" onClick={handleAddService}>
+              <Add />
+            </IconButton>
+          </Stack>
+          <List>
+            {services.map((service, index) => (
+              <ListItem key={index}>
+                <ListItemText
+                  primary={`${service.enclave} - ${service.service}`}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => handleDeleteService(index)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
       </DialogContent>
 
       <DialogActions sx={{ justifyContent: "space-between" }}>

@@ -50,7 +50,7 @@ app.use("/api", equipmentRoutes);
 app.use("/api", equipmentGroupRoutes);
 
 // Global Error Handler (if you have one)
-app.use((err, req, res, next) => {
+app.use((err, res) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
