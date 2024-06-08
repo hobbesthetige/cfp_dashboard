@@ -105,7 +105,7 @@ const EquipmentList: React.FC = () => {
     axios.get(endpoint).then((response) => {
       setEquipmentGroups(response.data);
     });
-  });
+  }, []);
 
   return (
     <Box>

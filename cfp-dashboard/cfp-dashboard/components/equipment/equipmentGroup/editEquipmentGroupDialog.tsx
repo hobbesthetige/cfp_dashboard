@@ -56,10 +56,16 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
   const [services, setServices] = useState<EquipmentService[]>(
     group.services || []
   );
-  const [newService, setNewService] = useState<EquipmentService>({
+  const emptyService: EquipmentService = {
+    id: new Date().toISOString(),
     enclave: "",
-    service: "",
-  });
+    serviceName: "",
+    status: "Offline",
+    isVisible: true,
+    history: [],
+    lastUpdated: new Date().toISOString(),
+  };
+  const [newService, setNewService] = useState<EquipmentService>(emptyService);
 
   const handleAddJCN = (jobControlNumber: JobControlNumber) => {
     setJobControlNumbers((prev) =>
@@ -96,16 +102,16 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
   };
 
   const handleAddService = () => {
-    if (newService.enclave && newService.service) {
+    if (newService.enclave && newService.serviceName) {
       setServices(
         [...services, newService].sort((a, b) => {
           if (a.enclave === b.enclave) {
-            return a.service.localeCompare(b.service);
+            return a.serviceName.localeCompare(b.serviceName);
           }
           return a.enclave.localeCompare(b.enclave);
         })
       );
-      setNewService({ enclave: "", service: "" });
+      setNewService(emptyService);
     }
   };
 
@@ -236,9 +242,9 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
                   margin="normal"
                 />
               )}
-              value={newService.service}
+              value={newService.serviceName}
               onChange={(event, value) =>
-                setNewService({ ...newService, service: value || "" })
+                setNewService({ ...newService, serviceName: value || "" })
               }
             />
             <IconButton color="primary" onClick={handleAddService}>
@@ -249,7 +255,7 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
             {services.map((service, index) => (
               <ListItem key={index}>
                 <ListItemText
-                  primary={`${service.enclave} - ${service.service}`}
+                  primary={`${service.enclave} - ${service.serviceName}`}
                 />
                 <ListItemSecondaryAction>
                   <IconButton

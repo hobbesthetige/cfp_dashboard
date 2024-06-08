@@ -17,12 +17,14 @@ import EventListItem from "./eventListItem";
 export enum EventLogLevel {
   Info = "Info",
   Warning = "Warning",
+  Alert = "Alert",
   Error = "Error",
 }
 
 export interface EventLog {
   id: string;
   category: string;
+  title: string;
   message: string;
   isUserGenerated: boolean;
   timestamp: string;

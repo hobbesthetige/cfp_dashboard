@@ -7,7 +7,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import { EventLog } from "./eventsList";
-import { grey, orange, red } from "@mui/material/colors";
+import { blue, grey, orange, red } from "@mui/material/colors";
+import Markdown from "react-markdown";
 
 interface EventListItemProps {
   event: EventLog;
@@ -19,12 +20,14 @@ const EventListItem: React.FC<EventListItemProps> = ({ event, onClick }) => {
     Info: grey[400],
     Warning: orange[500],
     Error: red[500],
+    Alert: blue[400],
   };
 
   const listBackgroundColor = {
     Info: grey[100],
     Warning: orange[100],
     Error: red[100],
+    Alert: blue[400],
   };
 
   const [isRefresh, setIsRefresh] = useState(false);
@@ -54,7 +57,10 @@ const EventListItem: React.FC<EventListItemProps> = ({ event, onClick }) => {
         </Avatar>
       </ListItemAvatar>
       <Stack direction="column">
-        <ListItemText primary={`${event.category}: ${event.message}`} />
+        <div className="markdown">
+          <Markdown>{`${event.category}: ${event.title}`}</Markdown>
+          {event.message && <Markdown>{event.message}</Markdown>}
+        </div>
         <ListItemText secondary={new Date(event.timestamp).toLocaleString()} />
         <ListItemText
           secondary={

@@ -68,6 +68,7 @@ const EquipmentGroupRow: React.FC<EquipmentGroupRowProps> = ({
 
   useEffect(() => {
     if (addItemDialog && !open) {
+      console.log("Toggling open row");
       onToggle();
     }
   }, [addItemDialog, open, onToggle]);

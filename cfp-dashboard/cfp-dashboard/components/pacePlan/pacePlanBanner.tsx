@@ -90,7 +90,8 @@ const PacePlanBanner = () => {
       emitEventItem(
         EventLogLevel.Info,
         "Pace Plan",
-        `Updated ${pacePlan[pacePlanLetter].title} equipment to ${equipment}`
+        `Updated ${pacePlan[pacePlanLetter].title} equipment to ${equipment}`,
+        ""
       );
     } else {
       console.log("No change in equipment:", oldEquipment, equipment);
@@ -102,7 +103,8 @@ const PacePlanBanner = () => {
         "Pace Plan",
         `${isActive ? "Activated" : "Deactivated"} ${
           pacePlan[pacePlanLetter].title
-        } equipment ${equipment}`
+        } equipment ${equipment}`,
+        ""
       );
     } else {
       console.log("No change in activity status:", oldIsActive, isActive);
@@ -111,13 +113,15 @@ const PacePlanBanner = () => {
   function emitEventItem(
     level: EventLogLevel,
     category: string,
-    message: string
+    title: string,
+    message: string | undefined
   ) {
     eventsSocket?.emit("newEventItem", {
       id: new Date().toISOString(),
       level,
       category,
-      message,
+      title,
+      message: message || "",
       author: "System",
       isUserGenerated: false,
       timestamp: new Date().toISOString(),

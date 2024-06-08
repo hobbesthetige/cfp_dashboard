@@ -20,9 +20,30 @@ export interface Equipment {
   lastUpdated: string;
 }
 
+export interface EquipmentServiceStatusHistory {
+  status: string;
+  notes: string;
+  timestamp: string;
+}
+
 export interface EquipmentService {
+  id: string;
   enclave: string;
-  service: string;
+  serviceName: string;
+  isVisible: boolean;
+  status: string;
+  statusColor: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined;
+  notes: string;
+  autoUpdatePingAddress: string;
+  lastUpdated: string;
+  history: EquipmentServiceStatusHistory[];
+  pingPong?: {
+    isActive: boolean;
+    hostname: string;
+    interval: number;
+    timeout: number;
+    isAutomaticStatusChange: boolean;
+  };
 }
 
 export interface JobControlNumber {

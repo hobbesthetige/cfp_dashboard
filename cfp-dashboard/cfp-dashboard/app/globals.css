@@ -1,0 +1,15 @@
+.markdown {
+  margin: 0;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  font-weight: 400;
+}
+.markdown p:first-child {
+  margin-top: 0;
+}
+
+.markdown p:last-child {
+   margin-bottom: 0;
+}

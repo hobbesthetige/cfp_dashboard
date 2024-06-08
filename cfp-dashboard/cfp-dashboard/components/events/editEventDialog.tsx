@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
   MenuItem,
+  Stack,
 } from "@mui/material";
 import { EventLog, EventLogLevel } from "./eventsList";
 import { getEnumValues } from "@/app/utilities/getEnumValues";
@@ -34,20 +35,23 @@ const EditEventDialog: React.FC<EditEventDialogProps> = ({
   const [level, setLevel] = useState(event.level);
   const [category, setCategory] = useState(event.category);
   const [message, setMessage] = useState(event.message);
+  const [title, setTitle] = useState(event.title);
   const [timestamp, setTimestamp] = useState(formatTimestamp(event.timestamp));
-  const [errors, setErrors] = useState({ category: false });
+  const [errors, setErrors] = useState({ category: false, title: false });
 
   const handleSave = () => {
-    const hasError = category.trim() === "";
-    setErrors({ category: hasError });
+    const hasCategoryError = category.trim() === "";
+    const hasTitleError = title.trim() === "";
+    setErrors({ category: hasCategoryError, title: hasTitleError });
 
-    if (hasError) {
+    if (hasCategoryError || hasTitleError) {
       return;
     }
 
     const updatedEvent: EventLog = {
       ...event,
       category,
+      title,
       message,
       timestamp,
       level,
@@ -101,14 +105,30 @@ const EditEventDialog: React.FC<EditEventDialogProps> = ({
           error={errors.category}
           helperText={errors.category ? "Category is required" : ""}
         />
-        <TextField
-          label="Message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          fullWidth
-          variant="outlined"
-          margin="normal"
-        />
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+          <TextField
+            label="Category"
+            value={category}
+            required
+            onChange={(e) => setCategory(e.target.value)}
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            error={errors.category}
+            helperText={errors.category ? "Category is required" : ""}
+          />
+          <TextField
+            label="Title"
+            value={title}
+            required
+            onChange={(e) => setTitle(e.target.value)}
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            error={errors.title}
+            helperText={errors.title ? "Title is required" : ""}
+          />
+        </Stack>
         <TextField
           label="Date Time Stamp"
           type="datetime-local"

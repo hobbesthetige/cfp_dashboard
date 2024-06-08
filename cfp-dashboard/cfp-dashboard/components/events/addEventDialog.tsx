@@ -10,6 +10,7 @@ import {
   Grid,
   Box,
   MenuItem,
+  Stack,
 } from "@mui/material";
 import { EventLog, EventLogLevel } from "./eventsList";
 import moment from "moment-timezone";
@@ -32,35 +33,37 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
   onCancel,
 }) => {
   const [category, setCategory] = useState("");
+  const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [timestamp, setTimestamp] = useState(
     formatTimestamp(new Date().toISOString())
   );
   const [level, setLevel] = useState(EventLogLevel.Info);
-  const [errors, setErrors] = useState({ category: false });
+  const [errors, setErrors] = useState({ category: false, title: false });
 
   const presets = [
-    { name: "Begin Exercise", category: "CFP", level: EventLogLevel.Info },
-    { name: "Pause Exercise", category: "CFP", level: EventLogLevel.Info },
-    { name: "End Exercise", category: "CFP", level: EventLogLevel.Info },
+    { title: "Begin Exercise", category: "CFP", level: EventLogLevel.Info },
+    { title: "Pause Exercise", category: "CFP", level: EventLogLevel.Info },
+    { title: "End Exercise", category: "CFP", level: EventLogLevel.Info },
     {
-      name: "Personnel Onstation",
+      title: "Personnel Onstation",
       category: "CFP",
       level: EventLogLevel.Info,
     },
-    { name: "Safety Brief", category: "CFP", level: EventLogLevel.Info },
-    { name: "Power Online", category: "CFP", level: EventLogLevel.Info },
+    { title: "Safety Brief", category: "CFP", level: EventLogLevel.Info },
+    { title: "Power Online", category: "CFP", level: EventLogLevel.Info },
   ];
 
   const clearForm = () => {
     setCategory("");
     setMessage("");
+    setTitle("");
     setTimestamp(formatTimestamp(new Date().toISOString()));
   };
 
   const handleSave = () => {
-    const hasError = category.trim() === "";
-    setErrors({ category: hasError });
+    const hasError = category.trim() === "" || title.trim() === "";
+    setErrors({ category: category.trim() === "", title: title.trim() === "" });
 
     if (hasError) {
       return;
@@ -69,6 +72,7 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
     const newEvent: EventLog = {
       id: new Date().toISOString(),
       category,
+      title,
       message,
       isUserGenerated: true,
       author: "User",
@@ -87,7 +91,8 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
 
   const handlePreset = (preset: string, category: string) => {
     setCategory(category);
-    setMessage(preset);
+    setTitle(preset);
+    setMessage("");
   };
 
   React.useEffect(() => {
@@ -117,14 +122,14 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
           sx={{ width: "100%" }}
         >
           {presets.map((preset) => (
-            <Grid item xs="auto" key={preset.name}>
+            <Grid item xs="auto" key={preset.title}>
               <Button
                 variant="outlined"
                 onClick={() => {
-                  handlePreset(preset.name, preset.category);
+                  handlePreset(preset.title, preset.category);
                 }}
               >
-                {preset.name}
+                {preset.title}
               </Button>
             </Grid>
           ))}
@@ -146,17 +151,30 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
             </MenuItem>
           ))}
         </TextField>
-        <TextField
-          label="Category"
-          value={category}
-          required
-          onChange={(e) => setCategory(e.target.value)}
-          fullWidth
-          variant="outlined"
-          margin="normal"
-          error={errors.category}
-          helperText={errors.category ? "Category is required" : ""}
-        />
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+          <TextField
+            label="Category"
+            value={category}
+            required
+            onChange={(e) => setCategory(e.target.value)}
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            error={errors.category}
+            helperText={errors.category ? "Category is required" : ""}
+          />
+          <TextField
+            label="Title"
+            value={title}
+            required
+            onChange={(e) => setTitle(e.target.value)}
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            error={errors.title}
+            helperText={errors.title ? "Title is required" : ""}
+          />
+        </Stack>
         <TextField
           label="Message"
           value={message}

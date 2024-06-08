@@ -9,7 +9,7 @@ import authRoutes from "./routes/auth.mjs";
 import pacePlanRoutes from "./routes/pacePlan.mjs";
 import { addUser } from "./utils/userHelpers.mjs";
 import { verifyToken } from "./utils/authHelpers.mjs"; // Ensure you import verifyToken
-import pacePlanSocket from "./sockets/pacePlan.mjs";
+import { setupSockets } from "./sockets/socketNamespaces.mjs";
 import equipmentGroupRoutes from "./routes/equipmentGroups.mjs";
 import equipmentRoutes from "./routes/equipment.mjs";
 
@@ -41,7 +41,7 @@ io.use(async (socket, next) => {
   }
 });
 
-pacePlanSocket(io);
+setupSockets(io);
 
 // Routes
 app.use("/api/auth", authRoutes);

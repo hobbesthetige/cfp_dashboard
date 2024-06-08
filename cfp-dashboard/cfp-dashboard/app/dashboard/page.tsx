@@ -23,6 +23,7 @@ import { Socket } from "socket.io-client";
 import { EventsSocketProvider } from "@/contexts/eventsSocketContext";
 import TimeBanner from "@/components/time/timeBanner";
 import EquipmentList from "@/components/equipment/equipmentList";
+import ServicesBanner from "@/components/services/servicesBanner";
 
 const theme = createTheme({
   palette: {
@@ -61,10 +62,13 @@ const MyComponent: React.FC = () => {
         </SocketProvider>
       </Stack>
       <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-        <Box sx={{ flexShrink: 0, mr: 3 }}>
+        <Box sx={{ flexShrink: 0, mr: 3, mt: 3 }}>
           <EventList />
         </Box>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, mt: 3 }}>
+          <SocketProvider namespace="equipmentGroups">
+            <ServicesBanner />
+          </SocketProvider>
           <Typography paragraph>
             Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
             ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
