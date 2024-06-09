@@ -6,29 +6,49 @@ import { green, orange, red, yellow } from "@mui/material/colors";
 import { useSocket } from "@/contexts/socketContext";
 import { useEventsSocket } from "@/contexts/eventsSocketContext";
 import { EventLogLevel } from "../events/eventsList";
+import { EquipmentGroup } from "@/app/types/equipment";
+import useAxios from "@/contexts/useAxios";
 
 type PacePlanLetter = "P" | "A" | "C" | "E";
 
 interface PacePlan {
-  P: { equipment: string; title: string };
-  A: { equipment: string; title: string };
-  C: { equipment: string; title: string };
-  E: { equipment: string; title: string };
+  P: {
+    equipmentName: string;
+    equipmentGroupID: string | undefined;
+    title: string;
+  };
+  A: {
+    equipmentName: string;
+    equipmentGroupID: string | undefined;
+    title: string;
+  };
+  C: {
+    equipmentName: string;
+    equipmentGroupID: string | undefined;
+    title: string;
+  };
+  E: {
+    equipmentName: string;
+    equipmentGroupID: string | undefined;
+    title: string;
+  };
   activePlans: string[];
   lastUpdated: string;
 }
 
 const PacePlanBanner = () => {
   const [pacePlan, setPacePlan] = useState<PacePlan>({
-    P: { equipment: "", title: "Primary" },
-    A: { equipment: "", title: "Alternate" },
-    C: { equipment: "", title: "Contingency" },
-    E: { equipment: "", title: "Emergency" },
+    P: { equipmentName: "", equipmentGroupID: undefined, title: "Primary" },
+    A: { equipmentName: "", equipmentGroupID: undefined, title: "Alternate" },
+    C: { equipmentName: "", equipmentGroupID: undefined, title: "Contingency" },
+    E: { equipmentName: "", equipmentGroupID: undefined, title: "Emergency" },
     activePlans: ["P"],
     lastUpdated: new Date().toISOString(),
   });
   const { isConnected, error, socket } = useSocket();
   const { eventsSocket } = useEventsSocket();
+  const [equipmentGroups, setEquipmentGroups] = useState<EquipmentGroup[]>([]);
+  const axios = useAxios();
   const namespace = "pacePlan";
 
   const handlePacePlan = useCallback((pacePlan: PacePlan) => {
@@ -45,16 +65,23 @@ const PacePlanBanner = () => {
     }
   }, [socket, isConnected, handlePacePlan]);
 
+  useEffect(() => {
+    axios.get("equipmentGroups").then((response) => {
+      setEquipmentGroups(response.data);
+    });
+  }, []);
+
   function handleChange(
     pacePlanLetter: PacePlanLetter,
     isActive: boolean,
-    equipment: string
+    equipmentName: string,
+    equipmentGroupID: string | undefined
   ) {
     const updatedPacePlan = { ...pacePlan };
     emitUpdatedPacePlanEventItem(
       pacePlanLetter,
-      pacePlan[pacePlanLetter].equipment,
-      equipment,
+      pacePlan[pacePlanLetter].equipmentName,
+      equipmentName,
       pacePlan.activePlans.includes(pacePlanLetter),
       isActive
     );
@@ -67,7 +94,8 @@ const PacePlanBanner = () => {
         (plan) => plan !== pacePlanLetter
       );
     }
-    updatedPacePlan[pacePlanLetter].equipment = equipment;
+    updatedPacePlan[pacePlanLetter].equipmentName = equipmentName;
+    updatedPacePlan[pacePlanLetter].equipmentGroupID = equipmentGroupID;
     setPacePlan(updatedPacePlan);
     socket?.emit(namespace, updatedPacePlan);
   }
@@ -139,38 +167,46 @@ const PacePlanBanner = () => {
         >
           <PacePlanLetter
             letter="P"
-            equipment={pacePlan.P.equipment}
+            groups={equipmentGroups}
+            equipmentID={pacePlan.P.equipmentGroupID}
+            equipmentName={pacePlan.P.equipmentName}
             isActive={pacePlan.activePlans.includes("P")}
             color={green[500]}
-            handleChange={(isActive, equipment) =>
-              handleChange("P", isActive, equipment)
+            handleChange={(isActive, equipmentName, equipmentGroupID) =>
+              handleChange("P", isActive, equipmentName, equipmentGroupID)
             }
           />
           <PacePlanLetter
             letter="A"
-            equipment={pacePlan.A.equipment}
+            groups={equipmentGroups}
+            equipmentID={pacePlan.A.equipmentGroupID}
+            equipmentName={pacePlan.A.equipmentName}
             isActive={pacePlan.activePlans.includes("A")}
             color={yellow[500]}
-            handleChange={(isActive, equipment) =>
-              handleChange("A", isActive, equipment)
+            handleChange={(isActive, equipmentName, equipmentGroupID) =>
+              handleChange("A", isActive, equipmentName, equipmentGroupID)
             }
           />
           <PacePlanLetter
             letter="C"
-            equipment={pacePlan.C.equipment}
+            groups={equipmentGroups}
+            equipmentID={pacePlan.C.equipmentGroupID}
+            equipmentName={pacePlan.C.equipmentName}
             isActive={pacePlan.activePlans.includes("C")}
             color={orange[500]}
-            handleChange={(isActive, equipment) =>
-              handleChange("C", isActive, equipment)
+            handleChange={(isActive, equipmentName, equipmentGroupID) =>
+              handleChange("C", isActive, equipmentName, equipmentGroupID)
             }
           />
           <PacePlanLetter
             letter="E"
-            equipment={pacePlan.E.equipment}
+            groups={equipmentGroups}
+            equipmentID={pacePlan.E.equipmentGroupID}
+            equipmentName={pacePlan.E.equipmentName}
             isActive={pacePlan.activePlans.includes("E")}
             color={red[500]}
-            handleChange={(isActive, equipment) =>
-              handleChange("E", isActive, equipment)
+            handleChange={(isActive, equipmentName, equipmentGroupID) =>
+              handleChange("E", isActive, equipmentName, equipmentGroupID)
             }
           />
         </Stack>

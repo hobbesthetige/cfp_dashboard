@@ -7,11 +7,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = join(__filename, "../../db/");
 
 let defaultData = {
-  P: { equipment: "", title: "Primary" },
-  A: { equipment: "", title: "Primary" },
-  C: { equipment: "", title: "Primary" },
-  E: { equipment: "", title: "Primary" },
-  activePlans: ["P"],
+  P: { equipmentName: "", title: "Primary" },
+  A: { equipmentName: "", title: "Primary" },
+  C: { equipmentName: "", title: "Primary" },
+  E: { equipmentName: "", title: "Primary" },
+  activePlans: [""],
   lastUpdated: new Date().toISOString(),
 };
 

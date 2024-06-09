@@ -1,3 +1,4 @@
+import { EquipmentGroup } from "@/app/types/equipment";
 import { Edit } from "@mui/icons-material";
 import {
   Avatar,
@@ -9,18 +10,25 @@ import {
   DialogTitle,
   FormControlLabel,
   IconButton,
+  MenuItem,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 
 interface PacePlanLetterProps {
+  groups: EquipmentGroup[];
   letter: string;
-  equipment: string;
+  equipmentName: string;
+  equipmentID: string | undefined;
   isActive: boolean;
   color: string;
-  handleChange: (isActive: boolean, equipment: string) => void;
+  handleChange: (
+    isActive: boolean,
+    equipmentName: string,
+    equipmentID: string | undefined
+  ) => void;
 }
 
 const PacePlanLetter: React.FC<PacePlanLetterProps> = (props) => {
@@ -43,13 +51,24 @@ const PacePlanLetter: React.FC<PacePlanLetterProps> = (props) => {
   };
 
   const DialogComponent: React.FC = () => {
-    const [newEquipment, setNewEquipment] = useState(props.equipment);
+    const [newEquipmentName, setNewEquipmentName] = useState(
+      props.equipmentName
+    );
+    const [newEquipmentID, setNewEquipmentID] = useState(props.equipmentID);
     const [isActive, setIsActive] = useState(props.isActive);
 
-    const handleEquipmentChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      setNewEquipment(event.target.value);
+    const updateGroup = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const groupID = event.target.value;
+      const group = props.groups.find((group) => group.id === groupID);
+      if (group) {
+        setNewEquipmentID(group.id);
+        setNewEquipmentName(group.name);
+      }
+    };
+
+    const handleSave = () => {
+      props.handleChange(isActive, newEquipmentName, newEquipmentID);
+      handleClose();
     };
 
     return (
@@ -57,14 +76,19 @@ const PacePlanLetter: React.FC<PacePlanLetterProps> = (props) => {
         <DialogTitle>Change Equipment</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
-            margin="dense"
-            label="New Equipment"
-            type="text"
-            value={newEquipment}
-            onChange={handleEquipmentChange}
+            select
+            label="Equipment Group"
+            value={newEquipmentID}
+            onChange={updateGroup}
             fullWidth
-          />
+            margin="normal"
+          >
+            {props.groups.map((group) => (
+              <MenuItem key={group.id} value={group.id}>
+                {group.name}
+              </MenuItem>
+            ))}
+          </TextField>
           <FormControlLabel
             control={
               <Checkbox
@@ -78,8 +102,7 @@ const PacePlanLetter: React.FC<PacePlanLetterProps> = (props) => {
         <DialogActions>
           <Button
             onClick={() => {
-              props.handleChange(isActive, newEquipment);
-              handleClose();
+              handleSave();
             }}
           >
             Save
@@ -100,9 +123,9 @@ const PacePlanLetter: React.FC<PacePlanLetterProps> = (props) => {
       >
         <Typography variant="h1">{props.letter}</Typography>
       </Avatar>
-      {props.equipment && props.equipment.length > 0 ? (
+      {props.equipmentID ? (
         <Typography variant="h4" onClick={handleOpen}>
-          {props.equipment}
+          {props.equipmentName}
         </Typography>
       ) : (
         <Typography variant="h4" onClick={handleOpen}>
