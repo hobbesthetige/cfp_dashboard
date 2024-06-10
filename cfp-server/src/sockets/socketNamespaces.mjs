@@ -30,7 +30,8 @@ export function setupSockets(io) {
     socket.on("pacePlan", async (data) => {
       console.log("Pace Plan update received:", data);
       placePlanDB.data = data;
-      pacePlanNamespace.emit("pacePlanUpdated", data);
+      pacePlanNamespace.emit("pacePlan", data);
+      console.log("Pace Plan updated");
       await placePlanDB.write();
     });
 
