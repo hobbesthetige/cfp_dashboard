@@ -15,7 +15,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/contexts/authContext";
 import { Dashboard, Inventory } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
-import path from "path";
+import FPCONDialog from "./fpcon/FPCONDialog";
 
 const DashboardMenu: React.FC<{
   open: boolean;
@@ -27,7 +27,6 @@ const DashboardMenu: React.FC<{
 
   const handlePath = (path: string) => {
     router.push(path);
-    setOpen(false);
   };
 
   return (

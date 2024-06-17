@@ -2,18 +2,20 @@ import placePlanDB from "../models/pacePlan.mjs";
 import eventLogDB from "../models/eventLog.mjs";
 import equipmentDB from "../models/equipment.mjs";
 import pingService from "../services/pingService.mjs";
-import { hostname } from "os";
+import fpconDB from "../models/fpcon.mjs";
 
 let pacePlanNamespace;
 let eventItemsNamespace;
 let equipmentGroupsNamespace;
 let pingStatusNamespace;
+let fpconNamespace;
 
 export function setupSockets(io) {
   pacePlanNamespace = io.of("/pacePlan");
   eventItemsNamespace = io.of("/events");
   equipmentGroupsNamespace = io.of("/equipmentGroups");
   pingStatusNamespace = io.of("/pingPong");
+  fpconNamespace = io.of("/fpcon");
 
   io.on("connection", (socket) => {
     console.log("New client connected");
@@ -127,6 +129,23 @@ export function setupSockets(io) {
 
     socket.on("disconnect", () => {
       console.log("Client disconnected from Ping Status namespace");
+    });
+  });
+
+  // FPCon Namespace
+  fpconNamespace.on("connect", (socket) => {
+    console.log("New client connected to FPCon namespace");
+
+    socket.emit("fpcon", fpconDB.data);
+
+    socket.on("fpcon", (data) => {
+      console.log("FPCon update received:", data);
+      fpconDB.data = data;
+      fpconNamespace.emit("fpcon", data);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected from FPCon namespace");
     });
   });
 }

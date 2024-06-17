@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -20,10 +20,10 @@ import PacePlanBanner from "@/components/pacePlan/pacePlanBanner";
 import { SocketProvider } from "@/contexts/socketContext";
 import EventList from "@/components/events/eventsList";
 import { Socket } from "socket.io-client";
-import { EventsSocketProvider } from "@/contexts/eventsSocketContext";
 import TimeBanner from "@/components/time/timeBanner";
 import EquipmentList from "@/components/equipment/equipmentList";
 import ServicesBanner from "@/components/services/servicesBanner";
+import { useTitle } from "@/contexts/titleProvider";
 
 const theme = createTheme({
   palette: {
@@ -53,8 +53,14 @@ declare module "@mui/material/AppBar" {
 }
 
 const MyComponent: React.FC = () => {
+  const { setTitle } = useTitle();
+
+  useEffect(() => {
+    setTitle("Dashboard");
+  }, [setTitle]);
+
   return (
-    <EventsSocketProvider>
+    <Box>
       <Stack direction="row" spacing={2}>
         <TimeBanner />
         <SocketProvider namespace="pacePlan">
@@ -86,7 +92,7 @@ const MyComponent: React.FC = () => {
           </Typography>
         </Box>
       </Box>
-    </EventsSocketProvider>
+    </Box>
   );
 };
 
