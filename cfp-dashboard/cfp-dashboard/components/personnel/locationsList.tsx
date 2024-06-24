@@ -232,7 +232,7 @@ function LocationsList() {
       <Box sx={{ mt: 0, ml: 0, mr: 2, mb: 4 }}>
         <List>
           {locations.map((loc) => (
-            <ListItem disableGutters>
+            <ListItem key={loc.personnelId} disableGutters>
               <ListItemButton onClick={() => handleEditLocation(loc)}>
                 <Stack direction="row" alignItems="center" spacing={2}>
                   <Stack direction="column" spacing={1}>
