@@ -13,7 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/contexts/authContext";
-import { Dashboard, Inventory } from "@mui/icons-material";
+import { Contacts, Dashboard, Inventory } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import FPCONDialog from "./fpcon/FPCONDialog";
 
@@ -27,6 +27,7 @@ const DashboardMenu: React.FC<{
 
   const handlePath = (path: string) => {
     router.push(path);
+    setOpen(false);
   };
 
   return (
@@ -70,6 +71,14 @@ const DashboardMenu: React.FC<{
                     <Inventory />
                   </ListItemIcon>
                   <ListItemText primary="Equipment" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => handlePath("/personnel")}>
+                  <ListItemIcon>
+                    <Contacts />
+                  </ListItemIcon>
+                  <ListItemText primary="Personnel" />
                 </ListItemButton>
               </ListItem>
             </List>

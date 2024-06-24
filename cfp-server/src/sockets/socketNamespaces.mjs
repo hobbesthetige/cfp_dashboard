@@ -2,6 +2,7 @@ import placePlanDB from "../models/pacePlan.mjs";
 import eventLogDB from "../models/eventLog.mjs";
 import equipmentDB from "../models/equipment.mjs";
 import pingService from "../services/pingService.mjs";
+import personnelDB from "../models/personnel.mjs";
 import fpconDB from "../models/fpcon.mjs";
 
 let pacePlanNamespace;
@@ -9,6 +10,7 @@ let eventItemsNamespace;
 let equipmentGroupsNamespace;
 let pingStatusNamespace;
 let fpconNamespace;
+let personnelLocationsNamespace;
 
 export function setupSockets(io) {
   pacePlanNamespace = io.of("/pacePlan");
@@ -16,6 +18,7 @@ export function setupSockets(io) {
   equipmentGroupsNamespace = io.of("/equipmentGroups");
   pingStatusNamespace = io.of("/pingPong");
   fpconNamespace = io.of("/fpcon");
+  personnelLocationsNamespace = io.of("/personnelLocations");
 
   io.on("connection", (socket) => {
     console.log("New client connected");
@@ -139,13 +142,29 @@ export function setupSockets(io) {
     socket.emit("fpcon", fpconDB.data);
 
     socket.on("fpcon", (data) => {
-      console.log("FPCon update received:", data);
       fpconDB.data = data;
       fpconNamespace.emit("fpcon", data);
     });
 
     socket.on("disconnect", () => {
       console.log("Client disconnected from FPCon namespace");
+    });
+  });
+
+  // Personnel Locations Namespace
+  personnelLocationsNamespace.on("connect", (socket) => {
+    console.log("New client connected to Personnel Locations namespace");
+
+    socket.emit("personnelLocations", personnelDB.data.locations);
+
+    socket.on("personnelLocations", async (data) => {
+      personnelDB.data.locations = data;
+      personnelLocationsNamespace.emit("personnelLocations", data);
+      await personnelDB.write();
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected from Personnel Locations namespace");
     });
   });
 }
@@ -164,4 +183,8 @@ export function getPacePlanNamespace() {
 
 export function getPingStatusNamespace() {
   return pingStatusNamespace;
+}
+
+export function getPersonnelLocationsNamespace() {
+  return personnelLocationsNamespace;
 }

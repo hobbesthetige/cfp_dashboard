@@ -7,6 +7,7 @@ import { createServer } from "http";
 import cors from "cors";
 import authRoutes from "./routes/auth.mjs";
 import pacePlanRoutes from "./routes/pacePlan.mjs";
+import personnelRoutes from "./routes/personnel.mjs";
 import { addUser } from "./utils/userHelpers.mjs";
 import { verifyToken } from "./utils/authHelpers.mjs"; // Ensure you import verifyToken
 import { setupSockets } from "./sockets/socketNamespaces.mjs";
@@ -48,6 +49,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", pacePlanRoutes);
 app.use("/api", equipmentRoutes);
 app.use("/api", equipmentGroupRoutes);
+app.use("/api", personnelRoutes);
 
 // Global Error Handler (if you have one)
 app.use((err, res) => {

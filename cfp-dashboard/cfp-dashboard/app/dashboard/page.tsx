@@ -24,6 +24,7 @@ import TimeBanner from "@/components/time/timeBanner";
 import EquipmentList from "@/components/equipment/equipmentList";
 import ServicesBanner from "@/components/services/servicesBanner";
 import { useTitle } from "@/contexts/titleProvider";
+import LocationsList from "@/components/personnel/locationsList";
 
 const theme = createTheme({
   palette: {
@@ -74,6 +75,9 @@ const MyComponent: React.FC = () => {
         <Box sx={{ flexGrow: 1, mt: 3 }}>
           <SocketProvider namespace="equipmentGroups">
             <ServicesBanner />
+          </SocketProvider>
+          <SocketProvider namespace="personnelLocations">
+            <LocationsList />
           </SocketProvider>
           <Typography paragraph>
             Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
