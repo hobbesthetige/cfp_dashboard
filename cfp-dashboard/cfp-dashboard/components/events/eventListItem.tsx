@@ -56,23 +56,25 @@ const EventListItem: React.FC<EventListItemProps> = ({ event, onClick }) => {
           {event.level.charAt(0)}
         </Avatar>
       </ListItemAvatar>
-      <Stack direction="column">
+      <Stack direction="column" spacing={2}>
         <div className="markdown">
           <Markdown>{`${event.category}: ${event.title}`}</Markdown>
           {event.message && <Markdown>{event.message}</Markdown>}
         </div>
-        <ListItemText secondary={new Date(event.timestamp).toLocaleString()} />
-        <ListItemText
-          secondary={
-            new Date(event.timestamp)
-              .toISOString()
-              .slice(0, 19)
-              .replace("T", " ") + " Zulu"
-          }
-        />
+        <CombinedListItemText event={event} />
       </Stack>
     </ListItem>
   );
+};
+
+const CombinedListItemText = ({ event }: { event: EventLog }) => {
+  const localDate = new Date(event.timestamp).toLocaleString();
+  const zuluTime =
+    new Date(event.timestamp).toISOString().slice(11, 16) + " Zulu";
+
+  const combinedText = `${localDate} | ${zuluTime}`;
+
+  return <ListItemText secondary={combinedText} />;
 };
 
 // Use React.memo to memoize the component

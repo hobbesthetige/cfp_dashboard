@@ -25,6 +25,7 @@ import EquipmentList from "@/components/equipment/equipmentList";
 import ServicesBanner from "@/components/services/servicesBanner";
 import { useTitle } from "@/contexts/titleProvider";
 import LocationsList from "@/components/personnel/locationsList";
+import Scratchpad from "@/components/scratchpad/scratchpad";
 
 const theme = createTheme({
   palette: {
@@ -76,24 +77,14 @@ const MyComponent: React.FC = () => {
           <SocketProvider namespace="equipmentGroups">
             <ServicesBanner />
           </SocketProvider>
-          <SocketProvider namespace="personnelLocations">
-            <LocationsList />
-          </SocketProvider>
-          <Typography paragraph>
-            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-            ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-            elementum integer enim neque volutpat ac tincidunt. Ornare
-            suspendisse sed nisi lacus sed viverra tellus. Purus sit amet
-            volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
-            Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt
-            ornare massa eget egestas purus viverra accumsan in. In hendrerit
-            gravida rutrum quisque non tellus orci ac. Pellentesque nec nam
-            aliquam sem et tortor. Habitant morbi tristique senectus et.
-            Adipiscing elit duis tristique sollicitudin nibh sit. Ornare aenean
-            euismod elementum nisi quis eleifend. Commodo viverra maecenas
-            accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
-            ultrices sagittis orci a.
-          </Typography>
+          <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+            <SocketProvider namespace="personnelLocations">
+              <LocationsList />
+            </SocketProvider>
+            <SocketProvider namespace="scratchpad">
+              <Scratchpad />
+            </SocketProvider>
+          </Stack>
         </Box>
       </Box>
     </Box>

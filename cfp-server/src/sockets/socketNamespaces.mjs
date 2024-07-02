@@ -4,6 +4,7 @@ import equipmentDB from "../models/equipment.mjs";
 import pingService from "../services/pingService.mjs";
 import personnelDB from "../models/personnel.mjs";
 import fpconDB from "../models/fpcon.mjs";
+import { scratchpadDB } from "../models/scratchpad.mjs";
 
 let pacePlanNamespace;
 let eventItemsNamespace;
@@ -11,6 +12,7 @@ let equipmentGroupsNamespace;
 let pingStatusNamespace;
 let fpconNamespace;
 let personnelLocationsNamespace;
+let scratchpadNamespace;
 
 export function setupSockets(io) {
   pacePlanNamespace = io.of("/pacePlan");
@@ -19,6 +21,7 @@ export function setupSockets(io) {
   pingStatusNamespace = io.of("/pingPong");
   fpconNamespace = io.of("/fpcon");
   personnelLocationsNamespace = io.of("/personnelLocations");
+  scratchpadNamespace = io.of("/scratchpad");
 
   io.on("connection", (socket) => {
     console.log("New client connected");
@@ -167,6 +170,23 @@ export function setupSockets(io) {
       console.log("Client disconnected from Personnel Locations namespace");
     });
   });
+
+  // Scratchpad Namespace
+  scratchpadNamespace.on("connect", (socket) => {
+    console.log("New client connected to Scratchpad namespace");
+
+    socket.emit("scratchpad", scratchpadDB.data);
+
+    socket.on("scratchpad", async (data) => {
+      scratchpadDB.data = data;
+      scratchpadNamespace.emit("scratchpad", data);
+      await scratchpadDB.write();
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected from Scratchpad namespace");
+    });
+  });
 }
 
 export function getEventItemsNamespace() {
@@ -187,4 +207,8 @@ export function getPingStatusNamespace() {
 
 export function getPersonnelLocationsNamespace() {
   return personnelLocationsNamespace;
+}
+
+export function getScratchpadNamespace() {
+  return scratchpadNamespace;
 }

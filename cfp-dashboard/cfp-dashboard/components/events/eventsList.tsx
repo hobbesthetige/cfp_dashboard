@@ -39,15 +39,31 @@ export default function EventList() {
   const [selectedEvent, setSelectedEvent] = useState<EventLog | null>(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedLogLevels, setSelectedLogLevels] = useState<EventLogLevel[]>(
+    []
+  );
 
   const filteredEvents = events.filter((event) => {
-    if (selectedCategories.length === 0) {
+    if (selectedCategories.length === 0 && selectedLogLevels.length === 0) {
       return true;
     }
-    return selectedCategories.includes(event.category);
+
+    const categoryMatch =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(event.category);
+    const levelMatch =
+      selectedLogLevels.length === 0 || selectedLogLevels.includes(event.level);
+
+    return categoryMatch && levelMatch;
   });
 
-  const uniqueCategories = [...new Set(events.map((event) => event.category))];
+  const uniqueCategories = [
+    ...new Set(events.map((event) => event.category)),
+  ].sort();
+
+  const uniqueLogLevels = [
+    ...new Set(events.map((event) => event.level)),
+  ] as EventLogLevel[];
 
   const handleOpenEditDialog = (event: EventLog) => {
     setSelectedEvent(event);
@@ -131,6 +147,11 @@ export default function EventList() {
     setSelectedCategories(newCategories);
   }, []);
 
+  const handleLogLevelsChange = useCallback((newLogLevels: EventLogLevel[]) => {
+    console.log("Selected log levels:", newLogLevels);
+    setSelectedLogLevels(newLogLevels);
+  }, []);
+
   useEffect(() => {
     if (eventsSocket) {
       eventsSocket.on("eventItems", handleEventItems);
@@ -153,6 +174,12 @@ export default function EventList() {
     deleteEvent,
   ]);
 
+  const filteredEventsCount = filteredEvents.length;
+  const eventsLabel =
+    selectedCategories.length > 0 || selectedLogLevels.length > 0
+      ? "Filtered Event" + (filteredEventsCount === 1 ? "" : "s")
+      : "Event" + (events.length === 1 ? "" : "s");
+
   return (
     <Box
       sx={{
@@ -168,12 +195,14 @@ export default function EventList() {
         justifyContent="space-between"
       >
         <Typography variant="h6" component="div">
-          Events
+          {filteredEventsCount} {eventsLabel}
         </Typography>
         <Stack direction="row" alignItems="center">
           <EventsFilterSelect
             categories={uniqueCategories}
+            logLevels={uniqueLogLevels}
             handleCategoriesChange={handleCategoriesChange}
+            handleLogLevelsChange={handleLogLevelsChange}
           />
           <IconButton onClick={handleOpenAddDialog}>
             <Add />
@@ -183,7 +212,7 @@ export default function EventList() {
 
       <List>
         {filteredEvents.map((event, index) => (
-          <React.Fragment key={event.id}>
+          <React.Fragment key={`${event.id}/${index}`}>
             <EventListItem
               event={event}
               onClick={() => handleOpenEditDialog(event)}

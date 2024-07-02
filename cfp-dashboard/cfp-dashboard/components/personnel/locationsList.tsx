@@ -206,7 +206,7 @@ function LocationsList() {
   }
 
   return (
-    <Box>
+    <Box sx={{ flex: 1 }}>
       <Stack
         direction="row"
         alignItems="trailing"
@@ -231,33 +231,42 @@ function LocationsList() {
       </Stack>
       <Box sx={{ mt: 0, ml: 0, mr: 2, mb: 4 }}>
         <List>
-          {locations.map((loc) => (
-            <ListItem key={loc.personnelId} disableGutters>
-              <ListItemButton onClick={() => handleEditLocation(loc)}>
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <Stack direction="column" spacing={1}>
-                    {loc.currentLocation === loc.assignedLocation ? (
-                      <Chip label={loc.currentLocation} color="success" />
-                    ) : (
-                      <Chip label={loc.currentLocation} color="default" />
-                    )}
-                    <Typography variant="caption" color="textSecondary">
-                      {`${formatTimeInterval(
-                        currentTime.getTime() -
-                          new Date(loc.lastUpdated).getTime(),
-                        false,
-                        true,
-                        false
-                      )}`}
-                    </Typography>
+          {locations.map((loc, index) => (
+            <React.Fragment key={loc.personnelId}>
+              <ListItem disableGutters disablePadding>
+                <ListItemButton onClick={() => handleEditLocation(loc)}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{ width: "100%" }}
+                  >
+                    <ListItemText
+                      primary={loc.personnelName}
+                      secondary={loc.comments}
+                      sx={{ flex: 1 }} // Add this line
+                    />
+                    <Stack direction="column" spacing={1} alignItems="center">
+                      {loc.currentLocation === loc.assignedLocation ? (
+                        <Chip label={loc.currentLocation} color="success" />
+                      ) : (
+                        <Chip label={loc.currentLocation} color="default" />
+                      )}
+                      <Typography variant="caption" color="textSecondary">
+                        {`${formatTimeInterval(
+                          currentTime.getTime() -
+                            new Date(loc.lastUpdated).getTime(),
+                          false,
+                          true,
+                          false
+                        )}`}
+                      </Typography>
+                    </Stack>
                   </Stack>
-                  <ListItemText
-                    primary={loc.personnelName}
-                    secondary={<div>{loc.comments}</div>}
-                  />
-                </Stack>
-              </ListItemButton>
-            </ListItem>
+                </ListItemButton>
+              </ListItem>
+              {index !== locations.length - 1 && <Divider />}
+            </React.Fragment>
           ))}
         </List>
       </Box>

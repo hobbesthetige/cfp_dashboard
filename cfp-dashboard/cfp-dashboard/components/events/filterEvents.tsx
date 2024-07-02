@@ -1,7 +1,14 @@
 import * as React from "react";
 import { Theme, useTheme } from "@mui/material/styles";
-import { MenuItem, IconButton, ListItemIcon, Menu } from "@mui/material";
+import {
+  MenuItem,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  Divider,
+} from "@mui/material";
 import { Check, FilterList } from "@mui/icons-material";
+import { EventLogLevel } from "./eventsList";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -14,10 +21,10 @@ const MenuProps = {
   },
 };
 
-function getStyles(name: string, personName: string[], theme: Theme) {
+function getStyles(name: string, checkedCategories: string[], theme: Theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      checkedCategories.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -25,31 +32,57 @@ function getStyles(name: string, personName: string[], theme: Theme) {
 
 export interface EventsFilterSelectProps {
   categories: string[];
+  logLevels: EventLogLevel[];
   handleCategoriesChange: (categories: string[]) => void;
+  handleLogLevelsChange: (logLevels: EventLogLevel[]) => void;
 }
 
 export default function EventsFilterSelect(props: EventsFilterSelectProps) {
-  const { categories, handleCategoriesChange } = props;
+  const {
+    categories,
+    handleCategoriesChange,
+    logLevels,
+    handleLogLevelsChange,
+  } = props;
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [checkedCategories, setCheckedCategories] = React.useState<string[]>(
+    []
+  );
+  const [checkedLogLevels, setCheckedLogLevels] = React.useState<
+    EventLogLevel[]
+  >([]);
 
-  const handleChange = (value: string) => {
-    setPersonName((prevNames) => {
-      if (prevNames.includes(value)) {
-        return prevNames.filter((name) => name !== value);
+  const handleCategoryChange = (value: string) => {
+    setCheckedCategories((prevValues) => {
+      if (prevValues.includes(value)) {
+        return prevValues.filter((category) => category !== value);
       } else {
-        return [...prevNames, value];
+        return [...prevValues, value];
       }
     });
   };
 
-  const handleClear = () => {
-    setPersonName([]);
+  const handleLogLevelChange = (value: EventLogLevel) => {
+    setCheckedLogLevels((prevValues) => {
+      if (prevValues.includes(value)) {
+        return prevValues.filter((level) => level !== value);
+      } else {
+        return [...prevValues, value];
+      }
+    });
+  };
+
+  const handleClearCategories = () => {
+    setCheckedCategories([]);
   };
 
   React.useEffect(() => {
-    handleCategoriesChange(personName);
-  }, [handleCategoriesChange, personName]);
+    handleCategoriesChange(checkedCategories);
+  }, [handleCategoriesChange, checkedCategories]);
+
+  React.useEffect(() => {
+    handleLogLevelsChange(checkedLogLevels);
+  }, [handleLogLevelsChange, checkedLogLevels]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -84,10 +117,10 @@ export default function EventsFilterSelect(props: EventsFilterSelectProps) {
           <MenuItem
             key={name}
             value={name}
-            style={getStyles(name, personName, theme)}
-            onClick={() => handleChange(name)}
+            style={getStyles(name, checkedCategories, theme)}
+            onClick={() => handleCategoryChange(name)}
           >
-            {personName.includes(name) && (
+            {checkedCategories.includes(name) && (
               <ListItemIcon>
                 <Check />
               </ListItemIcon>
@@ -95,14 +128,29 @@ export default function EventsFilterSelect(props: EventsFilterSelectProps) {
             {name}
           </MenuItem>
         ))}
-        <MenuItem key={"none"} value={"None"} onClick={handleClear}>
-          {personName.length === 0 && (
+        <MenuItem key={"none"} value={"None"} onClick={handleClearCategories}>
+          {checkedCategories.length === 0 && (
             <ListItemIcon>
               <Check />
             </ListItemIcon>
           )}
           None
         </MenuItem>
+        <Divider />
+        {logLevels.map((level) => (
+          <MenuItem
+            key={level}
+            value={level}
+            onClick={() => handleLogLevelChange(level)}
+          >
+            {checkedLogLevels.includes(level) && (
+              <ListItemIcon>
+                <Check />
+              </ListItemIcon>
+            )}
+            {level}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );

@@ -78,26 +78,29 @@ const ServiceStatusIndicator: React.FC<ServiceStatusIndicatorProps> = ({
     }
   }, [socket]);
 
+  const CombinedListItemText = ({ service }: { service: EquipmentService }) => {
+    const localDate = new Date(service.lastUpdated).toLocaleString();
+    const zuluTime =
+      new Date(service.lastUpdated).toISOString().slice(11, 16) + " Zulu";
+
+    const combinedText = `${localDate} | ${zuluTime}`;
+
+    return (
+      <ListItemText
+        primary={`${service.enclave} ${service.serviceName}`}
+        secondary={combinedText}
+      />
+    );
+  };
+
   return (
-    <Box sx={{ pb: 2 }}>
+    <Box>
       <ListItem disablePadding disableGutters>
         <ListItemButton
           onClick={toggleDialog}
           sx={{ alignItems: "flex-start" }}
         >
-          <ListItemText
-            primary={`${service.enclave} ${service.serviceName}`}
-            secondary={
-              <div>
-                <div>{`Last updated ${new Date(
-                  service.lastUpdated
-                ).toLocaleString()}`}</div>
-                <div>{`${formatDateInZuluTime(
-                  new Date(service.lastUpdated)
-                )}`}</div>
-              </div>
-            }
-          />
+          <CombinedListItemText service={service} />
           <Stack direction="column" spacing={0} alignItems="center">
             <Chip label={service.status} color={service.statusColor} />
             <Typography variant="caption" color="textSecondary">
