@@ -4,6 +4,7 @@ import equipmentDB from "../models/equipment.mjs";
 import pingService from "../services/pingService.mjs";
 import personnelDB from "../models/personnel.mjs";
 import fpconDB from "../models/fpcon.mjs";
+import issuesDB from "../models/issues.mjs";
 import { scratchpadDB } from "../models/scratchpad.mjs";
 
 let pacePlanNamespace;
@@ -22,6 +23,7 @@ export function setupSockets(io) {
   fpconNamespace = io.of("/fpcon");
   personnelLocationsNamespace = io.of("/personnelLocations");
   scratchpadNamespace = io.of("/scratchpad");
+  issuesNamespace = io.of("/issues");
 
   io.on("connection", (socket) => {
     console.log("New client connected");
@@ -185,6 +187,49 @@ export function setupSockets(io) {
 
     socket.on("disconnect", () => {
       console.log("Client disconnected from Scratchpad namespace");
+    });
+  });
+
+  // Issues Namespace
+  issuesNamespace.on("connect", (socket) => {
+    console.log("New client connected to Issues namespace");
+
+    socket.emit("issues", issuesDB.data);
+
+    socket.on("newIssue", async (data) => {
+      issuesDB.data.unshift(data);
+      issuesNamespace.emit("newIssue", data);
+      await issuesDB.write();
+    });
+
+    socket.on("updateIssue", async (data) => {
+      const { id } = data;
+      const issueIndex = issuesDB.data.findIndex((issue) => issue.id === id);
+
+      if (issueIndex === -1) {
+        console.error("Issue not found by id: ", id);
+        return;
+      }
+      issuesDB.data[issueIndex] = data;
+      issuesNamespace.emit("updateIssue", data);
+      await issuesDB.write();
+    });
+
+    socket.on("deleteIssue", async (data) => {
+      const { id } = data;
+      const issueIndex = issuesDB.data.findIndex((issue) => issue.id === id);
+
+      if (issueIndex === -1) {
+        console.error("Issue not found by id: ", id);
+        return;
+      }
+      issuesDB.data.splice(issueIndex, 1);
+      issuesNamespace.emit("deleteIssue", data);
+      await issuesDB.write();
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected from Issues namespace");
     });
   });
 }
