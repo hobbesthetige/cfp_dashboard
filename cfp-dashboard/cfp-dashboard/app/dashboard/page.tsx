@@ -26,6 +26,7 @@ import ServicesBanner from "@/components/services/servicesBanner";
 import { useTitle } from "@/contexts/titleProvider";
 import LocationsList from "@/components/personnel/locationsList";
 import Scratchpad from "@/components/scratchpad/scratchpad";
+import IssuesList from "@/components/issuetracker/issuesList";
 
 const theme = createTheme({
   palette: {
@@ -85,6 +86,9 @@ const MyComponent: React.FC = () => {
               <Scratchpad />
             </SocketProvider>
           </Stack>
+          <SocketProvider namespace="issues">
+            <IssuesList />
+          </SocketProvider>
         </Box>
       </Box>
     </Box>

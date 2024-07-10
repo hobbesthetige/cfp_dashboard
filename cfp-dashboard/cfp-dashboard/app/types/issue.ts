@@ -12,10 +12,10 @@ export interface Issue {
   description: string;
   department: string;
   notes: IssueNote[];
-  created: string;
+  createdAt: string;
   lastUpdated: string;
   status: string;
-  priority: string;
+  priority: number;
   resolution?: string;
   resolutionTimestamp?: string;
 }

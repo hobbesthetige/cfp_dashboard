@@ -14,6 +14,7 @@ let pingStatusNamespace;
 let fpconNamespace;
 let personnelLocationsNamespace;
 let scratchpadNamespace;
+let issuesNamespace;
 
 export function setupSockets(io) {
   pacePlanNamespace = io.of("/pacePlan");

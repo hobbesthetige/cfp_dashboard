@@ -15,7 +15,7 @@ import {
   IconButton,
   Chip,
 } from "@mui/material";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, use, useCallback } from "react";
 import EditServicesBanner from "../services/editServicesBanner";
 import ServiceStatusIndicator from "../services/serviceStatusIndicator";
 import PersonnelChecklistDialog from "./personnelChecklist";
@@ -205,6 +205,12 @@ function LocationsList() {
     });
   }
 
+  const personnelTitle = useCallback(() => {
+    return `${locations.length} Personnel, ${
+      locations.filter((loc) => loc.currentLocation === "Onsite").length
+    } Onsite`;
+  }, [locations]);
+
   return (
     <Box sx={{ flex: 1 }}>
       <Stack
@@ -212,7 +218,7 @@ function LocationsList() {
         alignItems="trailing"
         justifyContent="space-between"
       >
-        <Typography variant="h6">Personnel</Typography>
+        <Typography variant="h6">{personnelTitle()}</Typography>
         <PersonnelChecklistDialog
           personnel={personnel}
           selectedIDs={locations.map((loc) => loc.personnelId)}
