@@ -32,8 +32,11 @@ import {
 import AddIssueDialog from "./addIssueDialog";
 import EditIssueDialog from "./editIssueDialog";
 import { inherits } from "util";
+import { EventLogLevel } from "../events/eventsList";
+import { useEventsSocket } from "@/contexts/eventsSocketContext";
 
 const IssuesList: React.FC = ({}) => {
+  const { eventsSocket } = useEventsSocket();
   const { socket, isConnected } = useSocket();
   const [issues, setIssues] = useState<Issue[]>([]);
   const [sortedIssues, setSortedIssues] = useState<Issue[]>([]);
@@ -103,6 +106,7 @@ const IssuesList: React.FC = ({}) => {
 
   const handleAdd = (issue: Issue) => {
     socket?.emit("newIssue", issue);
+    emitNewIssueEvent(issue);
     setIsAddOpen(false);
   };
 
@@ -131,6 +135,14 @@ const IssuesList: React.FC = ({}) => {
         <Typography variant="caption">{combinedText}</Typography>
       </Stack>
     );
+  };
+
+  const makeIssueCreatedAt = (createdAt: string) => {
+    const localDate = new Date(createdAt).toLocaleString();
+    const zuluTime = new Date(createdAt).toISOString().slice(11, 16) + " Zulu";
+
+    const combinedText = `${localDate} | ${zuluTime}`;
+    return combinedText;
   };
 
   const makeIssueTitle = (issue: Issue) => {
@@ -180,11 +192,17 @@ const IssuesList: React.FC = ({}) => {
         <TableCell style={{ verticalAlign: "top" }}>
           {issue.notes.length > 0 ? makeIssueNote(issue.notes[0]) : ""}
         </TableCell>
+        <TableCell style={{ verticalAlign: "top" }}>
+          {makeIssueCreatedAt(issue.createdAt)}
+        </TableCell>
       </TableRow>
     );
   };
 
   const handleEditIssue = (issue: Issue) => {
+    if (editingIssue) {
+      emitUpdateIssueEvent(editingIssue as Issue, issue);
+    }
     socket?.emit("updateIssue", issue);
     setEditingIssue(null);
   };
@@ -196,6 +214,77 @@ const IssuesList: React.FC = ({}) => {
   const issueCountText = isFilteringActiveOnly
     ? `${activeIssuesCount} Active Issue${activeIssuesCount !== 1 ? "s" : ""}`
     : `${sortedIssues.length} Issue${sortedIssues.length !== 1 ? "s" : ""}`;
+
+  const emitNewIssueEvent = (issue: Issue) => {
+    emitEventItem(
+      EventLogLevel.Warning,
+      "Issue",
+      `New ${makeIssuePriority(issue)} Priority Issue: ${issue.title}`,
+      issue.description
+    );
+  };
+
+  const emitUpdateIssueEvent = (prevIssue: Issue, issue: Issue) => {
+    const statusChangeMessage =
+      prevIssue.status !== issue.status
+        ? `Status: ${prevIssue.status} ➡ ${issue.status}`
+        : "";
+    const priorityChangeMessage =
+      prevIssue.priority !== issue.priority
+        ? `Priority: ${makeIssuePriority(prevIssue)} ➡ ${makeIssuePriority(
+            issue
+          )}`
+        : "";
+    const notesChangeMessage =
+      issue.notes.length > 0 ? `Last Update: ${issue.notes[0].note}` : "";
+
+    const descChangeMessage =
+      prevIssue.description !== issue.description
+        ? `Updated Description: ${issue.description}`
+        : "";
+
+    const ticketNumberChangeMessage =
+      prevIssue.ticketNumber !== issue.ticketNumber
+        ? `Updated Ticket Number: ${issue.ticketNumber}`
+        : "";
+
+    const changes = [
+      statusChangeMessage,
+      priorityChangeMessage,
+      descChangeMessage,
+      notesChangeMessage,
+      ticketNumberChangeMessage,
+    ].filter((message) => message.length > 0);
+
+    if (changes.length === 0) {
+      return;
+    }
+
+    emitEventItem(
+      EventLogLevel.Info,
+      "Issue",
+      `Updated Issue ${issue.title}`,
+      changes.join("  \n")
+    );
+  };
+
+  function emitEventItem(
+    level: EventLogLevel,
+    category: string,
+    title: string,
+    message: string | undefined
+  ) {
+    eventsSocket?.emit("newEventItem", {
+      id: new Date().toISOString(),
+      level,
+      category,
+      title,
+      message: message || "",
+      author: "User",
+      isUserGenerated: true,
+      timestamp: new Date().toISOString(),
+    });
+  }
 
   return (
     <Box sx={{ flex: 1 }}>
@@ -228,10 +317,11 @@ const IssuesList: React.FC = ({}) => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Status</TableCell>
                 <TableCell>Priority</TableCell>
                 <TableCell>Title</TableCell>
-                <TableCell>Status</TableCell>
                 <TableCell>Last Update</TableCell>
+                <TableCell>Created</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
