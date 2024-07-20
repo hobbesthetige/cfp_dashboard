@@ -12,8 +12,9 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.18",
-    "@mui/material": "^5.15.18",
+    "@mui/material": "^5.16.1",
     "axios": "^1.7.2",
+    "easymde": "^2.18.0",
     "install": "^0.13.0",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
@@ -22,8 +23,11 @@
     "npm": "^10.8.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-flagkit": "^2.0.4",
+    "react-headless-phone-input": "^3.0.0",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.1",
+    "react-simplemde-editor": "^5.2.0",
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {

@@ -1,12 +1,8 @@
-import axios from 'axios';
+import { axiosInstance } from './axios';
 import { useAuth } from './authContext';
 
 const useAxios = () => {
   const { token } = useAuth();
-
-  const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3001/api',
-  });
 
   axiosInstance.interceptors.request.use(
     (config) => {

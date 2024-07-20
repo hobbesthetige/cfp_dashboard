@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/validate", async (req, res) => {
   const token = await validateRequest(req, res);
   if (!token) {
-    return;
+    return res.status(401).json({ message: "Missing token" });
   }
   res.status(200).json({ message: "Token is valid", token: token });
 });

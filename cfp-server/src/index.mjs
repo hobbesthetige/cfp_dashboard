@@ -13,6 +13,7 @@ import { verifyToken } from "./utils/authHelpers.mjs"; // Ensure you import veri
 import { setupSockets } from "./sockets/socketNamespaces.mjs";
 import equipmentGroupRoutes from "./routes/equipmentGroups.mjs";
 import equipmentRoutes from "./routes/equipment.mjs";
+import phonebookRoutes from "./routes/phonebook.mjs";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -50,6 +51,7 @@ app.use("/api", pacePlanRoutes);
 app.use("/api", equipmentRoutes);
 app.use("/api", equipmentGroupRoutes);
 app.use("/api", personnelRoutes);
+app.use("/api", phonebookRoutes);
 
 // Global Error Handler (if you have one)
 app.use((err, res) => {

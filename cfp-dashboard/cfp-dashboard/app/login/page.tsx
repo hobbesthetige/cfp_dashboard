@@ -11,37 +11,28 @@ import {
   Typography,
 } from "@mui/material";
 import { useAuth } from "../../contexts/authContext";
+import { useRouter } from "next/navigation";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const passwordRef = React.useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
+  const router = useRouter();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
-    setLoading(true);
-    try {
-      const response = await fetch("http://localhost:3001/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        login(data.token);
-      } else {
-        setErrorMessage(data.message);
-      }
-    } catch (error) {
+    const { error } = await login(username, password);
+    if (error) {
       console.error("Error:", error);
+      setErrorMessage(error.message);
+      setPassword("");
+      passwordRef.current?.focus();
+    } else {
+      router.push("/dashboard");
     }
-    setLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -72,6 +63,7 @@ const LoginPage: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyUp={handleKeyPress}
+              inputRef={passwordRef}
             />
             {errorMessage && (
               <Typography color="error">{errorMessage}</Typography>

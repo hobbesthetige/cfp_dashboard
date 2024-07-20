@@ -5,65 +5,116 @@ import React, {
   useState,
   useEffect,
   ReactNode,
+  useCallback,
 } from "react";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
+import { baseURL } from "./axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
+type TokenString = string;
 
 interface AuthContextProps {
-  token: string | null;
+  token: string | undefined;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (token: string) => void;
+  login: (
+    username: string,
+    password: string
+  ) => Promise<
+    { token: string; error?: undefined } | { error: Error; token?: undefined }
+  >;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | undefined>();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    console.log("Stored token:", storedToken);
-    if (storedToken) {
-      try {
-        const decodedToken = jwtDecode(storedToken);
-        const currentTime = Date.now() / 1000;
-        if (decodedToken.exp && decodedToken.exp > currentTime) {
-          setToken(storedToken);
-          setIsAuthenticated(true);
-          console.log("Existing login token found");
-        } else {
-          localStorage.removeItem("token");
-          router.push("/login");
-          console.log("Removing login token");
-        }
-      } catch (error) {
-        console.error("Error decoding token:", error);
-        localStorage.removeItem("token");
-        router.push("/login");
-      }
+  const validateToken = useCallback(async (token: string) => {
+    const api = axios.create({ baseURL });
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    try {
+      const response = await api.get("/auth/validate");
+      return response.status === 200;
+    } catch (err) {
+      return false;
     }
-    setLoading(false);
-  }, [router]);
+  }, []);
 
-  const login = (token: string) => {
+  const storeToken = useCallback((token: TokenString) => {
     localStorage.setItem("token", token);
     setToken(token);
     setIsAuthenticated(true);
-    console.log("Logged in");
-    router.push("/dashboard");
-  };
+  }, []);
 
-  const logout = () => {
+  const removeToken = useCallback(() => {
     localStorage.removeItem("token");
-    setToken(null);
+    setToken(undefined);
     setIsAuthenticated(false);
+  }, []);
+
+  const logout = useCallback(() => {
+    removeToken();
     router.push("/login");
-  };
+  }, [removeToken, router]);
+
+  const login = useCallback(
+    async (username: string, password: string) => {
+      setLoading(true);
+      const api = axios.create({ baseURL });
+
+      try {
+        const response = await api
+          .post("/auth/login", {
+            username,
+            password,
+          })
+          .then(
+            (response: AxiosResponse<{ token: TokenString }>) => response.data
+          );
+
+        const { token } = response;
+        storeToken(token);
+
+        return { token };
+      } catch (err) {
+        setLoading(false);
+        removeToken();
+        const error = new Error("Invalid username or password");
+        return { error };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [removeToken, storeToken]
+  );
+
+  const validateLocaleStorageToken = useCallback(async () => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      const isTokenValid = await validateToken(storedToken);
+      if (isTokenValid) {
+        setToken(storedToken);
+        setIsAuthenticated(true);
+      } else {
+        logout();
+      }
+    }
+    setLoading(false);
+  }, [validateToken, logout]);
+
+  // Validate token on mount every 60 seconds
+  useEffect(() => {
+    const interval = setInterval(validateLocaleStorageToken, 60000); // 60 seconds
+    validateLocaleStorageToken();
+    return () => {
+      clearInterval(interval);
+    };
+  }, [validateLocaleStorageToken]);
 
   return (
     <AuthContext.Provider

@@ -13,7 +13,16 @@ import {
 import React, { useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/contexts/authContext";
-import { Contacts, Dashboard, Inventory } from "@mui/icons-material";
+import {
+  ContactPhone,
+  ContactPhoneOutlined,
+  Contacts,
+  ContactsOutlined,
+  Dashboard,
+  DashboardOutlined,
+  Inventory,
+  InventoryOutlined,
+} from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import FPCONDialog from "./fpcon/FPCONDialog";
 
@@ -60,7 +69,7 @@ const DashboardMenu: React.FC<{
               <ListItem disablePadding>
                 <ListItemButton onClick={() => handlePath("/dashboard")}>
                   <ListItemIcon>
-                    <Dashboard />
+                    <DashboardOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Dashboard" />
                 </ListItemButton>
@@ -68,7 +77,7 @@ const DashboardMenu: React.FC<{
               <ListItem disablePadding>
                 <ListItemButton onClick={() => handlePath("/equipment")}>
                   <ListItemIcon>
-                    <Inventory />
+                    <InventoryOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Equipment" />
                 </ListItemButton>
@@ -76,7 +85,7 @@ const DashboardMenu: React.FC<{
               <ListItem disablePadding>
                 <ListItemButton onClick={() => handlePath("/personnel")}>
                   <ListItemIcon>
-                    <Contacts />
+                    <ContactsOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Personnel" />
                 </ListItemButton>
@@ -87,8 +96,11 @@ const DashboardMenu: React.FC<{
           <nav aria-label="secondary mailbox folders">
             <List>
               <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Trash" />
+                <ListItemButton onClick={() => handlePath("/phonebook")}>
+                  <ListItemIcon>
+                    <ContactPhoneOutlined />
+                  </ListItemIcon>
+                  <ListItemText primary="Phonebook" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
