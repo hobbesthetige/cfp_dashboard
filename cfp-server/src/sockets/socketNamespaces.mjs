@@ -150,6 +150,7 @@ export function setupSockets(io) {
     socket.on("fpcon", (data) => {
       fpconDB.data = data;
       fpconNamespace.emit("fpcon", data);
+      fpconDB.write();
     });
 
     socket.on("disconnect", () => {
