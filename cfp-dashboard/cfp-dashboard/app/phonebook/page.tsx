@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Box, Breadcrumbs, Button, Stack, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import {
   PhoneBook,
@@ -19,13 +12,7 @@ import PhoneBookEntriesList from "@/components/phonebook/phonebookEntriesList";
 import withAuth from "@/components/withAuth";
 import useAxios from "@/contexts/useAxios";
 import { Axios } from "axios";
-import {
-  Add,
-  ContactPhoneOutlined,
-  Home,
-  NavigateNext,
-  Phone,
-} from "@mui/icons-material";
+import { NavigateNext, Phone } from "@mui/icons-material";
 import AddPhonebookEntryDialog from "@/components/phonebook/addPhonebookEntryDialog";
 import PhoneBookInstructionsDialog from "@/components/phonebook/phonebookInstructionsDialog";
 import { useRouter } from "next/navigation";

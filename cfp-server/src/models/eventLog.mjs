@@ -38,3 +38,8 @@ const eventLogDB = await JSONFilePreset(file, defaultData);
 await eventLogDB.write();
 
 export default eventLogDB;
+
+export async function resetData() {
+  eventLogDB.data = defaultData;
+  await eventLogDB.write();
+}

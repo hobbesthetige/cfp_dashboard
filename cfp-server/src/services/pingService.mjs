@@ -1,5 +1,5 @@
 import ping from "ping";
-import { clearDB, pingStatusDB } from "../models/pingStatus.mjs";
+import { resetData, pingStatusDB } from "../models/pingStatus.mjs";
 import { getEquipmentGroupsNamespace } from "../sockets/socketNamespaces.mjs";
 import { getEventItemsNamespace } from "../sockets/socketNamespaces.mjs";
 import equipmentDB from "../models/equipment.mjs";
@@ -8,7 +8,7 @@ import { getPingStatusNamespace } from "../sockets/socketNamespaces.mjs";
 class PingService {
   constructor() {
     this.services = new Map();
-    clearDB();
+    resetData();
   }
 
   addService(service) {

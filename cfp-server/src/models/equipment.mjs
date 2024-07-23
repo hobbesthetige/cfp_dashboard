@@ -55,4 +55,10 @@ const equipmentDB = await JSONFilePreset(file, defaultData);
 // Write data to JSON file
 await equipmentDB.write();
 
+async function resetData() {
+  equipmentDB.data = defaultData;
+  await equipmentDB.write();
+}
+
+export { resetData, equipmentDB };
 export default equipmentDB;

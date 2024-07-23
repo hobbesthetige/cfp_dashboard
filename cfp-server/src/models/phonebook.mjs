@@ -18,4 +18,10 @@ const phonebookDB = await JSONFilePreset(file, defaultData);
 // Write data to JSON file
 await phonebookDB.write();
 
+async function resetData() {
+  phonebookDB.data = defaultData;
+  await phonebookDB.write();
+}
+
+export { resetData };
 export default phonebookDB;

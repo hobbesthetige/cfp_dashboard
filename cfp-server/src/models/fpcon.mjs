@@ -25,4 +25,10 @@ const fpconDB = await JSONFilePreset(file, defaultData);
 // Write data to JSON file
 await fpconDB.write();
 
+async function resetData() {
+  fpconDB.data = defaultData;
+  await fpconDB.write();
+}
+
+export { resetData };
 export default fpconDB;

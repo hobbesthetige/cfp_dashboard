@@ -15,4 +15,10 @@ const issuesDB = await JSONFilePreset(file, defaultData);
 // Write data to JSON file
 await issuesDB.write();
 
+async function resetData() {
+  issuesDB.data = defaultData;
+  await issuesDB.write();
+}
+
+export { resetData };
 export default issuesDB;

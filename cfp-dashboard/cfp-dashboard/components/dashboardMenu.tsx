@@ -14,6 +14,8 @@ import React, { useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/contexts/authContext";
 import {
+  CalendarMonthOutlined,
+  CalendarTodayOutlined,
   ContactPhone,
   ContactPhoneOutlined,
   Contacts,
@@ -22,6 +24,7 @@ import {
   DashboardOutlined,
   Inventory,
   InventoryOutlined,
+  SettingsOutlined,
 } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import FPCONDialog from "./fpcon/FPCONDialog";
@@ -105,7 +108,23 @@ const DashboardMenu: React.FC<{
               </ListItem>
               <ListItem disablePadding>
                 <ListItemButton component="a" href="#simple-list">
-                  <ListItemText primary="Spam" />
+                  <ListItemIcon>
+                    <CalendarMonthOutlined />
+                  </ListItemIcon>
+                  <ListItemText primary="Julian Calendar" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </nav>
+          <Divider />
+          <nav aria-label="secondary mailbox folders">
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => handlePath("/settings")}>
+                  <ListItemIcon>
+                    <SettingsOutlined />
+                  </ListItemIcon>
+                  <ListItemText primary="Settings" />
                 </ListItemButton>
               </ListItem>
             </List>

@@ -20,4 +20,10 @@ export function clearDB() {
   pingStatusDB.write();
 }
 
+async function resetData() {
+  pingStatusDB.data = defaultData;
+  await pingStatusDB.write();
+}
+
+export { resetData };
 export { pingStatusDB };

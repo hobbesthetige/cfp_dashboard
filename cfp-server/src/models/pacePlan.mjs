@@ -22,4 +22,10 @@ const placePlanDB = await JSONFilePreset(file, defaultData);
 // Write data to JSON file
 await placePlanDB.write();
 
+async function resetData() {
+  placePlanDB.data = defaultData;
+  await placePlanDB.write();
+}
+
+export { resetData };
 export default placePlanDB;

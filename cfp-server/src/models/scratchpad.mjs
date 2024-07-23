@@ -17,9 +17,10 @@ const scratchpadDB = await JSONFilePreset(file, defaultData);
 // Write data to JSON file
 await scratchpadDB.write();
 
-export function clearDB() {
-  scratchpadDB.data = {};
-  scratchpadDB.write();
+async function resetData() {
+  scratchpadDB.data = defaultData;
+  await scratchpadDB.write();
 }
 
+export { resetData };
 export { scratchpadDB };

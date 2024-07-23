@@ -18,4 +18,10 @@ const personnelDB = await JSONFilePreset(file, defaultData);
 // Write data to JSON file
 await personnelDB.write();
 
+async function resetData() {
+  personnelDB.data = defaultData;
+  await personnelDB.write();
+}
+
+export { resetData };
 export default personnelDB;
