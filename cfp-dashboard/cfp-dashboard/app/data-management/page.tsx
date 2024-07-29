@@ -18,23 +18,25 @@ import { useTitle } from "@/contexts/titleProvider";
 import { useEffect, useState } from "react";
 import { NavigateNext } from "@mui/icons-material";
 import useAxios from "@/contexts/useAxios";
-import DataSettingsComponent from "../data-management/components/dataSettingsComponent";
+import DataSettingsComponent from "./components/dataSettingsComponent";
+import MSLComponent from "./components/mslComponent";
 
-const SettingsPage: React.FC = () => {
+const DataManagementPage: React.FC = () => {
   const { setTitle } = useTitle();
   const router = useRouter();
 
   useEffect(() => {
-    setTitle("Settings");
+    setTitle("Data Management");
   }, []);
 
   return (
     <Box>
       <BreadcrumbsComponent />
-      <Typography variant="h4">Settings</Typography>
+      <Typography variant="h4">Data Management</Typography>
       <Container maxWidth={"md"} sx={{ mt: 2 }}>
-        <Stack spacing={2}>
-          <Typography>Nothing here.... yet</Typography>
+        <Stack spacing={4}>
+          <DataSettingsComponent />
+          <MSLComponent />
         </Stack>
       </Container>
     </Box>
@@ -60,10 +62,10 @@ const BreadcrumbsComponent: React.FC = () => {
         sx={{ display: "flex", alignItems: "center" }}
         color="text.primary"
       >
-        Settings
+        Data Management
       </Typography>
     </Breadcrumbs>
   );
 };
 
-export default withAuth(SettingsPage);
+export default withAuth(DataManagementPage);

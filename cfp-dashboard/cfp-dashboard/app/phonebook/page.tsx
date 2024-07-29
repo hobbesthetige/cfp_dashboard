@@ -1,6 +1,13 @@
 "use client";
 
-import { Box, Breadcrumbs, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Container,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import {
   PhoneBook,
@@ -123,37 +130,39 @@ const PhoneBookComponent: React.FC = () => {
   return (
     <Box>
       <BreadcrumbsComponent />
-      <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h4">Phonebook</Typography>
-        {phoneBook && phoneBook.entries.length > 0 && (
-          <Button onClick={handleAddClick}>Add Entry</Button>
-        )}
-      </Stack>
-      <Box sx={{ mt: 2 }}>
-        {phoneBook && phoneBook.entries.length === 0 && (
-          <NoEntriesComponent handleAddClick={handleAddClick} />
-        )}
-        {phoneBook && phoneBook.entries.length > 0 && (
-          <PhoneBookEntriesList phonebook={phoneBook} onEdit={onEditEntry} />
-        )}
-        {phoneBook && phoneBook.entries.length > 0 && (
-          <Box sx={{ mt: 4 }}>
-            <Button onClick={handleInstructionsClick}>
-              Setup dialing instructions
-            </Button>
-            {isInstructionsOpen && (
-              <PhoneBookInstructionsDialog
-                open={isInstructionsOpen}
-                onClose={() => setIsInstructionsOpen(false)}
-                onAddInstruction={onAddInstruction}
-                onEditInstruction={onEditInstruction}
-                onRemoveInstruction={onRemoveInstruction}
-                instructions={phoneBook.instructions}
-              />
-            )}
-          </Box>
-        )}
-      </Box>
+      <Container maxWidth="md">
+        <Stack direction="row" justifyContent="space-between">
+          <Typography variant="h4">Phonebook</Typography>
+          {phoneBook && phoneBook.entries.length > 0 && (
+            <Button onClick={handleAddClick}>Add Entry</Button>
+          )}
+        </Stack>
+        <Box sx={{ mt: 2 }}>
+          {phoneBook && phoneBook.entries.length === 0 && (
+            <NoEntriesComponent handleAddClick={handleAddClick} />
+          )}
+          {phoneBook && phoneBook.entries.length > 0 && (
+            <PhoneBookEntriesList phonebook={phoneBook} onEdit={onEditEntry} />
+          )}
+          {phoneBook && phoneBook.entries.length > 0 && (
+            <Box sx={{ mt: 4 }}>
+              <Button onClick={handleInstructionsClick}>
+                Setup dialing instructions
+              </Button>
+              {isInstructionsOpen && (
+                <PhoneBookInstructionsDialog
+                  open={isInstructionsOpen}
+                  onClose={() => setIsInstructionsOpen(false)}
+                  onAddInstruction={onAddInstruction}
+                  onEditInstruction={onEditInstruction}
+                  onRemoveInstruction={onRemoveInstruction}
+                  instructions={phoneBook.instructions}
+                />
+              )}
+            </Box>
+          )}
+        </Box>
+      </Container>
       <AddPhonebookEntryDialog
         open={isAddOpen}
         onClose={() => setIsAddOpen(false)}

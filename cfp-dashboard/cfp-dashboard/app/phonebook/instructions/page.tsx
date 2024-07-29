@@ -5,6 +5,7 @@ import {
   Breadcrumbs,
   Button,
   Card,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -94,27 +95,30 @@ const PhoneBookInstructionsComponent: React.FC = () => {
   return (
     <Box>
       <BreadcrumbsComponent />
-      <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h4">Dialing Instructions</Typography>
-        {phoneBook && phoneBook.instructions.length > 0 && (
-          <Button onClick={handleAddClick}>Add Instruction Set</Button>
-        )}
-      </Stack>
-      <Stack direction="column">
-        {(!phoneBook || phoneBook.instructions.length === 0) && !isAddOpen && (
-          <NoInstrutionsComponent handleAddClick={handleAddClick} />
-        )}
-        {((phoneBook && phoneBook.instructions.length > 0) || isAddOpen) && (
-          <InstructionsComponent
-            instructions={phoneBook?.instructions || []}
-            onRemoveInstruction={onRemoveInstruction}
-            onEditInstruction={onEditInstruction}
-            onAddInstruction={onAddInstruction}
-            isAddOpen={isAddOpen}
-            setIsAddOpen={setIsAddOpen}
-          />
-        )}
-      </Stack>
+      <Container maxWidth="md">
+        <Stack direction="row" justifyContent="space-between">
+          <Typography variant="h4">Dialing Instructions</Typography>
+          {phoneBook && phoneBook.instructions.length > 0 && (
+            <Button onClick={handleAddClick}>Add Instruction Set</Button>
+          )}
+        </Stack>
+        <Stack direction="column">
+          {(!phoneBook || phoneBook.instructions.length === 0) &&
+            !isAddOpen && (
+              <NoInstrutionsComponent handleAddClick={handleAddClick} />
+            )}
+          {((phoneBook && phoneBook.instructions.length > 0) || isAddOpen) && (
+            <InstructionsComponent
+              instructions={phoneBook?.instructions || []}
+              onRemoveInstruction={onRemoveInstruction}
+              onEditInstruction={onEditInstruction}
+              onAddInstruction={onAddInstruction}
+              isAddOpen={isAddOpen}
+              setIsAddOpen={setIsAddOpen}
+            />
+          )}
+        </Stack>
+      </Container>
     </Box>
   );
 };

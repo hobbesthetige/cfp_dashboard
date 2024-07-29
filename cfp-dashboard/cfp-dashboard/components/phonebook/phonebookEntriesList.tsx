@@ -9,6 +9,8 @@ import {
   Paper,
   IconButton,
   ListItemButton,
+  Box,
+  Link,
 } from "@mui/material";
 import {
   PhoneBook,
@@ -91,18 +93,19 @@ const PhoneBookEntriesList: React.FC<{
                   {entry.phoneNumbers
                     .filter((phoneNumber) => phoneNumber.type === phoneType)
                     .map((phoneNumber, phoneNumberIndex) => (
-                      <div key={phoneNumberIndex}>
-                        <ListItemButton
-                          onClick={() =>
-                            showDialingInstructions(entry, phoneNumber)
-                          }
-                        >
+                      <Link
+                        key={phoneNumberIndex}
+                        onClick={() =>
+                          showDialingInstructions(entry, phoneNumber)
+                        }
+                      >
+                        <Box sx={{ verticalAlign: "top" }}>
                           <PhoneNumberDisplay
                             type={phoneNumber.type}
                             value={phoneNumber.number}
                           />
-                        </ListItemButton>
-                      </div>
+                        </Box>
+                      </Link>
                     ))}
                 </TableCell>
               ))}

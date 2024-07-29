@@ -14,6 +14,7 @@ import { setupSockets } from "./sockets/socketNamespaces.mjs";
 import equipmentGroupRoutes from "./routes/equipmentGroups.mjs";
 import equipmentRoutes from "./routes/equipment.mjs";
 import phonebookRoutes from "./routes/phonebook.mjs";
+import eventRoutes from "./routes/events.mjs";
 import exportRoutes from "./routes/export.mjs";
 
 const app = express();
@@ -48,6 +49,7 @@ setupSockets(io);
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api", eventRoutes);
 app.use("/api", pacePlanRoutes);
 app.use("/api", equipmentRoutes);
 app.use("/api", equipmentGroupRoutes);

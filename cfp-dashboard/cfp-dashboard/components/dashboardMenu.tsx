@@ -22,9 +22,11 @@ import {
   ContactsOutlined,
   Dashboard,
   DashboardOutlined,
+  HomeRepairServiceOutlined,
   Inventory,
   InventoryOutlined,
   SettingsOutlined,
+  SourceOutlined,
 } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import FPCONDialog from "./fpcon/FPCONDialog";
@@ -107,11 +109,19 @@ const DashboardMenu: React.FC<{
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton component="a" href="#simple-list">
+                <ListItemButton onClick={() => handlePath("/data-management")}>
                   <ListItemIcon>
-                    <CalendarMonthOutlined />
+                    <SourceOutlined />
                   </ListItemIcon>
-                  <ListItemText primary="Julian Calendar" />
+                  <ListItemText primary="Data Management" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => handlePath("/utils")}>
+                  <ListItemIcon>
+                    <HomeRepairServiceOutlined />
+                  </ListItemIcon>
+                  <ListItemText primary="Utilities" />
                 </ListItemButton>
               </ListItem>
             </List>

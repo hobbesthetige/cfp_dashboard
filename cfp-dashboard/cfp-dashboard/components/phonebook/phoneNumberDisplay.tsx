@@ -35,7 +35,11 @@ const PhoneNumberDisplay: React.FC<PhoneNumberDisplayProps> = ({
     }
   }, [value, type]);
 
-  return <Typography>{phoneString && phoneString}</Typography>;
+  return (
+    <Typography sx={{ fontSize: "inherit" }}>
+      {phoneString && phoneString}
+    </Typography>
+  );
 };
 
 export default PhoneNumberDisplay;
