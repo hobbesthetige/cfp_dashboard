@@ -7,6 +7,8 @@ import {
   IconButton,
   Typography,
   Stack,
+  Container,
+  Card,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import AddEquipmentGroupDialog from "./equipmentGroup/addEquipmentGroupDialog";
@@ -123,31 +125,35 @@ const EquipmentList: React.FC = () => {
           </IconButton>
         </Stack>
       </Stack>
-      {equipmentGroups.length > 0 ? (
-        <TableContainer>
-          <Table aria-label="collapsible table">
-            <TableBody>
-              {equipmentGroups.map((row) => (
-                <EquipmentGroupRow
-                  key={row.id}
-                  row={row}
-                  open={!!openRows[row.id]}
-                  onToggle={() => handleToggleRow(row.id)}
-                  handleEditEquipmentGroup={handleEditEquipmentGroup}
-                  handleDeleteEquipmentGroup={handleDeleteEquipmentGroup}
-                  handleAddEquipmentItem={handleAddEquipmentItem}
-                  handleEditEquipmentItem={handleEditEquipmentItem}
-                  handleDeleteEquipmentItem={handleDeleteEquipmentItem}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      ) : (
-        <Box textAlign="center" sx={{ m: 2 }}>
-          <Typography component="div">No equipment added</Typography>
-        </Box>
-      )}
+      <Container maxWidth="md">
+        <Card sx={{ m: 4 }}>
+          {equipmentGroups.length > 0 ? (
+            <TableContainer>
+              <Table aria-label="collapsible table">
+                <TableBody>
+                  {equipmentGroups.map((row) => (
+                    <EquipmentGroupRow
+                      key={row.id}
+                      row={row}
+                      open={!!openRows[row.id]}
+                      onToggle={() => handleToggleRow(row.id)}
+                      handleEditEquipmentGroup={handleEditEquipmentGroup}
+                      handleDeleteEquipmentGroup={handleDeleteEquipmentGroup}
+                      handleAddEquipmentItem={handleAddEquipmentItem}
+                      handleEditEquipmentItem={handleEditEquipmentItem}
+                      handleDeleteEquipmentItem={handleDeleteEquipmentItem}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <Box textAlign="center" sx={{ m: 2 }}>
+              <Typography component="div">No equipment added</Typography>
+            </Box>
+          )}
+        </Card>
+      </Container>
       <AddEquipmentGroupDialog
         open={addOpen}
         onClose={() => setAddOpen(false)}
