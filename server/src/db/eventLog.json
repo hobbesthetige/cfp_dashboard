@@ -1,0 +1,45 @@
+[
+  {
+    "id": "2024-07-28T18:35:12.672Z",
+    "category": "CFP",
+    "title": "Power Online",
+    "message": "",
+    "isUserGenerated": true,
+    "author": "User",
+    "timestamp": "2024-07-28T14:34",
+    "level": "Info",
+    "lastUpdated": "2024-07-28T18:35:12.672Z"
+  },
+  {
+    "id": "2024-07-28T18:34:56.882Z",
+    "category": "CFP",
+    "title": "Safety Brief",
+    "message": "",
+    "isUserGenerated": true,
+    "author": "User",
+    "timestamp": "2024-07-28T14:34",
+    "level": "Info",
+    "lastUpdated": "2024-07-28T18:34:56.882Z"
+  },
+  {
+    "id": "2024-07-28T18:34:43.528Z",
+    "category": "CFP",
+    "title": "Personnel Onstation",
+    "message": "",
+    "isUserGenerated": true,
+    "author": "User",
+    "timestamp": "2024-07-28T14:34",
+    "level": "Info",
+    "lastUpdated": "2024-07-28T18:34:43.528Z"
+  },
+  {
+    "id": "1",
+    "category": "CFP",
+    "message": "System started",
+    "isUserGenerated": false,
+    "author": "System",
+    "level": "Info",
+    "timestamp": "2024-07-23T21:25:13.541Z",
+    "lastUpdated": "2024-07-23T21:25:13.541Z"
+  }
+]

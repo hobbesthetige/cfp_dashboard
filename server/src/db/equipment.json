@@ -1,0 +1,867 @@
+{
+  "equipmentHistory": [],
+  "equipmentGroups": [
+    {
+      "id": "2024-06-03T20:07:54.353Z",
+      "name": "CFK",
+      "utc": "6KTGS",
+      "equipment": [
+        {
+          "id": "2024-06-03T20:12:48.754Z",
+          "name": "NIPR Stack",
+          "category": "Networking Equipment",
+          "department": "Infrastructure",
+          "quantity": 1,
+          "notes": "",
+          "serialNumber": "",
+          "lastUpdated": "2024-06-03T20:13:01.263Z"
+        },
+        {
+          "id": "2024-06-03T20:12:56.440Z",
+          "name": "SIPR Stack",
+          "category": "Networking Equipment",
+          "department": "Infrastructure",
+          "quantity": 1,
+          "notes": "",
+          "serialNumber": "",
+          "lastUpdated": "2024-06-03T20:12:56.440Z"
+        }
+      ],
+      "jobControlNumbers": [],
+      "created": "2024-06-03T20:07:54.417Z",
+      "services": [
+        {
+          "id": "2024-06-06T01:51:16.479Z",
+          "enclave": "NIPR",
+          "serviceName": "Data",
+          "status": "Online",
+          "isVisible": true,
+          "history": [
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-20T00:08:07.063Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-09T14:36:52.132Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T11:25:27.298Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Degraded",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:09:31.709Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:02:16.131Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T02:02:16.131Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:44:02.337Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:44:02.337Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:44:02.337Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:44:02.337Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:44:02.337Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:36:53.571Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:36:53.571Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:34:45.378Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:34:45.378Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:34:45.378Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:34:45.378Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:26:49.541Z"
+            },
+            {
+              "status": "Intermittent",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:25:57.376Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:09:22.641Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T01:09:22.641Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:57:16.448Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:57:16.448Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:53:35.603Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:53:35.603Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:46:17.187Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:46:17.187Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:43:43.651Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:43:43.651Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-08T00:42:20.309Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T21:19:39.874Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T21:16:33.777Z"
+            },
+            {
+              "status": "Pending",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T21:15:32.794Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T21:13:58.482Z"
+            },
+            {
+              "status": "Degraded Performance",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T21:00:17.219Z"
+            },
+            {
+              "status": "Degraded Performance",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T20:56:48.304Z"
+            },
+            {
+              "status": "Degraded Performance",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T20:56:39.953Z"
+            },
+            {
+              "status": "Degraded Performance",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T20:44:16.866Z"
+            },
+            {
+              "status": "Degraded Performance",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T20:43:55.950Z"
+            },
+            {
+              "status": "Degraded Performance",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T20:26:57.134Z"
+            },
+            {
+              "status": "Degraded Performance",
+              "notes": "Poor ping test",
+              "timestamp": "2024-06-07T02:27:03.039Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Setup completed",
+              "timestamp": "2024-06-07T01:22:57.489Z"
+            },
+            {
+              "status": "Online",
+              "notes": "Setup completed.",
+              "timestamp": "2024-06-07T00:55:13.579Z"
+            },
+            {
+              "status": "In Setup",
+              "notes": "Began setup",
+              "timestamp": "2024-06-07T00:40:32.501Z"
+            },
+            {
+              "status": "Offline",
+              "notes": "Test notes",
+              "timestamp": "2024-06-07T00:36:14.417Z"
+            },
+            {
+              "status": "In Setup",
+              "notes": "Test",
+              "timestamp": "2024-06-07T00:14:48.637Z"
+            },
+            {
+              "status": "Partially Online",
+              "notes": "Test",
+              "timestamp": "2024-06-07T00:12:37.657Z"
+            },
+            {
+              "status": "Partially Online",
+              "notes": "Test",
+              "timestamp": "2024-06-07T00:08:02.737Z"
+            },
+            {
+              "status": "Partially Online",
+              "timestamp": "2024-06-07T00:06:35.677Z"
+            },
+            {
+              "status": "Offline",
+              "timestamp": "2024-06-06T01:51:16.479Z"
+            }
+          ],
+          "lastUpdated": "2024-06-20T00:08:07.063Z",
+          "statusColor": "success",
+          "notes": "Poor ping test",
+          "pingPong": {
+            "isActive": true,
+            "hostname": "google.com",
+            "interval": 5000,
+            "timeout": 14400000,
+            "isAutomaticStatusChange": true
+          }
+        },
+        {
+          "id": "2024-06-06T01:51:32.444Z",
+          "enclave": "NIPR",
+          "serviceName": "Voice",
+          "status": "In Setup",
+          "isVisible": true,
+          "history": [
+            {
+              "status": "Offline",
+              "timestamp": "2024-06-06T01:51:32.444Z"
+            }
+          ],
+          "lastUpdated": "2024-06-20T00:07:47.938Z",
+          "statusColor": "info"
+        }
+      ]
+    },
+    {
+      "id": "2024-06-03T20:11:41.218Z",
+      "name": "SCP",
+      "utc": "6KTFS",
+      "jobControlNumbers": [
+        {
+          "number": "1234565",
+          "type": "Installation",
+          "timestamp": "2024-06-03T20:11:23.578Z"
+        }
+      ],
+      "created": "2024-06-03T20:11:41.207Z",
+      "equipment": [],
+      "services": [
+        {
+          "id": "2024-06-07T02:30:37.152Z",
+          "enclave": "NIPR",
+          "serviceName": "Call Server",
+          "status": "Degraded Performance",
+          "isVisible": true,
+          "history": [
+            {
+              "status": "Offline",
+              "timestamp": "2024-06-07T02:30:37.152Z"
+            }
+          ],
+          "lastUpdated": "2024-06-20T00:07:55.956Z",
+          "statusColor": "warning"
+        },
+        {
+          "id": "2024-06-07T02:29:47.235Z",
+          "enclave": "NIPR",
+          "serviceName": "Data",
+          "status": "Offline",
+          "isVisible": true,
+          "history": [],
+          "lastUpdated": "2024-06-07T02:29:47.235Z"
+        },
+        {
+          "id": "2024-06-07T02:30:28.176Z",
+          "enclave": "NIPR",
+          "serviceName": "Firewall",
+          "status": "Offline",
+          "isVisible": true,
+          "history": [],
+          "lastUpdated": "2024-06-07T02:30:28.176Z"
+        },
+        {
+          "id": "2024-06-07T02:30:16.281Z",
+          "enclave": "NIPR",
+          "serviceName": "Voice",
+          "status": "Online",
+          "isVisible": true,
+          "history": [
+            {
+              "status": "Offline",
+              "timestamp": "2024-06-07T02:30:16.281Z"
+            }
+          ],
+          "lastUpdated": "2024-06-07T02:31:26.105Z",
+          "statusColor": "success"
+        }
+      ]
+    }
+  ]
+}

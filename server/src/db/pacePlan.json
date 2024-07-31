@@ -1,0 +1,25 @@
+{
+  "P": {
+    "title": "Primary",
+    "equipmentName": "CFK",
+    "equipmentGroupID": "2024-06-03T20:07:54.353Z"
+  },
+  "A": {
+    "equipmentName": "SCP",
+    "title": "Primary",
+    "equipmentGroupID": "2024-06-03T20:11:41.218Z"
+  },
+  "C": {
+    "equipmentName": "",
+    "title": "Primary"
+  },
+  "E": {
+    "equipmentName": "",
+    "title": "Primary"
+  },
+  "activePlans": [
+    "",
+    "P"
+  ],
+  "lastUpdated": "2024-06-08T23:43:59.009Z"
+}

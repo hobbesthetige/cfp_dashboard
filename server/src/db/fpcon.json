@@ -1,0 +1,10 @@
+{
+  "currentState": {
+    "id": "1",
+    "name": "Normal",
+    "color": "success",
+    "description": "Applies when a general global threat of possible terrorist threat activity exists and warrants a routine security posture."
+  },
+  "lastUpdated": "2024-06-12T20:55:47.603Z",
+  "history": []
+}

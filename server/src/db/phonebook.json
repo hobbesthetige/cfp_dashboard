@@ -1,0 +1,68 @@
+{
+  "entries": [
+    {
+      "id": "Sat, 13 Jul 2024 12:03:33 GMT",
+      "name": "Daniel Meachum",
+      "phoneNumbers": [
+        {
+          "type": "DSN",
+          "number": "+13124842478"
+        },
+        {
+          "type": "Commercial",
+          "number": "+17042727791"
+        }
+      ],
+      "email": "daniel.meachum@gmail.com",
+      "location": "Building 73"
+    },
+    {
+      "id": "Sat, 13 Jul 2024 12:06:39 GMT",
+      "name": "Glenn Meachum",
+      "phoneNumbers": [
+        {
+          "type": "Commercial",
+          "number": "+17042727791"
+        },
+        {
+          "type": "Commercial",
+          "number": "+17042736519"
+        }
+      ],
+      "email": "daniel.meachum@gmail.com",
+      "location": "Building 73"
+    }
+  ],
+  "instructions": [
+    {
+      "id": "Thu, 18 Jul 2024 18:58:56 GMT",
+      "fromNumberType": "DSN",
+      "toNumberType": "Commercial",
+      "instruction": "* Dial 9\n* Dial <#Full-Number#>"
+    },
+    {
+      "id": "Thu, 18 Jul 2024 17:31:54 GMT",
+      "fromNumberType": "DSN",
+      "toNumberType": "XComm NIPR",
+      "instruction": "1. Dial <#International-Number#>"
+    },
+    {
+      "id": "Thu, 18 Jul 2024 16:54:24 GMT",
+      "fromNumberType": "Commercial",
+      "toNumberType": "XComm NIPR",
+      "instruction": "1. Dial 9\n2. Dial <#Local-Number#>"
+    },
+    {
+      "id": "Thu, 18 Jul 2024 16:58:38 GMT",
+      "fromNumberType": "Commercial",
+      "toNumberType": "Commercial",
+      "instruction": "Dial <#Full-Number#>"
+    },
+    {
+      "id": "Thu, 18 Jul 2024 17:28:38 GMT",
+      "fromNumberType": "DSN",
+      "toNumberType": "DSN",
+      "instruction": "1. <#Area-Code#>\n2. Dial # + <#Area-Code#> <#Last-Four#><#Local-Number#><#International#>"
+    }
+  ]
+}
