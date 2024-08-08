@@ -34,7 +34,7 @@ export interface EventLog {
 }
 
 export default function EventList() {
-  const { eventsSocket, isEventsSocketConnected } = useEventsSocket();
+  const { eventsSocket } = useEventsSocket();
   const [events, setEvents] = useState<EventLog[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventLog | null>(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -126,11 +126,6 @@ export default function EventList() {
     handleCloseAddDialog();
   };
 
-  const handleEventItems = useCallback((eventItems: EventLog[]) => {
-    console.log("Received updated event items:", eventItems);
-    setEvents(eventItems);
-  }, []);
-
   const handleUpdateEventItem = useCallback((event: EventLog) => {
     setEvents((prevEvents) =>
       prevEvents
@@ -154,25 +149,18 @@ export default function EventList() {
 
   useEffect(() => {
     if (eventsSocket) {
-      eventsSocket.on("eventItems", handleEventItems);
+      eventsSocket.on("eventItems", (eventItems) => setEvents(eventItems));
       eventsSocket.on("newEventItem", addEvent);
       eventsSocket.on("updateEventItem", handleUpdateEventItem);
       eventsSocket.on("deleteEventItem", deleteEvent);
       return () => {
-        eventsSocket.off("eventItems", handleEventItems);
+        eventsSocket.off("eventItems", (eventItems) => setEvents(eventItems));
         eventsSocket.off("newEventItem", addEvent);
         eventsSocket.off("updateEventItem", handleUpdateEventItem);
         eventsSocket.off("deleteEventItem", deleteEvent);
       };
     }
-  }, [
-    eventsSocket,
-    isEventsSocketConnected,
-    handleEventItems,
-    addEvent,
-    handleUpdateEventItem,
-    deleteEvent,
-  ]);
+  }, [eventsSocket, addEvent, handleUpdateEventItem, deleteEvent]);
 
   const filteredEventsCount = filteredEvents.length;
   const eventsLabel =

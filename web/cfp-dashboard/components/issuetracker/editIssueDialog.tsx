@@ -171,7 +171,7 @@ const AddIssueDialog: React.FC<EditIssueDialogProps> = ({
                 ...prevIssue.notes,
                 {
                   note: note,
-                  author: "admin",
+                  author: "User",
                   timestamp: new Date().toISOString(),
                 },
               ],

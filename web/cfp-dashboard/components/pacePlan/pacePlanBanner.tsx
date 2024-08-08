@@ -150,8 +150,8 @@ const PacePlanBanner = () => {
       category,
       title,
       message: message || "",
-      author: "System",
-      isUserGenerated: false,
+      author: "User",
+      isUserGenerated: true,
       timestamp: new Date().toISOString(),
     });
   }

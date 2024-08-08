@@ -31,6 +31,7 @@ let fpconNamespace;
 let personnelLocationsNamespace;
 let scratchpadNamespace;
 let issuesNamespace;
+let pdfNamespace;
 
 export function setupSockets(io) {
   pacePlanNamespace = io.of("/pacePlan");
@@ -41,6 +42,7 @@ export function setupSockets(io) {
   personnelLocationsNamespace = io.of("/personnelLocations");
   scratchpadNamespace = io.of("/scratchpad");
   issuesNamespace = io.of("/issues");
+  pdfNamespace = io.of("/pdf");
 
   io.on("connection", (socket) => {
     console.log("New client connected");
@@ -249,4 +251,8 @@ export function getPersonnelLocationsNamespace() {
 
 export function getScratchpadNamespace() {
   return scratchpadNamespace;
+}
+
+export function getPDFNamespace() {
+  return pdfNamespace;
 }

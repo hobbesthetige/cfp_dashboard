@@ -178,7 +178,7 @@ const EditStatusDialog: React.FC<EditStatusDialogProps> = ({
       title,
       message,
       author: "System",
-      isUserGenerated: true,
+      isUserGenerated: false,
       timestamp: new Date().toISOString(),
     });
   }

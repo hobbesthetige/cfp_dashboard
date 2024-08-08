@@ -10,16 +10,16 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import useAxios from "@/contexts/useAxios";
 import { EventLogLevel } from "@/components/events/eventsList";
 import { getEnumValues } from "@/app/utilities/getEnumValues";
-import axios from "axios";
+import { useSocket } from "@/contexts/socketContext";
 
 interface MSLSettings {
-  useZuluTime: boolean;
-  separatePagesByDate: boolean;
+  includeSystemEvents: boolean;
+  includeLogLevel: boolean;
   logLevels: EventLogLevel[];
   categories: string[];
 }
@@ -35,6 +35,11 @@ const allLogLevels: EventLogLevel[] = getEnumValues(EventLogLevel);
 const MSLComponent: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [documentId, setDocumentId] = useState<string | null>(null);
+  const [documentStatus, setDocumentStatus] = useState<string | null>(null);
+
+  const axios = useAxios();
+  const { isConnected, socket } = useSocket();
 
   const beginExport = () => {
     setIsLoading(true);
@@ -58,11 +63,10 @@ const MSLComponent: React.FC = () => {
   const handleExport = async (settings: MSLSettings) => {
     beginExport();
     try {
-      const response = await axios.post("/events/exportMSL", settings, {
-        responseType: "arraybuffer",
-      });
-      const blob = new Blob([response.data], { type: "application/gzip" });
-      downloadFile(blob, "cfp-export-msl.pdf");
+      const resp = await axios.post("/makeMSL", settings);
+      const { id, status } = resp.data;
+      setDocumentId(id);
+      setDocumentStatus(status);
     } catch (error: any) {
       console.error("Error exporting data:", error);
       setErrorMessage(error.message);
@@ -70,6 +74,61 @@ const MSLComponent: React.FC = () => {
       endExport();
     }
   };
+
+  const handleDownload = useCallback(async () => {
+    if (!documentId) {
+      return;
+    }
+
+    try {
+      const resp = await axios.get(`/generatedPdfs/${documentId}/download`, {
+        responseType: "blob",
+      });
+      console.log("Downloaded file:", resp);
+      downloadFile(resp.data, `MSL_${documentId}.pdf`);
+    } catch (error: any) {
+      console.error("Error downloading file:", error);
+      setErrorMessage(error.message);
+    } finally {
+      setDocumentId(null);
+      setIsLoading(false);
+    }
+  }, [documentId, axios]);
+
+  useEffect(() => {
+    if (!documentId || !socket) {
+      return;
+    }
+
+    socket.on("pdfGenerationStarted", (docId: string) => {
+      if (docId === documentId) {
+        setDocumentStatus("Generating PDF...");
+      }
+    });
+
+    socket.on("pdfGenerationComplete", (docId: string) => {
+      console.log("Generating file complete:", docId);
+      if (docId === documentId) {
+        setDocumentStatus("Complete");
+        handleDownload();
+      }
+    });
+
+    socket.on("pdfGenerationError", (data: { id: string; error: string }) => {
+      if (data.id === documentId) {
+        setDocumentStatus("Error");
+        setErrorMessage(data.error);
+        setDocumentId(null);
+        setIsLoading(false);
+      }
+    });
+
+    return () => {
+      socket.off("pdfGenerationStarted");
+      socket.off("pdfGenerationComplete");
+      socket.off("pdfGenerationError");
+    };
+  }, [documentId, socket, handleDownload]);
 
   return (
     <Card sx={{ p: 4 }}>
@@ -89,8 +148,8 @@ const SettingsComponent: React.FC<{
   const axios = useAxios();
 
   const [settings, setSettings] = useState<MSLSettings>({
-    useZuluTime: true,
-    separatePagesByDate: false,
+    includeSystemEvents: true,
+    includeLogLevel: false,
     logLevels: allLogLevels,
     categories: [],
   });
@@ -206,24 +265,24 @@ const SettingsComponent: React.FC<{
         <FormControlLabel
           control={
             <Switch
-              name="useZuluTime"
-              checked={settings.useZuluTime}
+              name="includeSystemEvents"
+              checked={settings.includeSystemEvents}
               onChange={handleCheckboxChange}
             />
           }
-          label="Use Zulu Time"
+          label="Show system generated events"
         />
       </FormGroup>
       <FormGroup>
         <FormControlLabel
           control={
             <Switch
-              name="separatePagesByDate"
-              checked={settings.separatePagesByDate}
+              name="includeLogLevel"
+              checked={settings.includeLogLevel}
               onChange={handleCheckboxChange}
             />
           }
-          label="Separate Pages by Date"
+          label="Show log levels in event description"
         />
       </FormGroup>
       <Stack direction="row" spacing={2}>

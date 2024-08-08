@@ -19,6 +19,7 @@ import { useFPCON } from "@/contexts/fpconProvider";
 import { useTheme } from "@emotion/react";
 import { useEventsSocket } from "@/contexts/eventsSocketContext";
 import { EventLogLevel } from "../events/eventsList";
+import { emit } from "process";
 
 interface FpconSelectProps {}
 
@@ -62,28 +63,28 @@ const FpconSelect: React.FC<FpconSelectProps> = ({}) => {
         ? EventLogLevel.Info
         : EventLogLevel.Alert;
 
+      const emitEventItem = (
+        level: EventLogLevel,
+        category: string,
+        title: string,
+        message: string | undefined
+      ) => {
+        eventsSocket?.emit("newEventItem", {
+          id: new Date().toISOString(),
+          level,
+          category,
+          title,
+          message: message || "",
+          author: "System",
+          isUserGenerated: false,
+          timestamp: new Date().toISOString(),
+        });
+      };
+
       emitEventItem(level, "FPCON", title, message);
     },
-    [emitEventItem]
+    [eventsSocket]
   );
-
-  function emitEventItem(
-    level: EventLogLevel,
-    category: string,
-    title: string,
-    message: string | undefined
-  ) {
-    eventsSocket?.emit("newEventItem", {
-      id: new Date().toISOString(),
-      level,
-      category,
-      title,
-      message: message || "",
-      author: "System",
-      isUserGenerated: false,
-      timestamp: new Date().toISOString(),
-    });
-  }
 
   useEffect(() => {
     handleSocketEvent(fpconState);

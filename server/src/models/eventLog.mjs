@@ -34,6 +34,27 @@ async function getEventLogs() {
   return await collection.find({}).sort({ timestamp: -1 }).toArray();
 }
 
+async function getFilteredEventLogs(
+  start,
+  end,
+  categories,
+  logLevels,
+  includeSystemEvents,
+  sort
+) {
+  const collection = await getEventLogCollection();
+  return await collection
+    .find({
+      ...(start && { timestamp: { $gte: start } }),
+      ...(end && { timestamp: { $lt: end } }),
+      ...(categories && { category: { $in: categories } }),
+      ...(logLevels && { level: { $in: logLevels } }),
+      ...(includeSystemEvents === false && { isUserGenerated: true }),
+    })
+    .sort({ timestamp: sort || -1 })
+    .toArray();
+}
+
 async function updateEventLog(id, updateData) {
   const { _id: _, ...updateFields } = updateData; // Exclude the `_id` field from `updateData`
   const collection = await getEventLogCollection();
@@ -45,4 +66,11 @@ async function deleteEventLog(id) {
   await collection.deleteOne({ id: id });
 }
 
-export { resetData, addEventLog, getEventLogs, updateEventLog, deleteEventLog };
+export {
+  resetData,
+  addEventLog,
+  getEventLogs,
+  getFilteredEventLogs,
+  updateEventLog,
+  deleteEventLog,
+};

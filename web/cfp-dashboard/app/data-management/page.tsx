@@ -20,6 +20,7 @@ import { NavigateNext } from "@mui/icons-material";
 import useAxios from "@/contexts/useAxios";
 import DataSettingsComponent from "./components/dataSettingsComponent";
 import MSLComponent from "./components/mslComponent";
+import { SocketProvider } from "@/contexts/socketContext";
 
 const DataManagementPage: React.FC = () => {
   const { setTitle } = useTitle();
@@ -36,7 +37,9 @@ const DataManagementPage: React.FC = () => {
       <Container maxWidth={"md"} sx={{ mt: 2 }}>
         <Stack spacing={4}>
           <DataSettingsComponent />
-          <MSLComponent />
+          <SocketProvider namespace="pdf">
+            <MSLComponent />
+          </SocketProvider>
         </Stack>
       </Container>
     </Box>
