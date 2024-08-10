@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import CustomPDFDocument from "./CustomPDFDocument.mjs";
+import CustomPDFDocument from "./customPDFDocument.mjs";
 import { getFilteredEventLogs } from "../../models/eventLog.mjs";
 import { getPDFNamespace } from "../../sockets/socketNamespaces.mjs";
 import { updateGeneratedPdf } from "../../models/generatedPdfs.mjs";

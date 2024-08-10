@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   server:
     build:
@@ -7,6 +7,8 @@ services:
       - "3001:3001"
     environment:
       - NODE_ENV=production
+    networks:
+      - cfp-network
 
   web:
     build:
@@ -17,6 +19,9 @@ services:
       - NODE_ENV=production
     depends_on:
       - server
+      - ansible
+    networks:
+      - cfp-network
 
   mongo:
     image: mongo:latest
@@ -24,6 +29,26 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    networks:
+      - cfp-network
+
+  ansible:
+    build:
+      context: ./ansible
+    volumes:
+      - ./ansible/playbooks:/etc/ansible/playbooks
+      - ./ansible/inventory:/etc/ansible/inventory
+      - ./ansible/roles:/etc/ansible/roles
+    environment:
+      - ANSIBLE_HOST_KEY_CHECKING=False
+    ports:
+      - "5001:5001"
+    networks:
+      - cfp-network
 
 volumes:
   mongo-data:
+
+networks:
+  cfp-network:
+    driver: bridge

@@ -1,0 +1,40 @@
+# ansible/Dockerfile
+FROM ubuntu:20.04
+
+# Install dependencies
+RUN apt-get update && \
+  apt-get install -y software-properties-common && \
+  apt-add-repository --yes --update ppa:ansible/ansible && \
+  apt-get install -y ansible python3-pip sshpass netcat
+
+# Install packages
+RUN pip3 install paramiko ansible[network] netmiko
+
+# Install Flask
+RUN pip3 install flask flask_cors
+
+# Create a directory for Ansible playbooks
+RUN mkdir -p /etc/ansible/playbooks
+
+# Create the directory for results
+RUN mkdir -p /etc/ansible/results
+
+# Set the working directory
+WORKDIR /etc/ansible/playbooks
+
+# Copy the Ansible configuration file
+COPY ansible.cfg /etc/ansible/
+
+# Copy the playbooks
+COPY playbooks /etc/ansible/playbooks
+COPY inventory /etc/ansible/inventory
+COPY roles /etc/ansible/roles
+COPY /scripts /etc/ansible/scripts
+COPY app.py /etc/ansible/
+
+
+# Expose port for REST API (if needed)
+EXPOSE 5001
+
+# Run Flask app
+CMD ["python3", "/etc/ansible/app.py"]

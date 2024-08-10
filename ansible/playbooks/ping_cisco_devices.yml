@@ -1,0 +1,5 @@
+- name: Ping Cisco devices
+  hosts: cisco_devices
+  gather_facts: false
+  roles:
+    - ping_cisco_devices

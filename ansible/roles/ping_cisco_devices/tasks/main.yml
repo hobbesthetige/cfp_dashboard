@@ -1,0 +1,8 @@
+- name: Ping device
+  ios_ping:
+    dest: "{{ inventory_hostname }}"
+  register: ping_result
+
+- name: Show ping result
+  debug:
+    var: ping_result

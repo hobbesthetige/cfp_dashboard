@@ -1,0 +1,8 @@
+---
+- name: Ping device
+  ping:
+  register: ping_result
+
+- name: Show ping result
+  debug:
+    var: ping_result

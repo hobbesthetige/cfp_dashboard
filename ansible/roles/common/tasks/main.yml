@@ -1,0 +1,4 @@
+- name: Ensure a file exists
+  copy:
+    src: some_file.txt
+    dest: /tmp/some_file.txt

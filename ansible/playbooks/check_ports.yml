@@ -1,0 +1,47 @@
+---
+- name: Check ports on Docker services
+  hosts: docker
+  gather_facts: false
+  tasks:
+    - name: Initialize variables
+      set_fact:
+        open_ports: []
+        closed_ports: []
+
+    - name: Check if ports are open
+      ansible.builtin.wait_for:
+        host: "{{ ansible_host }}"
+        port: "{{ item }}"
+        timeout: 1
+      with_items: "{{ ports_to_check }}"
+      ignore_errors: true
+      register: port_check
+
+    - name: Collect open ports
+      set_fact:
+        open_ports: "{{ open_ports + [{'host': ansible_host, 'port': item.item, 'status': 'open'}] }}"
+      when: item.elapsed < 1
+      with_items: "{{ port_check.results }}"
+
+    - name: Collect closed or timed-out ports
+      set_fact:
+        closed_ports: "{{ closed_ports + [{'host': ansible_host, 'port': item.item, 'status': 'closed'}] }}"
+      when: item.elapsed >= 1
+      with_items: "{{ port_check.results }}"
+
+- name: Combine results from all hosts
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Combine open and closed ports
+      set_fact:
+        all_ports: "{{ hostvars | dict2items | selectattr('value.open_ports', 'defined') | map(attribute='value.open_ports') | list | flatten + hostvars | dict2items | selectattr('value.closed_ports', 'defined') | map(attribute='value.closed_ports') | list | flatten }}"
+
+    - name: Convert results to JSON
+      set_fact:
+        port_check_json: "{{ all_ports | to_json }}"
+
+    - name: Write JSON output to file
+      copy:
+        content: "{{ port_check_json }}"
+        dest: "../results/check_ports_results.json"

@@ -17,6 +17,7 @@ import phonebookRoutes from "./routes/phonebook.mjs";
 import eventRoutes from "./routes/events.mjs";
 import exportRoutes from "./routes/export.mjs";
 import pdfRoutes from "./routes/generatedPdfs.mjs";
+import deviceBackupRoutes from "./routes/deviceBackup.mjs";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -58,6 +59,7 @@ app.use("/api", personnelRoutes);
 app.use("/api", phonebookRoutes);
 app.use("/api", exportRoutes);
 app.use("/api", pdfRoutes);
+app.use("/api", deviceBackupRoutes);
 
 // Global Error Handler (if you have one)
 app.use((err, res) => {
