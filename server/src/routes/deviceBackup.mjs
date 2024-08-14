@@ -1,4 +1,5 @@
 import { validateRequest } from "../middleware/validateRequest.mjs";
+import express from "express";
 import {
   getDeviceBackups,
   addDeviceBackup,
@@ -51,3 +52,5 @@ router.delete("/deviceBackups/:id", async (req, res) => {
   await deleteDeviceBackup(id);
   res.status(204).end();
 });
+
+export default router;

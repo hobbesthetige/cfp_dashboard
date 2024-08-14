@@ -21,6 +21,7 @@ import {
   AddOutlined,
   Backup,
   Check,
+  CopyAll,
   Delete,
   Edit,
   Error,
@@ -118,6 +119,8 @@ const AnsibleComponent: React.FC = () => {
 
   const BackupConfigs: React.FC = () => {
     interface BackupDevice {
+      id: string;
+      name: string;
       ipaddress: string;
       devicetype: "cisco" | "other";
       username: string;
@@ -128,7 +131,9 @@ const AnsibleComponent: React.FC = () => {
     const defaultPassword = "1qa2ws#ED$RF%TG";
 
     const backupDevice: BackupDevice = {
-      ipaddress: "8.8.8.8",
+      id: "1",
+      name: "Cisco Router",
+      ipaddress: "0.0.0.0",
       devicetype: "cisco",
       username: defaultusername,
       password: defaultPassword,
@@ -138,23 +143,29 @@ const AnsibleComponent: React.FC = () => {
       backupDevice,
     ]);
 
-    const addBackupDevice = () => {
-      setBackupDevices([...backupDevices, backupDevice]);
-      axios.post("/backupDevice", backupDevice);
+    const addBackupDevice = (device: BackupDevice) => {
+      setBackupDevices([...backupDevices, device]);
+      axios.post("/deviceBackup", device);
+      setOpenDialog(false);
     };
 
-    const removeBackupDevice = (index: number) => {
-      const newBackupDevices = [...backupDevices];
-      newBackupDevices.splice(index, 1);
+    const removeBackupDevice = (id: string) => {
+      const newBackupDevices = backupDevices.filter(
+        (device) => device.id !== id
+      );
       setBackupDevices(newBackupDevices);
-      axios.delete(`/backupDevice/${index}`);
+      axios.delete(`/deviceBackups/${id}`);
+      setOpenDialog(false);
     };
 
-    const updateBackupDevice = (index: number) => {
+    const updateBackupDevice = (id: string) => {
       return (device: BackupDevice) => {
-        const newBackupDevices = [...backupDevices];
-        newBackupDevices[index] = device;
+        const newBackupDevices = backupDevices.map((d) =>
+          d.id === id ? device : d
+        );
         setBackupDevices(newBackupDevices);
+        axios.patch(`/deviceBackups/${id}`, device);
+        setOpenDialog(false);
       };
     };
 
@@ -165,7 +176,7 @@ const AnsibleComponent: React.FC = () => {
     useEffect(() => {
       const fetchBackupDevices = async () => {
         try {
-          const response = await axios.get<BackupDevice[]>("/backupDevices");
+          const response = await axios.get<BackupDevice[]>("/deviceBackups");
           setBackupDevices(response.data);
         } catch (error) {
           console.error(error);
@@ -179,8 +190,10 @@ const AnsibleComponent: React.FC = () => {
       onClose: () => void;
       onAdd: (device: BackupDevice) => void;
     }> = ({ open, onClose, onAdd }) => {
-      const [editedDevice, setEditedDevice] =
-        useState<BackupDevice>(backupDevice);
+      const [editedDevice, setEditedDevice] = useState<BackupDevice>({
+        ...backupDevice,
+        id: new Date().toISOString(),
+      });
 
       const handleFormUpdate = (device: BackupDevice) => {
         setEditedDevice(device);
@@ -188,9 +201,19 @@ const AnsibleComponent: React.FC = () => {
 
       return (
         <Dialog open={open} onClose={onClose}>
-          <DialogTitle>Backup Device</DialogTitle>
+          <DialogTitle>Add Backup Device</DialogTitle>
           <DialogContent>
             <Stack spacing={2} direction="column" sx={{ mt: 2 }}>
+              <TextField
+                label="Name"
+                value={editedDevice.name}
+                onChange={(e) =>
+                  handleFormUpdate({
+                    ...editedDevice,
+                    name: e.target.value,
+                  })
+                }
+              />
               <TextField
                 label="IP Address"
                 value={editedDevice.ipaddress}
@@ -263,6 +286,10 @@ const AnsibleComponent: React.FC = () => {
         setShowPassword(!showPassword);
       };
 
+      const copyToClipboard = async (text: string) => {
+        await navigator.clipboard.writeText(text);
+      };
+
       return (
         <Card variant="outlined" sx={{ p: 2 }}>
           <Stack
@@ -275,13 +302,23 @@ const AnsibleComponent: React.FC = () => {
               <Router fontSize="large" color="primary" />
             )}
             <Stack spacing={2} sx={{ flexGrow: 1 }}>
-              <Typography variant="h6">{device.ipaddress}</Typography>
+              <Typography variant="h6">{device.name}</Typography>
+              <Stack alignItems="top" spacing={1} direction="row">
+                <Typography>IP Address: {device.ipaddress}</Typography>
+                <IconButton
+                  onClick={() => copyToClipboard(device.ipaddress)}
+                  //
+                  size="small"
+                >
+                  <CopyAll fontSize="inherit" />
+                </IconButton>
+              </Stack>
               <Typography>Device Type: {device.devicetype}</Typography>
               <Typography>
                 Username: {device.username.substring(0, 2)}••••
               </Typography>
             </Stack>
-            <Stack spacing={1} direction={"row"}>
+            <Stack spacing={1} direction={"row"} alignItems="flex-end">
               <IconButton onClick={handleOpenDialog}>
                 <Edit />
               </IconButton>
@@ -294,6 +331,16 @@ const AnsibleComponent: React.FC = () => {
             <DialogTitle>Backup Device</DialogTitle>
             <DialogContent>
               <Stack spacing={2} direction="column" sx={{ mt: 2 }}>
+                <TextField
+                  label="Name"
+                  value={editedDevice.name}
+                  onChange={(e) =>
+                    handleFormUpdate({
+                      ...editedDevice,
+                      name: e.target.value,
+                    })
+                  }
+                />
                 <TextField
                   label="IP Address"
                   value={editedDevice.ipaddress}
@@ -355,8 +402,8 @@ const AnsibleComponent: React.FC = () => {
           <BackupDeviceItem
             key={index}
             device={device}
-            onDelete={() => removeBackupDevice(index)}
-            onUpdate={updateBackupDevice(index)}
+            onDelete={() => removeBackupDevice(device.id)}
+            onUpdate={updateBackupDevice(device.id)}
           />
         ))}
         <Button>Backup Now</Button>
