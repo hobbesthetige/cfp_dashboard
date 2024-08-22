@@ -40,5 +40,5 @@ WORKDIR /etc/ansible
 # Expose port for REST API (if needed)
 EXPOSE 5001
 
-# Run the Flask app with Gunicorn
-CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5001", "app:app"]
+# Run the Flask app with Gunicorn and auto-reload in dev
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5001", "--reload", "app:app"]

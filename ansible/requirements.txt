@@ -1,0 +1,4 @@
+gunicorn
+ansible
+flask
+flask-cors

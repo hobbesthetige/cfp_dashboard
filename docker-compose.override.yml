@@ -2,40 +2,13 @@ version: '3'
 services:
   server:
     build:
-      context: ./server
       dockerfile: Dockerfile.dev
-    ports:
-      - "3001:3001"
-    # volumes:
-      # - ./server:/usr/src/app
-      # - /usr/src/app/node_modules
     environment:
       - NODE_ENV=development
-      - MONGO_URL=mongodb://mongo:27017/mydatabase
-    depends_on:
-      - mongo
-
+    
   web:
     build:
-      context: ./web/cfp-dashboard
       dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./web/cfp-dashboard:/usr/src/app
-      - /usr/src/app/node_modules
     environment:
       - NODE_ENV=development
-      - SERVER_URL=http://server:3001
-    depends_on:
-      - server
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mongo-data:
+      - PORT=3000

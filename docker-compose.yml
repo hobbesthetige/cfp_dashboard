@@ -3,25 +3,32 @@ services:
   server:
     build:
       context: ./server
+      dockerfile: Dockerfile
     ports:
       - "3001:3001"
     environment:
-      - NODE_ENV=production
+      - MONGO_URL=mongodb://mongo:27017/mydatabase
+      - PORT=3001
     networks:
       - cfp-network
+    depends_on:
+      - mongo
 
   web:
     build:
       context: ./web/cfp-dashboard
-    ports:
-      - "3000:3000"
+      dockerfile: Dockerfile
     environment:
-      - NODE_ENV=production
+      - SERVER_URL=http://server:3001
+      - PORT=3000
     depends_on:
       - server
       - ansible
     networks:
       - cfp-network
+    # volumes:
+      # - ./web/cfp-dashboard:/usr/src/app
+      # - /usr/src/app/node_modules
 
   mongo:
     image: mongo:latest
@@ -31,10 +38,12 @@ services:
       - mongo-data:/data/db
     networks:
       - cfp-network
+    # command: ["mongod", "--verbosity", "0"]
 
   ansible:
     build:
       context: ./ansible
+      dockerfile: Dockerfile
     volumes:
       - ./ansible/playbooks:/etc/ansible/playbooks
       - ./ansible/inventory:/etc/ansible/inventory

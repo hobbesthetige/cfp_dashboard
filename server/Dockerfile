@@ -1,5 +1,5 @@
 # Use the official Node.js image.
-FROM node:18.17.0
+FROM node:18-alpine
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 # Copying this separately prevents re-running npm install on every code change.
 COPY package*.json ./
 
-# Install production dependencies.
+# Install production ddockerfile: Dockerfile.devependencies.
 RUN npm install --production
 
 # Copy local code to the container image.

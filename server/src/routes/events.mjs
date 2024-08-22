@@ -15,12 +15,14 @@ router.get("/events", async (req, res) => {
 async function getUniqueCategories() {
   const categories = new Set();
   const events = await getEventLogs();
+  if (!events || events.length === 0) { return []; }
   events.forEach((event) => categories.add(event.category));
   return Array.from(categories);
 }
 
 async function getEarliestEvent() {
   const events = await getEventLogs();
+  if (!events || events.length === 0) { return null; }
   return events.reduce((earliest, event) => {
     const eventDate = new Date(event.timestamp);
     const earliestDate = new Date(earliest.timestamp);
@@ -30,6 +32,7 @@ async function getEarliestEvent() {
 
 async function getLatestEvent() {
   const events = await getEventLogs();
+  if (!events || events.length === 0) { return null; }
   return events.reduce((latest, event) => {
     const eventDate = new Date(event.timestamp);
     const latestDate = new Date(latest.timestamp);

@@ -7,7 +7,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-
 @app.route('/run_playbook', methods=['POST'])
 def run_playbook():
     playbook = request.json.get('playbook')
@@ -51,7 +50,4 @@ def run_healthCheck():
     else:
         output_data = []
 
-    return jsonify({ 'responses': output_data, 'errors': [] })
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    return jsonify({'responses': output_data, 'errors': []})

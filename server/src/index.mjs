@@ -20,11 +20,13 @@ import pdfRoutes from "./routes/generatedPdfs.mjs";
 import deviceBackupRoutes from "./routes/deviceBackup.mjs";
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
+const clientUrls = ["http://localhost:3000", "http://localhost:3001", "http://localhost:80"];
+
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Client origin
+    origin: "*", // Client origin
     methods: ["GET", "POST"],
     allowedHeaders: ["Authorization"],
     credentials: true,
