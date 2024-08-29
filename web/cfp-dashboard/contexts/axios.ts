@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const baseURL = 'http://localhost:3001/api';
-export const ansibleURL = 'http://localhost:5001/';
+export const baseURL = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
+export const ansibleURL = 'http://ansible:5001/';
 export const axiosInstance = axios.create({
   baseURL: baseURL,
 });

@@ -24,9 +24,11 @@ export const EventsSocketProvider: React.FC<{
   const [eventsSocket, setSocket] = useState<Socket | null>(null);
   const [isEventsSocketConnected, setIsConnected] = useState(false);
   const [eventsSocketError, setError] = useState<string | null>(null);
+  const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
+
 
   useEffect(() => {
-    const newSocket = io(`http://localhost:3001/events`, {
+    const newSocket = io(`${baseURL}/events`, {
       autoConnect: false,
     });
     setSocket(newSocket);

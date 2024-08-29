@@ -23,9 +23,10 @@ export const SocketProvider: React.FC<{
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
   useEffect(() => {
-    const newSocket = io(`http://localhost:3001/${namespace}`, {
+    const newSocket = io(`${baseURL}/${namespace}`, {
       autoConnect: false,
     });
     setSocket(newSocket);

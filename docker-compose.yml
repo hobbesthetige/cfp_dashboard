@@ -19,7 +19,7 @@ services:
       context: ./web/cfp-dashboard
       dockerfile: Dockerfile
     environment:
-      - SERVER_URL=http://server:3001
+      - NEXT_PUBLIC_SERVER_URL=http://localhost:3001
       - PORT=3000
     depends_on:
       - server
@@ -27,8 +27,8 @@ services:
     networks:
       - cfp-network
     # volumes:
-      # - ./web/cfp-dashboard:/usr/src/app
-      # - /usr/src/app/node_modules
+    #   - ./web/cfp-dashboard:/usr/src/app
+    #   - /usr/src/app/node_modules
 
   mongo:
     image: mongo:latest

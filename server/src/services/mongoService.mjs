@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const mongoUrl =
-  process.env.MONGO_URL || "mongodb://localhost:27017/cfp-dashboard";
+  process.env.MONGO_URL || "mongodb://mongo:27017/cfp-dashboard";
 const client = new MongoClient(mongoUrl, {});
 
 let db;

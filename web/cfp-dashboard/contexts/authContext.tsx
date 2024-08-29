@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = useCallback(
     async (username: string, password: string) => {
       setLoading(true);
+
       const api = axios.create({ baseURL });
 
       try {

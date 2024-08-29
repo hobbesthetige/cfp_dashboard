@@ -21,7 +21,6 @@ import deviceBackupRoutes from "./routes/deviceBackup.mjs";
 
 const app = express();
 const port = process.env.PORT;
-const clientUrls = ["http://localhost:3000", "http://localhost:3001", "http://localhost:80"];
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -63,10 +62,22 @@ app.use("/api", exportRoutes);
 app.use("/api", pdfRoutes);
 app.use("/api", deviceBackupRoutes);
 
-// Global Error Handler (if you have one)
-app.use((err, res) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
+// Global Error Handler
+app.use((err, req, res, next) => { // Include all four parameters
+  if (err) {
+    console.error('Error:', err.stack || err.message || err); // Log the stack, message, or the error object itself
+    res.status(500).send("Something broke me!");
+  } else {
+    next(); // If there's no error, call the next middleware
+  }
+});
+
+// Handle 404 errors (Invalid Routes)
+app.use((req, res, next) => {
+  res.status(404).json({
+      error: 'Not Found',
+      message: `The requested resource ${req.originalUrl} was not found on this server.`,
+  });
 });
 
 server.listen(port, () => {
