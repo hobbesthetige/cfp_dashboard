@@ -15,9 +15,13 @@ RUN npm install
 # Copy local code to the container image.
 COPY . .
 
-# Set environment variables.
-ENV NEXT_PUBLIC_SERVER_URL $NEXT_PUBLIC_SERVER_URL
-ENV NEXT_PUBLIC_ANSIBLE_URL $NEXT_PUBLIC_ANSIBLE_URL
+# Declare build-time arguments
+ARG NEXT_PUBLIC_SERVER_URL
+ARG NEXT_PUBLIC_ANSIBLE_URL
+
+# Set environment variables from build arguments
+ENV NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
+ENV NEXT_PUBLIC_ANSIBLE_URL=${NEXT_PUBLIC_ANSIBLE_URL}
 
 # Start the Next.js application.
 CMD [ "npm", "run", "dev" ]

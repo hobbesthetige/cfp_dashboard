@@ -9,14 +9,19 @@ WORKDIR /usr/src/app
 # Copying this separately prevents re-running npm install on every code change.
 COPY package*.json ./
 
+# Declare build-time arguments
+ARG NEXT_PUBLIC_SERVER_URL
+ARG NEXT_PUBLIC_ANSIBLE_URL
+
+# Set environment variables from build arguments
+ENV NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
+ENV NEXT_PUBLIC_ANSIBLE_URL=${NEXT_PUBLIC_ANSIBLE_URL}
+
 # Install dependencies.
 RUN npm install
 
 # Copy local code to the container image.
 COPY . .
-
-ENV NEXT_PUBLIC_SERVER_URL $NEXT_PUBLIC_SERVER_URL
-ENV NEXT_PUBLIC_ANSIBLE_URL $NEXT_PUBLIC_ANSIBLE_URL
 
 # Build the Next.js application.
 RUN npm run build
