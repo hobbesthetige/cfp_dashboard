@@ -15,6 +15,9 @@ RUN npm install
 # Copy local code to the container image.
 COPY . .
 
+ENV NEXT_PUBLIC_SERVER_URL $NEXT_PUBLIC_SERVER_URL
+ENV NEXT_PUBLIC_ANSIBLE_URL $NEXT_PUBLIC_ANSIBLE_URL
+
 # Build the Next.js application.
 RUN npm run build
 

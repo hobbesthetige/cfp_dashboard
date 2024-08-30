@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - NEXT_PUBLIC_SERVER_URL=http://localhost:3001
+      - NEXT_PUBLIC_ANSIBLE_URL=http://localhost:5001
       - PORT=3000
     depends_on:
       - server

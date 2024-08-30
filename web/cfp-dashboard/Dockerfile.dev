@@ -17,6 +17,7 @@ COPY . .
 
 # Set environment variables.
 ENV NEXT_PUBLIC_SERVER_URL $NEXT_PUBLIC_SERVER_URL
+ENV NEXT_PUBLIC_ANSIBLE_URL $NEXT_PUBLIC_ANSIBLE_URL
 
 # Start the Next.js application.
 CMD [ "npm", "run", "dev" ]
