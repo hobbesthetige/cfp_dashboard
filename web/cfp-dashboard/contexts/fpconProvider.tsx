@@ -1,6 +1,7 @@
 import { FPCONState, fpcons } from "@/app/types/fpcon";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import io, { Socket } from "socket.io-client";
+import { env } from 'next-runtime-env';
 
 interface FPCONContextType {
   fpconState: FPCONState;
@@ -13,7 +14,7 @@ export const FPCONContext = createContext<FPCONContextType | undefined>(
 
 export const FPCONProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
+  const baseURL = env('NEXT_PUBLIC_SERVER_URL');
   const namespace = "fpcon";
   const [fpconState, setFPCONState] = useState<FPCONState>({
     currentState: fpcons[0],

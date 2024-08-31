@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import io, { Socket } from "socket.io-client";
+import { env } from 'next-runtime-env';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -23,7 +24,7 @@ export const SocketProvider: React.FC<{
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
+  const baseURL = env('NEXT_PUBLIC_SERVER_URL');
 
   useEffect(() => {
     const newSocket = io(`${baseURL}/${namespace}`, {
