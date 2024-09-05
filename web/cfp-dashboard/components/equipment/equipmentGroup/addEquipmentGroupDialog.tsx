@@ -35,7 +35,7 @@ const defaultService: EquipmentService = {
   serviceName: "",
   id: new Date().toISOString(),
   isVisible: true,
-  status: "Offlined",
+  status: "Offline",
   statusColor: "error",
   notes: "",
   autoUpdatePingAddress: "",
