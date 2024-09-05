@@ -47,8 +47,12 @@ async function generatePDF(docId, settings) {
 }
 
 async function createDocument(docId, settings, events) {
-  const filename = `../../files/output/MSL_${docId}.pdf`;
-  const filePath = path.join(__dirname, filename);
+  const filename = `MSL_${docId}.pdf`;
+  const outputDir = path.join(__dirname, "../../files/output");
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  const filePath = path.join(outputDir, filename);
   const doc = new CustomPDFDocument();
 
   // Event listener for new pages

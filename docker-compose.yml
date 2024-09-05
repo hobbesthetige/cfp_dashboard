@@ -9,6 +9,9 @@ services:
     environment:
       - MONGO_URL=mongodb://mongo:27017/mydatabase
       - PORT=3001
+    volumes:
+      - ./src/files:/usr/src/app/src/files
+
     networks:
       - cfp-network
     depends_on:
