@@ -114,7 +114,8 @@ class PingService {
       lastUpdated: new Date().toISOString(),
       pingIntervalMap: null, // Remove pingIntervalMap to avoid issues with serialization
     };
-    const pingStatus = await getPingStatusData();
+    const pingStatus = await getPingStatusData() || {};
+    pingStatus.services = pingStatus.services || {};
     pingStatus.services[serviceId] = flattenedService;
     await updatePingStatusData(pingStatus);
     getPingStatusNamespace()?.emit("pong", flattenedService);
