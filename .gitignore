@@ -4,3 +4,4 @@ cfp-server/src/node_modules
 cfp-server/src/db
 server/src/files/output
 .DS_Store
+*/.venv
