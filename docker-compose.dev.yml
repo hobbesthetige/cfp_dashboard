@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   server:
     build:
@@ -13,8 +13,8 @@ services:
       - NODE_ENV=development
       - PORT=3000
       - CHOKIDAR_USEPOLLING=true
-      - NEXT_PUBLIC_SERVER_URL=http://cfpdashboard.local:3001
-      - NEXT_PUBLIC_ANSIBLE_URL=http://cfpdashboard.local:5001
+      - NEXT_PUBLIC_SERVER_URL=http://localhost:3001
+      - NEXT_PUBLIC_ANSIBLE_URL=http://localhost:5001
     ports:
       - "80:3000"
     volumes:
