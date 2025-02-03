@@ -1,4 +1,6 @@
-import { Equipment } from "@/app/types/equipment";
+import { Equipment, JobControlNumber } from "@/app/types/equipment";
+import { EventLogLevel } from "@/components/events/eventsList";
+import { useEventsSocket } from "@/contexts/eventsSocketContext";
 import { CancelOutlined } from "@mui/icons-material";
 import {
   Box,
@@ -16,6 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import AddJCNDialog from "./addJCNDialog";
 
 interface EquipmentJCNListProps {
@@ -35,6 +38,25 @@ const EquipmentJCNList: React.FC<EquipmentJCNListProps> = ({
   equipment,
   handleSave,
 }) => {
+  const { eventsSocket } = useEventsSocket();
+
+  const emitNewEventItem = (jcn: JobControlNumber) => {
+    eventsSocket?.emit("newEventItem", {
+      id: uuidv4(),
+      level: EventLogLevel.Info,
+      category: "CFP",
+      title: `JCN added`,
+      message: `* JCN: ${jcn.number}
+* Type: ${jcn.type}
+* Equipment: ${equipment.name}
+* Department: ${equipment.department}
+`,
+      author: "System",
+      isUserGenerated: false,
+      timestamp: new Date().toISOString(),
+    });
+  };
+
   return (
     <Card sx={{ p: 4, mt: 4 }}>
       <Stack spacing={2}>
@@ -45,6 +67,7 @@ const EquipmentJCNList: React.FC<EquipmentJCNListProps> = ({
             groupID={equipment.groupID}
             handleAdd={(jcn) => {
               equipment.jobControlNumbers.push(jcn);
+              emitNewEventItem(jcn);
               handleSave(equipment);
             }}
           />

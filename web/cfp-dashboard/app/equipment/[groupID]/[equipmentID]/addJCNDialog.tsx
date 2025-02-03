@@ -27,8 +27,7 @@ const AddJCNDialog: React.FC<{
   handleAdd: (jcn: JobControlNumber) => void;
 }> = ({ groupID, handleAdd }) => {
   const [open, setOpen] = useState(false);
-  const [isManual, setIsManual] = useState(false);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("Installation");
   const [utc, setUtc] = useState("");
   const [sequence, setSequence] = useState("0001");
   const [jcnNumber, setJcnNumber] = useState("");
@@ -47,7 +46,6 @@ const AddJCNDialog: React.FC<{
       number: jcnNumber,
       timestamp: new Date().toISOString(),
     });
-
     handleClose();
   };
 
@@ -105,6 +103,7 @@ const AddJCNDialog: React.FC<{
               disablePortal
               fullWidth
               options={["Installation", "Maintenance", "Other"]}
+              value={type}
               renderInput={(params) => (
                 <TextField
                   name="type"

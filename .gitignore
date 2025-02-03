@@ -5,3 +5,4 @@ cfp-server/src/db
 server/src/files/output
 .DS_Store
 */.venv
+src/files/output

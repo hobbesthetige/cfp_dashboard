@@ -1,5 +1,6 @@
 "use client";
 import { Equipment } from "@/app/types/equipment";
+import { EventsSocketProvider } from "@/contexts/eventsSocketContext";
 import useAxios from "@/contexts/useAxios";
 import { NavigateNext } from "@mui/icons-material";
 import {
@@ -108,7 +109,9 @@ const EquipmentComponent: React.FC<EquipmentComponentProps> = ({ params }) => {
               }}
               handleDelete={handleDelete}
             />
-            <EquipmentJCNList equipment={equipment} handleSave={handleSave} />
+            <EventsSocketProvider>
+              <EquipmentJCNList equipment={equipment} handleSave={handleSave} />
+            </EventsSocketProvider>
           </Stack>
         </Container>
       )}

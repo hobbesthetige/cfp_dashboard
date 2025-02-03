@@ -3,11 +3,9 @@ import { validateRequest } from "../middleware/validateRequest.mjs";
 import {
   addEquipmentItem,
   deleteEquipmentItem,
-  getEquipmentGroups,
   getEquipmentItemById,
   getEquipmentItems,
   getEquipmentItemsByGroupId,
-  updateEquipmentGroup,
   updateEquipmentItem,
 } from "../models/equipment.mjs";
 const router = express.Router();
