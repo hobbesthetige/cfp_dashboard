@@ -33,7 +33,7 @@ interface AddEquipmentGroupDialogProps {
 const defaultService: EquipmentService = {
   enclave: "",
   serviceName: "",
-  id: new Date().toISOString(),
+  id: uuidv4(),
   isVisible: true,
   status: "Offline",
   statusColor: "error",
@@ -75,7 +75,7 @@ const AddEquipmentGroupDialog: React.FC<AddEquipmentGroupDialogProps> = ({
     }
 
     const newGroup: EquipmentGroup = {
-      id: new Date().toISOString(),
+      id: uuidv4(),
       name: groupName,
       utc,
       jobControlNumbers,

@@ -1,17 +1,17 @@
 import { Personnel, personnelRanks } from "@/app/types/personnel";
 
-import React, { useState } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Button,
-  TextField,
-  Box,
-  Stack,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   MenuItem,
+  Stack,
+  TextField,
 } from "@mui/material";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 interface AddPersonnelProps {
   open: boolean;
@@ -25,7 +25,7 @@ const AddPersonnel: React.FC<AddPersonnelProps> = ({
   onSave,
 }) => {
   const newPersonnel: Personnel = {
-    id: new Date().toISOString(),
+    id: uuidv4(),
     firstName: "",
     lastName: "",
     rank: "",

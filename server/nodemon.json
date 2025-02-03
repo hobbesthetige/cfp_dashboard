@@ -2,5 +2,6 @@
   "watch": ["src"],
   "ext": "js,ts,mjs",
   "ignore": ["src/db/*.json"],
-  "exec": "node --experimental-modules src/index.mjs"
+  "exec": "node --experimental-modules src/index.mjs",
+  "legacyWatch": true
 }

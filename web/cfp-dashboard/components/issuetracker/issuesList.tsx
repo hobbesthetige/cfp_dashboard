@@ -1,15 +1,16 @@
-import React, { use, useEffect, useState } from "react";
-import { Issue, IssueNote } from "../../app/types/issue";
-import { alpha } from "@mui/material/styles";
+import { useEventsSocket } from "@/contexts/eventsSocketContext";
+import { useSocket } from "@/contexts/socketContext";
+import {
+  Add,
+  FilterList,
+  FilterListOff,
+  KeyboardArrowUp,
+  KeyboardDoubleArrowUp,
+} from "@mui/icons-material";
 import {
   Box,
   Chip,
-  Icon,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Stack,
   Table,
   TableBody,
@@ -20,20 +21,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useSocket } from "@/contexts/socketContext";
-import {
-  Add,
-  Edit,
-  FilterList,
-  FilterListOff,
-  KeyboardArrowUp,
-  KeyboardDoubleArrowUp,
-} from "@mui/icons-material";
+import { alpha } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { Issue, IssueNote } from "../../app/types/issue";
+import { EventLogLevel } from "../events/eventsList";
 import AddIssueDialog from "./addIssueDialog";
 import EditIssueDialog from "./editIssueDialog";
-import { inherits } from "util";
-import { EventLogLevel } from "../events/eventsList";
-import { useEventsSocket } from "@/contexts/eventsSocketContext";
 
 const IssuesList: React.FC = ({}) => {
   const { eventsSocket } = useEventsSocket();
@@ -275,7 +269,7 @@ const IssuesList: React.FC = ({}) => {
     message: string | undefined
   ) {
     eventsSocket?.emit("newEventItem", {
-      id: new Date().toISOString(),
+      id: uuidv4(),
       level,
       category,
       title,

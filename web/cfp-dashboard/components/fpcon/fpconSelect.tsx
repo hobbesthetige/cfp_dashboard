@@ -1,25 +1,17 @@
-import React, { useCallback, useEffect } from "react";
+import { FPCON, FPCONName, FPCONState, fpcons } from "@/app/types/fpcon";
+import { useEventsSocket } from "@/contexts/eventsSocketContext";
+import { useFPCON } from "@/contexts/fpconProvider";
 import {
   FormControl,
-  InputLabel,
-  Select,
   MenuItem,
+  Select,
   SelectChangeEvent,
-  Typography,
   Stack,
+  Typography,
 } from "@mui/material";
-import {
-  FPCON,
-  FPCONState,
-  FPCONHistory,
-  fpcons,
-  FPCONName,
-} from "@/app/types/fpcon";
-import { useFPCON } from "@/contexts/fpconProvider";
-import { useTheme } from "@emotion/react";
-import { useEventsSocket } from "@/contexts/eventsSocketContext";
+import React, { useCallback, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { EventLogLevel } from "../events/eventsList";
-import { emit } from "process";
 
 interface FpconSelectProps {}
 
@@ -70,7 +62,7 @@ const FpconSelect: React.FC<FpconSelectProps> = ({}) => {
         message: string | undefined
       ) => {
         eventsSocket?.emit("newEventItem", {
-          id: new Date().toISOString(),
+          id: uuidv4(),
           level,
           category,
           title,

@@ -1,27 +1,27 @@
 import {
-  getEventLogs,
-  addEventLog,
-  updateEventLog,
-  deleteEventLog,
-} from "../models/eventLog.mjs";
-import { getPacePlanData, updatePacePlanData } from "../models/pacePlan.mjs";
-import {
   getEquipmentGroups,
   updateEquipmentGroup,
 } from "../models/equipment.mjs";
-import pingService from "../services/pingService.mjs";
-import { getPersonnelData, updatePersonnelData } from "../models/personnel.mjs";
+import {
+  addEventLog,
+  deleteEventLog,
+  getEventLogs,
+  updateEventLog,
+} from "../models/eventLog.mjs";
 import { getFpconData, updateFpconData } from "../models/fpcon.mjs";
 import {
-  getIssues,
   addIssue,
-  updateIssue,
   deleteIssue,
+  getIssues,
+  updateIssue,
 } from "../models/issues.mjs";
+import { getPacePlanData, updatePacePlanData } from "../models/pacePlan.mjs";
+import { getPersonnelData, updatePersonnelData } from "../models/personnel.mjs";
 import {
   getScratchpadData,
   updateScratchpadData,
 } from "../models/scratchpad.mjs";
+import pingService from "../services/pingService.mjs";
 
 let pacePlanNamespace;
 let eventItemsNamespace;
@@ -91,6 +91,11 @@ export function setupSockets(io) {
     const eventLogs = await getEventLogs();
     console.log("Event Items sent to client:", eventLogs);
     socket.emit("eventItems", eventLogs);
+
+    socket.on("eventItems", async () => {
+      const eventLogs = await getEventLogs();
+      socket.emit("eventItems", eventLogs);
+    });
 
     socket.on("newEventItem", async (data) => {
       console.log("Event Item received:", data);

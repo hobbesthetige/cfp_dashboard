@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useEventsSocket } from "@/contexts/eventsSocketContext";
+import { Add } from "@mui/icons-material";
 import {
   Box,
-  Typography,
-  List,
-  Stack,
   Divider,
   IconButton,
+  List,
+  Stack,
+  Typography,
 } from "@mui/material";
-import { useEventsSocket } from "@/contexts/eventsSocketContext";
-import EditEventDialog from "./editEventDialog";
-import { Add } from "@mui/icons-material";
+import React, { useCallback, useEffect, useState } from "react";
 import AddEventDialog from "./addEventDialog";
-import EventsFilterSelect from "./filterEvents";
+import EditEventDialog from "./editEventDialog";
 import EventListItem from "./eventListItem";
+import EventsFilterSelect from "./filterEvents";
 
 export enum EventLogLevel {
   Info = "Info",
@@ -153,6 +153,7 @@ export default function EventList() {
       eventsSocket.on("newEventItem", addEvent);
       eventsSocket.on("updateEventItem", handleUpdateEventItem);
       eventsSocket.on("deleteEventItem", deleteEvent);
+      eventsSocket.emit("eventItems");
       return () => {
         eventsSocket.off("eventItems", (eventItems) => setEvents(eventItems));
         eventsSocket.off("newEventItem", addEvent);

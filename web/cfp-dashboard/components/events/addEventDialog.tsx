@@ -1,21 +1,22 @@
-import React, { use, useState } from "react";
+import { formatDateInZuluTime } from "@/app/utilities/dateFormats";
+import { getEnumValues } from "@/app/utilities/getEnumValues";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-  Typography,
-  Grid,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
   MenuItem,
   Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import { EventLog, EventLogLevel } from "./eventsList";
 import moment from "moment-timezone";
-import { getEnumValues } from "@/app/utilities/getEnumValues";
-import { formatDateInZuluTime } from "@/app/utilities/dateFormats";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { EventLog, EventLogLevel } from "./eventsList";
 
 interface AddEventDialogProps {
   open: boolean;
@@ -70,7 +71,7 @@ const AddEventDialog: React.FC<AddEventDialogProps> = ({
     }
 
     const newEvent: EventLog = {
-      id: new Date().toISOString(),
+      id: uuidv4(),
       category,
       title,
       message,

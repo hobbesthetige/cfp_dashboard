@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import FullscreenLoading from "./loading";
 
-const withAuth = (WrappedComponent: React.ComponentType) => {
-  const Wrapper = (props: any) => {
+const withAuth = <P extends object>(
+  WrappedComponent: React.ComponentType<P>
+) => {
+  const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
     const { isAuthenticated, loading } = useAuth();
 

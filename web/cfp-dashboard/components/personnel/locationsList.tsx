@@ -1,36 +1,24 @@
 import { Personnel, PersonnelLocation } from "@/app/types/personnel";
-import { SocketProvider, useSocket } from "@/contexts/socketContext";
+import { formatTimeInterval } from "@/app/utilities/dateFormats";
+import { useEventsSocket } from "@/contexts/eventsSocketContext";
+import { useSocket } from "@/contexts/socketContext";
 import useAxios from "@/contexts/useAxios";
 import {
   Box,
-  Stack,
-  Typography,
-  Grid,
-  Paper,
-  List,
+  Chip,
   Divider,
+  List,
   ListItem,
   ListItemButton,
   ListItemText,
-  IconButton,
-  Chip,
+  Stack,
+  Typography,
 } from "@mui/material";
-import React, { useState, useEffect, use, useCallback } from "react";
-import EditServicesBanner from "../services/editServicesBanner";
-import ServiceStatusIndicator from "../services/serviceStatusIndicator";
-import PersonnelChecklistDialog from "./personnelChecklist";
-import {
-  CheckCircleOutline,
-  Edit,
-  RadioButtonUncheckedOutlined,
-} from "@mui/icons-material";
-import EditPersonnelLocation from "./editPersonnelLocation";
-import {
-  formatDateInZuluTime,
-  formatTimeInterval,
-} from "@/app/utilities/dateFormats";
-import { useEventsSocket } from "@/contexts/eventsSocketContext";
+import React, { useCallback, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { EventLogLevel } from "../events/eventsList";
+import EditPersonnelLocation from "./editPersonnelLocation";
+import PersonnelChecklistDialog from "./personnelChecklist";
 
 function LocationsList() {
   const [editingLocation, setEditingLocation] = useState<PersonnelLocation>();
@@ -194,7 +182,7 @@ function LocationsList() {
     message: string | undefined
   ) {
     eventsSocket?.emit("newEventItem", {
-      id: new Date().toISOString(),
+      id: uuidv4(),
       level,
       category,
       title,

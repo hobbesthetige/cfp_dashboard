@@ -57,7 +57,7 @@ const EditEquipmentGroupDialog: React.FC<EditEquipmentGroupDialogProps> = ({
     group.services || []
   );
   const emptyService: EquipmentService = {
-    id: new Date().toISOString(),
+    id: uuidv4(),
     enclave: "",
     serviceName: "",
     status: "Offline",

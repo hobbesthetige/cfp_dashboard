@@ -4,6 +4,7 @@ import { connectToMongo } from "../services/mongoService.mjs";
 const defaultData = {
   equipmentHistory: [],
   equipmentGroups: [],
+  equipmentItems: [],
 };
 
 // Get the collection
@@ -12,10 +13,17 @@ async function getEquipmentCollection() {
   return db.collection("equipment");
 }
 
+async function getEquipmentItemsCollection() {
+  const db = await connectToMongo();
+  return db.collection("equipmentItems");
+}
+
 // Reset data
 export async function resetData() {
-  const collection = await getEquipmentCollection();
-  await collection.drop();
+  const groupCollection = await getEquipmentCollection();
+  await groupCollection.drop();
+  const itemCollection = await getEquipmentItemsCollection();
+  await itemCollection.drop();
 }
 
 // Add equipment history entry
@@ -28,11 +36,28 @@ export async function addEquipmentHistoryEntry(entry) {
   );
 }
 
+// Add equipment item
+export async function addEquipmentItem(item) {
+  const collection = await getEquipmentItemsCollection();
+  await collection.updateOne(
+    {},
+    { $push: { equipmentItems: item } },
+    { upsert: true }
+  );
+}
+
 // Get all equipment history entries
 export async function getEquipmentHistory() {
   const collection = await getEquipmentCollection();
   const data = await collection.findOne({});
   return data ? data.equipmentHistory : [];
+}
+
+// Get all equipment items
+export async function getEquipmentItems() {
+  const collection = await getEquipmentItemsCollection();
+  const data = await collection.findOne({});
+  return data ? data.equipmentItems : [];
 }
 
 // Add equipment group
@@ -52,6 +77,32 @@ export async function getEquipmentGroups() {
   return data ? data.equipmentGroups : [];
 }
 
+// Get equipment group by ID
+export async function getEquipmentGroupById(id) {
+  const collection = await getEquipmentCollection();
+  const data = await collection.findOne({});
+  return data ? data.equipmentGroups.find((group) => group.id === id) : null;
+}
+
+export async function getEquipmentItemById(id) {
+  const collection = await getEquipmentItemsCollection();
+
+  const data = await collection.findOne(
+    { "equipmentItems.id": id }, // Filter documents where at least one item matches
+    { projection: { equipmentItems: { $elemMatch: { id } } } } // Return only the matching item
+  );
+
+  return data?.equipmentItems?.[0] || null;
+}
+
+export async function getEquipmentItemsByGroupId(groupId) {
+  const collection = await getEquipmentItemsCollection();
+  const data = await collection.findOne({});
+  return data
+    ? data.equipmentItems.filter((item) => item.groupID === groupId)
+    : [];
+}
+
 // Update equipment group
 export async function updateEquipmentGroup(id, updateData) {
   const collection = await getEquipmentCollection();
@@ -61,10 +112,25 @@ export async function updateEquipmentGroup(id, updateData) {
   );
 }
 
+// Update equipment item
+export async function updateEquipmentItem(id, updateData) {
+  const collection = await getEquipmentItemsCollection();
+  await collection.updateOne(
+    { "equipmentItems.id": id },
+    { $set: { "equipmentItems.$": updateData } }
+  );
+}
+
 // Delete equipment group
 export async function deleteEquipmentGroup(id) {
   const collection = await getEquipmentCollection();
   await collection.updateOne({}, { $pull: { equipmentGroups: { id: id } } });
+}
+
+// Delete equipment item
+export async function deleteEquipmentItem(id) {
+  const collection = await getEquipmentItemsCollection();
+  await collection.updateOne({}, { $pull: { equipmentItems: { id: id } } });
 }
 
 export default {
@@ -73,6 +139,13 @@ export default {
   getEquipmentHistory,
   addEquipmentGroup,
   getEquipmentGroups,
+  getEquipmentGroupById,
   updateEquipmentGroup,
   deleteEquipmentGroup,
+  addEquipmentItem,
+  getEquipmentItemById,
+  getEquipmentItemsByGroupId,
+  getEquipmentItems,
+  updateEquipmentItem,
+  deleteEquipmentItem,
 };

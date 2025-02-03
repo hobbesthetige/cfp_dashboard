@@ -3,20 +3,54 @@ import { validateRequest } from "../middleware/validateRequest.mjs";
 import {
   addEquipmentGroup,
   getEquipmentGroups,
+  getEquipmentGroupById,
+  getEquipmentItemsByGroupId,
   updateEquipmentGroup,
   deleteEquipmentGroup,
 } from "../models/equipment.mjs";
 import { getEquipmentGroupsNamespace } from "../sockets/socketNamespaces.mjs";
-import { get } from "http";
 const router = express.Router();
 
 // Get endpoint
 router.get("/equipmentGroups", async (req, res) => {
+  try {
+    const includeItems = req.query.includeItems === "true"; // Convert to boolean
+
+    if (!(await validateRequest(req, res))) {
+      return;
+    }
+
+    const equipmentGroups = await getEquipmentGroups();
+
+    if (includeItems) {
+      // Fetch items for each equipment group in parallel for efficiency
+      await Promise.all(
+        equipmentGroups.map(async (group) => {
+          group.equipment = await getEquipmentItemsByGroupId(group.id);
+        })
+      );
+    }
+
+    res.status(200).json(equipmentGroups);
+  } catch (error) {
+    console.error("Error fetching equipment groups:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/equipmentGroups/:id", async (req, res) => {
+  console.log(`Received request for equipment group ID: ${req.params.id}`);
+
   if (!(await validateRequest(req, res))) {
     return;
   }
-  const equipmentGroups = await getEquipmentGroups();
-  res.status(200).json(equipmentGroups);
+  const id = decodeURIComponent(req.params.id);
+  const equipmentGroup = await getEquipmentGroupById(id);
+  if (!equipmentGroup) {
+    res.status(404).json({ message: "Equipment group not found" });
+    return;
+  }
+  res.status(200).json(equipmentGroup);
 });
 
 router.get("/equipmentGroups/serviceEnclaves", async (req, res) => {

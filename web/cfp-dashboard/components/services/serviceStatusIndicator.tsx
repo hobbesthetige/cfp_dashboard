@@ -1,23 +1,20 @@
 import { EquipmentGroup, EquipmentService } from "@/app/types/equipment";
 import {
+  formatPingTimeInterval,
+  formatTimeInterval,
+} from "@/app/utilities/dateFormats";
+import { useSocket } from "@/contexts/socketContext";
+import {
   Box,
   Chip,
-  List,
   ListItem,
   ListItemButton,
   ListItemText,
   Stack,
   Typography,
 } from "@mui/material";
-import {
-  formatDateInZuluTime,
-  formatPingTimeInterval,
-  formatTimeInterval,
-} from "@/app/utilities/dateFormats";
 import { useEffect, useState } from "react";
 import EditStatusDialog from "./editStatusDialog";
-import { EventsSocketProvider } from "@/contexts/eventsSocketContext";
-import { SocketProvider, useSocket } from "@/contexts/socketContext";
 import PingPongDetailsDialog from "./pingPongDetailsDialog";
 
 interface ServiceStatusIndicatorProps {

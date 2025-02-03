@@ -1,4 +1,16 @@
+import { axiosAnsibleInstance } from "@/contexts/axios";
 import useAxios from "@/contexts/useAxios";
+import {
+  AddOutlined,
+  Check,
+  CopyAll,
+  Delete,
+  Edit,
+  Error,
+  Router,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -16,20 +28,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { axiosAnsibleInstance } from "@/contexts/axios";
-import {
-  AddOutlined,
-  Backup,
-  Check,
-  CopyAll,
-  Delete,
-  Edit,
-  Error,
-  Router,
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
-import loading from "@/components/loading";
+import { v4 as uuidv4 } from "uuid";
 
 interface SystemHealthCheck {
   responses: SystemHealth[];
@@ -192,7 +191,7 @@ const AnsibleComponent: React.FC = () => {
     }> = ({ open, onClose, onAdd }) => {
       const [editedDevice, setEditedDevice] = useState<BackupDevice>({
         ...backupDevice,
-        id: new Date().toISOString(),
+        id: uuidv4(),
       });
 
       const handleFormUpdate = (device: BackupDevice) => {

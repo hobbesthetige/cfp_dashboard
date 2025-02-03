@@ -19,7 +19,7 @@ COPY . .
 RUN npm install -g nodemon
 
 # Run the web service on container startup.
-CMD [ "nodemon", "./src/index.mjs" ]
+CMD [ "nodemon", "--legacy-watch", "./src/index.mjs" ]
 
 # Inform Docker that the container listens on the specified port at runtime.
 EXPOSE 3001

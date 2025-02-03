@@ -6,6 +6,7 @@ import {
 import { formatDateInZuluTime } from "@/app/utilities/dateFormats";
 import { useEventsSocket } from "@/contexts/eventsSocketContext";
 
+import { useSocket } from "@/contexts/socketContext";
 import useAxios from "@/contexts/useAxios";
 import {
   Autocomplete,
@@ -17,22 +18,18 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  FormControl,
-  FormControlLabel,
   FormLabel,
   List,
   ListItem,
   ListItemText,
-  Radio,
-  RadioGroup,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { ChangeEvent, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { EventLogLevel } from "../events/eventsList";
 import EditPingPongDialog from "./editPingPongDialog";
-import { useSocket } from "@/contexts/socketContext";
 
 interface EditStatusDialogProps {
   group: EquipmentGroup;
@@ -172,7 +169,7 @@ const EditStatusDialog: React.FC<EditStatusDialogProps> = ({
     message: string
   ) {
     eventsSocket?.emit("newEventItem", {
-      id: new Date().toISOString(),
+      id: uuidv4(),
       level,
       category,
       title,
@@ -289,11 +286,11 @@ const EditStatusDialog: React.FC<EditStatusDialogProps> = ({
           onSave={handlePingPongSave}
         />
         <Stack direction="row" spacing={2}>
-          <Button onClick={handleSave} color="primary">
-            Save
-          </Button>
           <Button onClick={onClose} color="secondary">
             Cancel
+          </Button>
+          <Button variant="outlined" onClick={handleSave} color="primary">
+            Save
           </Button>
         </Stack>
       </DialogActions>

@@ -1,6 +1,9 @@
 # Use the official Node.js image.
 FROM node:18-alpine
 
+# Install RPM support for Alpine
+RUN apk add --no-cache rpm
+
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 

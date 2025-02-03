@@ -1,41 +1,19 @@
+import TabPanel from "@/components/tab/tabPanel";
 import { CopyAllOutlined } from "@mui/icons-material";
 import {
-  Card,
-  Stack,
-  Typography,
   Box,
-  Tabs,
-  Tab,
+  Card,
   IconButton,
+  Stack,
+  Tab,
+  Tabs,
   TextField,
+  Typography,
 } from "@mui/material";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import { useState, useEffect, useCallback } from "react";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box>{children}</Box>}
-    </div>
-  );
-}
+import { useCallback, useEffect, useState } from "react";
 
 const JulianContainerComponent: React.FC = () => {
   const [tab, setTab] = useState(0);

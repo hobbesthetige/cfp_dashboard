@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - NODE_ENV=dev
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
 
   web:
     build:

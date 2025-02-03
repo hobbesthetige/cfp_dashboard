@@ -8,6 +8,7 @@ import { useEventsSocket } from "@/contexts/eventsSocketContext";
 import { EventLogLevel } from "../events/eventsList";
 import { EquipmentGroup } from "@/app/types/equipment";
 import useAxios from "@/contexts/useAxios";
+import { v4 as uuidv4 } from "uuid";
 
 type PacePlanLetter = "P" | "A" | "C" | "E";
 
@@ -145,7 +146,7 @@ const PacePlanBanner = () => {
     message: string | undefined
   ) {
     eventsSocket?.emit("newEventItem", {
-      id: new Date().toISOString(),
+      id: uuidv4(),
       level,
       category,
       title,

@@ -1,28 +1,27 @@
-import React, { useState } from "react";
+import { PhoneBookInstruction, PhoneNumberType } from "@/app/types/phonebook";
+import { Delete } from "@mui/icons-material";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
   Autocomplete,
-  Stack,
-  TextField,
-  IconButton,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
+  IconButton,
   Link,
   List,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
-  AutocompleteChangeDetails,
-  AutocompleteChangeReason,
+  Stack,
+  TextField,
   Typography,
-  Box,
 } from "@mui/material";
-import { PhoneBookInstruction, PhoneNumberType } from "@/app/types/phonebook";
-import { Add, Delete } from "@mui/icons-material";
+import React, { useState } from "react";
 import Markdown from "react-markdown";
+import { v4 as uuidv4 } from "uuid";
 
 interface PhoneBookInstructionsDialogProps {
   instructions: PhoneBookInstruction[];
@@ -34,7 +33,7 @@ interface PhoneBookInstructionsDialogProps {
 }
 
 const defaultInstruction: PhoneBookInstruction = {
-  id: new Date().toISOString(),
+  id: uuidv4(),
   fromNumberType: PhoneNumberType.Commercial,
   toNumberType: PhoneNumberType.DSN,
   instruction: "",

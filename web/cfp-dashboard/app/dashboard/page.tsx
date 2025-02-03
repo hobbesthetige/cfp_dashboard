@@ -1,32 +1,18 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Box,
-  CssBaseline,
-  Divider,
-  Stack,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import withAuth from "@/components/withAuth";
-import DashboardMenu from "@/components/dashboardMenu";
-import { decl } from "postcss";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { grey } from "@mui/material/colors";
-import PacePlanBanner from "@/components/pacePlan/pacePlanBanner";
-import { SocketProvider } from "@/contexts/socketContext";
 import EventList from "@/components/events/eventsList";
-import { Socket } from "socket.io-client";
-import TimeBanner from "@/components/time/timeBanner";
-import EquipmentList from "@/components/equipment/equipmentList";
-import ServicesBanner from "@/components/services/servicesBanner";
-import { useTitle } from "@/contexts/titleProvider";
+import IssuesList from "@/components/issuetracker/issuesList";
+import PacePlanBanner from "@/components/pacePlan/pacePlanBanner";
 import LocationsList from "@/components/personnel/locationsList";
 import Scratchpad from "@/components/scratchpad/scratchpad";
-import IssuesList from "@/components/issuetracker/issuesList";
+import ServicesBanner from "@/components/services/servicesBanner";
+import TimeBanner from "@/components/time/timeBanner";
+import withAuth from "@/components/withAuth";
+import { SocketProvider } from "@/contexts/socketContext";
+import { useTitle } from "@/contexts/titleProvider";
+import { Box, Stack } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import { createTheme } from "@mui/material/styles";
+import React, { useEffect } from "react";
 
 const theme = createTheme({
   palette: {
